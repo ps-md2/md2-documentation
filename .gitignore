@@ -1,0 +1,9 @@
+*.out
+*.toc
+*.synctex.gz
+*.aux
+*.bcf
+*.lof
+*.log
+*.lot
+*.run.xml

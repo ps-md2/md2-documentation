@@ -1,0 +1,34 @@
+% !TeX spellcheck = en_GB
+% !TeX program = xelatex
+% !TeX root = md2-mapapps-installation-guide.tex
+
+\subsection{Basic map.apps Development Setup}
+
+\begin{enumerate}
+\item Extract the \texttt{sampleProjRemote} project. from the map.apps distribution and load it in NetBeans
+\item In its \texttt{pom.xml},
+ set the \texttt{mapapps.remote.base} directive to the URL where the map.apps runtime is installed.
+\item Right-click the project, select \enquote{Custom} and select \enquote{Goals...} to create a new Maven goal. \todo{Describe configuration}
+\item Open the \texttt{nbactions.xml}. \todo{Describe set property for Jetty port 9090}
+
+\end{enumerate}
+
+\subsection{MD2 Runtime Bundles}
+\begin{enumerate}
+\item Copy the MD2 runtime bundles into the \texttt{bundles/} directory of the project:
+	\begin{quotation}
+		 \texttt{md2\_formcontrols}
+		 
+		 \texttt{md2\_local\_store}
+		 
+		 \texttt{md2\_location\_service}
+		 
+		 \texttt{md2\_runtime}
+		 
+		 \texttt{md2\_store}
+		 
+		 \texttt{onlinestatus}
+	\end{quotation}
+
+\item Copy a generated MD2 app into the project or use a symlink to reference apps from another location (see \Cref{subsec:link-apps}).
+\end{enumerate}

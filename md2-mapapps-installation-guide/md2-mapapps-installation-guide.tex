@@ -1,0 +1,173 @@
+% !TeX spellcheck = en_GB
+% !TeX program = xelatex
+\documentclass[a4paper, 12pt, titlepage, headsepline, listof = totoc, bibliography = totoc, numbers = noenddot]{scrartcl} %
+\usepackage[left = 2cm, right = 2cm, top = 3cm, bottom = 3cm]{geometry} % spaces on the sides of the paper
+%\usepackage[utf8]{inputenc} %pdflatex
+\usepackage{polyglossia} %xelatex
+\setdefaultlanguage[variant=british]{english} %xelatex
+
+% fonts and layout (xelatex)
+\setmainfont{Adobe Garamond}
+\setsansfont{Meta}
+\linespread{1.3}
+\frenchspacing
+\usepackage{setspace}
+
+% Graphics, subfigures, and colours
+\usepackage{graphicx}
+\usepackage[bf,IT]{subfigure}% http://ctan.org/pkg/subfigure
+%\usepackage{caption} 
+\renewcommand{\thesubfigure}{\alph{subfigure}}% (a) -> a
+\usepackage[table]{xcolor}
+\definecolor{Lightgray}{gray}{0.9}
+
+%maths
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+
+%STOP ROMAN NUMBERS FROM GROWING TO THE RIGHT IN TAB OF FIGURES!!!!!!11
+\makeatletter \def\@pnumwidth{3em}\makeatother 
+
+
+% notes, reminder
+\setlength{\marginparwidth}{1.5cm} % width of todo note
+\usepackage[ngerman,textwidth=1\marginparwidth,textsize=scriptsize,backgroundcolor=yellow,linecolor=blue]{todonotes} %,disable
+%\reversemarginpar % put todo note left, where the margin is (way) larger (disabled, since it's not)
+
+%Acronyms
+%\usepackage[printonlyused]{acronym}
+
+%Quotations
+\usepackage{csquotes}
+\setquotestyle[american]{english}
+
+% References Section
+%\usepackage[backend=biber,maxbibnames=99,style=alphabetic,firstinits=true]{biblatex} %,uniquename=allfull
+%\bibliography{lit.bib} % Which file to use for the bibliography?
+
+
+% hyperlinks and references
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+
+
+% Table design
+\usepackage{supertabular}
+\usepackage{booktabs}
+\usepackage{float}
+\restylefloat{table}
+
+% Clubs and Widows (Hurenkinder und Schusterjungen)
+\clubpenalty = 10000 
+\widowpenalty = 10000 
+\displaywidowpenalty = 10000
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% design of the head of the report pages
+
+\usepackage{scrpage2}
+\clearscrheadings                 		% clears all predefined formats
+\pagestyle{scrheadings}			% use this style only on the actual text
+\ohead{}		% writes your name on each side in the upper right corner
+\automark{section}                  
+\ihead{\headmark}				% automatically writtes the section name in the upper left corner
+\cfoot{\pagemark}				% page number on the bottom (center)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% cover sheet
+
+\title{Installation Documentation}
+\subtitle{map.apps with MD2}
+\author{Project Seminar\\
+Model-driven Mobile Development\\
+(University of Münster)}
+%\date{January 18, 2015}
+
+% hyperref PDF metadata
+\hypersetup{pdfinfo={
+	Title={Installation Documentation map.apps with MD2},
+	Author={PS MD2 (University of Münster)}
+}}
+
+
+\begin{document}
+
+	
+
+\thispagestyle{empty}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% table of contents
+
+\thispagestyle{empty}
+%\bgroup
+%\begin{spacing}{0.87}  % Damit alles auf eine Seite passt
+\tableofcontents
+%\end{spacing}
+%\egroup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% the document itself
+
+
+\clearpage
+\setcounter{page}{1}
+
+
+\section{Prerequisites}
+\input{10-Prerequisites}
+
+\section{Installing a map.apps Development Environment}
+\input{20-mapapps-Dev}
+
+\section{Creating Symbolic Links for Generated Apps and Backend}
+\input{30-Symlinks}
+
+\section{Running a Generated Backend}
+\input{40-Backend}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% appendix
+
+\clearpage
+\appendix
+\pagenumbering{Roman}		%% roman page numbers for the appendix
+%\input{90-Appendix}
+
+
+
+%% Stop section "numbering" after appendix
+
+\setcounter{secnumdepth}{0}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% lists of figures and tables
+
+%\clearpage
+%\listoffigures
+%\listoftables
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Define Abbreviations
+%\clearpage
+%\section{List of Acronyms}
+%\begin{acronym}
+%\acro{AACS}{Advanced Access Content System}
+%\acro{XOR}{exclusive or}
+%\end{acronym}
+
+%\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% bibliography (if needed)
+
+%\nocite{*}
+%\bibliographystyle{plain}
+%\bibliography{lit}
+
+%\printbibliography[heading=bibintoc] % biblatex
+\end{document}
