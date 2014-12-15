@@ -2,10 +2,10 @@
 % !TeX program = xelatex
 % !TeX root = md2-mapapps-installation-guide.tex
 
-\subsection{Basic map.apps Development Setup}
+\subsection{Basic map.apps Development Setup} \label{subsec:basic-setup}
 
 \begin{enumerate}
-\item Extract the \texttt{sampleProjRemote} project. from the map.apps distribution and load it in NetBeans
+\item Extract the \texttt{sampleProjRemote} project from the map.apps distribution and load it in NetBeans. \label{item:extraction}
 \item In its \texttt{pom.xml},
  set the \texttt{mapapps.remote.base} directive to the URL where the map.apps runtime is installed.
 \item Right-click the project, select \enquote{Custom} and select \enquote{Goals...} to create a new Maven goal. \todo{Describe configuration}
@@ -13,7 +13,7 @@
 
 \end{enumerate}
 
-\subsection{MD2 Runtime Bundles}
+\subsection{MD2 Runtime Bundles Deployment}
 \begin{enumerate}
 \item Copy the MD2 runtime bundles into the \texttt{bundles/} directory of the project:
 	\begin{quotation}
