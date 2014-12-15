@@ -4,8 +4,20 @@
 
 \subsection{Configure Eclipse to Manage GlassFish}
 
+\begin{enumerate}
+\item In Eclipse, open the Servers tab.
+\item Right-click it and choose \enquote{New} $\rightarrow$ \enquote{Server}.
+\item If the GlassFish adapter is not installed yet (look for \enquote{GlassFish} in the list of types), click \enquote{Download additional server adapters} and install the entry \enquote{GlassFish Tools}.
+\item From the list of types, choose \enquote{GlassFish} $\rightarrow$ \enquote{GlassFish 4.0} and click \enquote{Next}.
+% (in the next line, GlassFish is written with lowercase F on purpose! Field is actually named this way.)
+\item For the Glassfish Server Directory field, navigate to the \texttt{glassfish/} directory of your installation. If you entered the correct path, it should output something similar to
+	\begin{quotation}
+	\enquote{Found GlassFish Server version 4.0.0}.
+	\end{quotation}
+	Otherwise, follow the assistant's hints.
+\item Click \enquote{Finish}.
 
-\todo{Get GlassFish support, add GlassFish server}
+\end{enumerate}
 
 \subsection{Start GlassFish and Add the Backend}
 
