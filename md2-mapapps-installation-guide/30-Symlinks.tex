@@ -2,7 +2,7 @@
 % !TeX program = xelatex
 % !TeX root = md2-mapapps-installation-guide.tex
 
-%\subsection{Reference a Generated App in the Development Project}
+\subsection{Reference a Generated App in the Development Project}
 \label{subsec:link-apps}
 
 By using a symlink, a running NetBeans instance will automatically notice changes to the generated app. Consequently, if the Jetty server is running, the newly generated app will automatically be published and made available in the browser.
@@ -23,3 +23,12 @@ By using a symlink, a running NetBeans instance will automatically notice change
 	
 \item Repeat step \ref{item:create-symlink} for every generated app that you would like to be refreshed automatically.
 \end{enumerate}
+
+
+\subsection{Jetty: Allow Serving of Symbolically Linked Files}
+\label{subsec:jetty-symbolic-files}
+
+On Linux/OSX, Jetty by default does not serve symbolically linked files due to security concerns.
+To override this setting (which is not recommended in a production environment), put the \texttt{jetty-web.xml} file into the folder \texttt{/src/test/webapp/WEB-INF/} of your map.apps project.
+
+
