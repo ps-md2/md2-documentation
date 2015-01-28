@@ -1,0 +1,34 @@
+% !TeX spellcheck = en_GB
+% !TeX program = xelatex
+% !TeX root = md2-mapapps-installation-guide.tex
+
+\subsection{Reference a Generated App in the Development Project}
+\label{subsec:link-apps}
+
+By using a symlink, a running NetBeans instance will automatically notice changes to the generated app. Consequently, if the Jetty server is running, the newly generated app will automatically be published and made available in the browser.
+
+\begin{enumerate}
+\item Open a terminal, and navigate to the map.apps NetBeans project directory (e.g. the extracted \texttt{sampleProjRemote} from step \ref{item:extraction} in \Cref{subsec:basic-setup}).
+\item Navigate to the \texttt{apps/} directory using \texttt{cd src/main/js/apps}.
+\item Create a symbolic link using an appropriate command (where \textit{<PROJECT\_NAME>} is the name of your MD2 Project in Eclipse, \textit{<ECLIPSE\_PROJECT\_LOCATION>} is its location, and \textit{<APP\_\\NAME>} is the name of the generated app(s)): \label{item:create-symlink}
+	\begin{enumerate}
+	\item Windows:\\
+	\texttt{mklink /j \textit{<APP\_NAME>} \textit{<ECLIPSE\_PROJECT\_LOCATION>}$\backslash$\textit{<PROJECT\_\\
+	NAME>}$\backslash$src-gen$\backslash$\textit{<PROJECT\_NAME>}.mapapps$\backslash$\textit{<APP\_NAME>}}
+	
+	\item Linux / OS X: \\
+	\texttt{ln -s \textit{<ECLIPSE\_PROJECT\_LOCATION>}/\textit{<PROJECT\_NAME>}/src-gen/\textit{<PROJECT\_\\
+	NAME>}.mapapps/\textit{<APP\_NAME>} \textit{<APP\_NAME>}}
+	\end{enumerate}
+	
+\item Repeat step \ref{item:create-symlink} for every generated app that you would like to be refreshed automatically.
+\end{enumerate}
+
+
+\subsection{Jetty: Allow Serving of Symbolically Linked Files}
+\label{subsec:jetty-symbolic-files}
+
+On Linux/OSX, Jetty by default does not serve symbolically linked files due to security concerns.
+To override this setting (which is not recommended in a production environment), put the \texttt{jetty-web.xml} file into the folder \texttt{/src/test/webapp/WEB-INF/} of your map.apps project.
+
+
