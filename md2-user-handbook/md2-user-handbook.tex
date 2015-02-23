@@ -2,7 +2,7 @@
 % !TeX spellcheck = en_GB
 % !TeX program = xelatex
 
-\documentclass[a4paper, 12pt, titlepage, headsepline, listof = totoc, bibliography = totoc, numbers = noenddot]{scrartcl} %
+\documentclass[a4paper, 12pt, titlepage, headsepline, listof = totoc, bibliography = totoc, numbers = noenddot]{scrbook} %
 \usepackage[left = 2cm, right = 2cm, top = 3cm, bottom = 3cm]{geometry} % spaces on the sides of the paper
 %\usepackage[utf8]{inputenc} %pdflatex
 \usepackage{polyglossia} %xelatex
@@ -83,7 +83,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% cover sheet
 
-\title{Installation Documentation}
+\title{User's Handbook}
 \subtitle{map.apps with MD2}
 \author{Project Seminar\\
 Model-driven Mobile Development\\
@@ -92,7 +92,7 @@ Model-driven Mobile Development\\
 
 % hyperref PDF metadata
 \hypersetup{pdfinfo={
-	Title={Installation Documentation map.apps with MD2},
+	Title={Handbook map.apps with MD2},
 	Author={PS MD2 (University of Münster)}
 }}
 
@@ -120,20 +120,27 @@ Model-driven Mobile Development\\
 \clearpage
 \setcounter{page}{1}
 
+\chapter{Introduction}
+%\input{}
+
+
+\chapter{Modeler's Handbook}
 
 \section{Installation}
-\input{10-Installation}
+\input{ModelersHandbook/10-Installation}
 
 \section{Getting Started}
-\input{20-GettingStarted}
+\input{ModelersHandbook/20-GettingStarted}
 
 \section{Development and Deployment of multiple Apps}
-\input{30-MultipleApps}
+\input{ModelersHandbook/30-MultipleApps}
 
-\section{Addtitional Features}
-\input{40-AdditionalFeatures}
+\section{Additional Features}
+\input{ModelersHandbook/40-AdditionalFeatures}
 
 
+\chapter{Developer's Handbook}
+%\input{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% appendix
@@ -143,7 +150,7 @@ Model-driven Mobile Development\\
 \pagenumbering{Roman}		%% roman page numbers for the appendix
 %\input{90-Appendix}
 
-\section{Sample Workflow}
+\chapter{Sample Workflow}
 \input{99-SampleWorkflow}
 
 
