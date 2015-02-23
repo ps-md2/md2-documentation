@@ -1,0 +1,74 @@
+% !TeX spellcheck = en_US
+% !TeX program = xelatex
+% !TeX root = ../md2-user-handbook.tex
+
+In the model layer the structure of data objects is being described. As model elements Entities and Enums are supported.
+\paragraph{Entity}
+An entity is indicated by the keyword {\lstinline!entity!} followed by an arbitrary name that identifies it.
+\begin{lstlisting}
+entity NAME {
+<attribute1 ... attribute n>
+}
+\end{lstlisting}
+Each entity may contain an arbitrary number of attributes of the form
+\begin{lstlisting}
+ATTRIBUTE_NAME: <datatype>[] (<parameters>) {
+name STRING
+description STRING
+}
+\end{lstlisting}
+The optional square brackets [] indicate a one-to-many relationship. That means that the corresponding object may hold an arbitrary number of values of the given datatype.
+Supported complex data types are:
+\begin{itemize}
+\item{Entity}
+\item{Enum}
+\end{itemize}
+Supported simple data types are:
+
+\begin{itemize}
+\item{\lstinline!integer! -- integer}
+\item{\lstinline!float! -- float of the form \#.\#}
+\item{\lstinline!boolean! -- boolean}
+\item{\lstinline!string! -- a string that is embraced by single quotes (') or double quotes (")}
+\item{\lstinline!date! -- a date is a string that conforms the following format: \lstinline!YYYY-MM-DD!}
+\item{\lstinline!time! -- a time is a string that conforms the following format: \lstinline!hh:mm:ss[(+|-)hh[:mm]]!}
+\item{\lstinline!datetime! -- a date time is a string that conforms the following format: \lstinline!YYYY-MM-DDThh:mm:ss [(+|-)hh[:mm]]!}
+\end{itemize}
+
+Parameters are optional and will be transformed into implicit validators during the generation process. They have to be specified as a comma-separated list. On default each specified attribute is mandatory. To allow null values the parameter optional can be set. Further supported parameters depend on the used data type and are explained as follows:
+
+\begin{itemize}
+\item \lstinline!integer! supports
+\subitem \lstinline!max INTEGER! – maximum allowed value of the attribute
+\subitem \lstinline!min INTEGER! – minimum allowed value of the attribute
+\item \lstinline!float! supports
+\subitem \lstinline!max FLOAT! – maximum allowed value of the attribute
+\subitem \lstinline!min FLOAT! – minimum allowed value of the attribute
+\item \lstinline!string! supports
+\subitem \lstinline!maxLength INTEGER! – maximal length of the string value
+\subitem \lstinline!minLingth INTEGER! – minimal length of the string value
+\end{itemize}
+
+Optionally, attributes can be annotated with a name and a description which are used for the labels and the tooltips in the auto-generation of views. If a tooltip is annotated a question mark will be shown next to the generated input field. If no name is annotated, a standard text for the label will be derived from the attribute's name by transforming the camel case name to natural language. E.g. the implicit label text of the attribute firstName is \enquote{First name}.
+
+Exemplary entity that represents a person:
+\begin{lstlisting}
+entity Person {
+	name: string
+	birthdate: date {
+		name: "Date of Birth"
+		description: "The exact day of birth of this person."
+	}
+	salary: float (optional, min 8.50, max 1000)
+	addresses: Address[]
+}
+\end{lstlisting}
+
+\paragraph{Enum}
+An enumeration is indicated by the keyword \lstinline!enum! followed by an arbitrary name that identifies it. Each enum may contain an arbitrary number of comma-separated strings. Other data types are not supported.
+Exemplary enum element to specify weekdays:
+\begin{lstlisting}
+enum Weekday {
+"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
+}
+\end{lstlisting}

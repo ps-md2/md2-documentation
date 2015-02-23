@@ -1,0 +1,193 @@
+% !TeX spellcheck = en_US
+% !TeX program = xelatex
+% !TeX root = ../md2-user-handbook.tex
+
+View elements are either ContentElements or ContainerElements that can contain other content or container elements. Furthermore, basic styles for some content elements can be defined.
+
+\paragraph{Container Elements}
+
+\textit{Grid layouts} align all containing elements in a grid. Elements can either be containers or content elements. The grid is populated row-by-row beginning in the top-leftmost cell.
+
+\begin{lstlisting}
+GridLayoutPane NAME (<parameters>) {
+	<Container | Content | [Container] | [Content]>
+	<Container | Content | [Container] | [Content]><...>
+}
+\end{lstlisting}
+
+For each grid layout at least the number of rows or the number of columns has to be specified. If only one of these parameters is given, the other is calculated by \MD on generation time. In case that both parameters are specified and there are too few cells, all elements that do not fit in the layout will be discarded. The following comma-separated parameters are supported:
+\begin{itemize}
+\item \lstinline!columns INTEGER! -- the number of columns of the grid
+\item \lstinline!rows INTEGER! -- the number of rows of the grid
+\item \lstinline!tabIcon PATH! -- if the layout is a direct child of a TabbedPane, an icon can be specified that is displayed on the corresponding tab. See section on TabbedPanes for more details.
+\item \lstinline!tabTitle STRING! -- if the layout is a direct child of a TabbedPane, a text can be specified that is displayed on the corresponding tab. See section on TabbedPanes for more details.
+\end{itemize}
+
+A \textit{flow layout} arranges elements (containers or content elements) either horizontally or vertically. By default all elements are arranged in a left-to-right flow.
+\begin{lstlisting}
+FlowLayoutPane NAME (<parameters>) {
+	<Container | Content | [Container] | [Content]>
+	<Container | Content | [Container] | [Content]>
+	<...>
+}
+\end{lstlisting}
+The following comma-separated parameters are supported:
+\begin{itemize}
+\item \lstinline!vertical! or \lstinline!horizontal! (default) -- flow direction
+\item \lstinline!tabIcon PATH! -- if the layout is a direct child of a TabbedPane (which are described subsequently), an icon can be specified that is displayed on the corresponding tab.
+\item \lstinline!tabTitle STRING! -- if the layout is a direct child of a TabbedPane, a text can be specified that is displayed on the corresponding tab.
+\end{itemize}
+
+A \textit{tabbed pane} is a special container element that can only contain container elements. Each contained container will be generated as a separate tab. Due to restrictions on the target platforms, tabbed panes can only be root panes, but not a child of another container element. By default the title of each tab equals the name of the contained containers. By using the tabTitle and tabIcon parameters the appearance of the tabs can be customized.
+\begin{lstlisting}
+TabbedPane NAME {
+	<Container | [Container]>
+	<Container | [Container]>
+	<...>
+}
+\end{lstlisting}
+
+\paragraph{Content Elements}
+\textit{Input elements} can be used to manipulate model data via mappings (see controller section). At the moment text inputs, dropdown fields and checkboxes are supported. All input elements support the optional attributes label and tooltip that can be used to create compound input fields with a label and a help text button added.
+
+\textit{Text input} fields can be used for freetext as well as date and time inputs.
+\begin{lstlisting}
+TextInput NAME {
+	label STRING
+	tooltip STRING
+	type <textfield_type>
+}
+\end{lstlisting}
+Besides the tooltip and label attribute, a text field type can be specified to influence the appearance of the actual input field. The following text field types are supported:
+\begin{itemize}
+\item \lstinline!default! - display a standard input field (this is the default)
+\item \lstinline!date! - display a date picker
+\item \lstinline!time! - display a time picker
+\item \lstinline!timestamp! - display a combined date and time picker
+\end{itemize}
+
+\textit{Option inputs} are used to represent enumeration fields in the model.
+\begin{lstlisting}
+OptionInput NAME {
+	label STRING
+	tooltip STRING
+	options [Enum]
+}
+\end{lstlisting}
+
+Besides the tooltip and label attribute, option inputs support the optional options attribute. This can be used to populate the input with the string values of the specified Enum. If options is not given, the displayed options depend on the Enum type of the attribute that has been mapped on the input field (see Section \ref{subsubsec:Controller}).
+
+\textit{Check boxes} are used as a representation for boolean model attributes.
+\begin{lstlisting}
+CheckBox NAME {
+	label STRING
+	tooltip STRING
+	checked BOOLEAN
+}
+\end{lstlisting}
+
+Besides the tooltip and label attribute, check boxes provide the optional attribute checked that allows to specify whether the checkbox is checked by default or not. This setting will be overruled by actual values loaded from the model.
+
+\textit{Labels} allow the modeler to present text to the user. Often they are used to denote input elements. For the label definition there exists the following default definition
+\begin{lstlisting}
+Label NAME {
+	text STRING
+	style <[style] | style>
+}
+\end{lstlisting}
+as well as this shorthand definition
+\begin{lstlisting}
+Label NAME (STRING){
+	style <[style] | style>
+}.
+\end{lstlisting}
+
+The text can either be annotated as an explicit text attribute or the label text to display can be noted in parentheses directly after the label definition. The optional style can either be noted directly or an existing style definition can be referenced (styles are described later in this section).
+
+\textit{Tooltips} allow the modeler to provide the user with additional information. For the tooltip definition there exists the following default definition
+\begin{lstlisting}
+Tooltip NAME {
+	text STRING
+}
+\end{lstlisting}
+
+as well as this shorthand definition that allows to note the help text in parentheses directly after the label definition
+\begin{lstlisting}
+Tooltip NAME (STRING).
+\end{lstlisting}
+
+\textit{Buttons} provide the user the possibility to call actions that have been bound on events of the Button. For the button definition there exists the following default definition
+\begin{lstlisting}
+Button NAME {
+	text STRING
+}
+\end{lstlisting}
+as well as this shorthand definition that allows to specify the text in parentheses directly after the button definition
+\begin{lstlisting}
+Button NAME (STRING).
+\end{lstlisting}
+
+
+For the \textit{image} exists the following default definition
+\begin{lstlisting}
+Image NAME {
+	src PATH
+	height INT
+	width INT
+}
+\end{lstlisting}
+as well as this shorthand definition that allows to specify the image path in parentheses directly after the image name
+\begin{lstlisting}
+Image NAME (PATH) {
+	height INT
+	width INT
+}.
+\end{lstlisting}
+Images support the following attributes:
+\begin{itemize}
+\item \lstinline!src! -- Specifies the source path where the image is located. The path has to be relative to the directory /resources/images in the folder of the \MD project
+\item \lstinline!height! (optional) -- Height of the image in pixels
+\item \lstinline!width! (optional) -- Width of the image in pixels
+\end{itemize}
+
+A \textit{Spacer} is used in a \lstinline!GridLayoutPane! to mark an empty cell or in a \lstinline!FlowLayoutPane! to occupy some space. Using an optional additional parameter the actual number of spacers can be specified.
+\begin{lstlisting}
+Spacer (INT)
+\end{lstlisting}
+
+The \textit{AutoGenerator} is used to automatically generate view elements to display all attributes of a related entity and the according mappings of the view elements to a Content Provider. It is possible to either exclude attributes using the \lstinline!exclude! keyword or to provide a positive list of attributes using the keyword \lstinline!only!.
+\begin{lstlisting}
+AutoGenerator NAME {
+	contentProvider [ContentProvider] (exclude|only [Attribute])
+}
+\end{lstlisting}
+
+In case of one-to-many relationships for attributes (annotated with []) or a content provider it has to be defined which of the elements should be displayed in the auto-generated fields. The \textit{EntitySelector} allows the user to select an element from a list of elements. The attribute \lstinline!textProposition! defines which ContentProvider stores the list and which attribute of the elements shall be displayed to the user to allow him to find the desired element.
+\begin{lstlisting}
+EntitySelector NAME {
+	textProposition [ContentProvider.Attribute]
+}
+\end{lstlisting}
+
+\textit{Styles} can be annotated to several view elements such as labels and buttons to influence their design. They can either be defined globally as a root element in the view and then be referenced or annotated directly to the appropriate elements.
+\begin{lstlisting}
+style NAME {
+	color <color>
+	fontSize INT
+	textStyle <textstyle>
+}
+\end{lstlisting}
+
+The following optional style attributes are supported. If a attribute is not set, the standard setting is used for each platform.
+\begin{itemize}
+\item \lstinline!color <color>! (optional) -- specifies the color of the element as a named color or a six or eight digit hex color (with alpha channel)
+\item \lstinline!fontSize INT! (optional) -- specifies the font size
+\item \lstinline!textStyle <textstyle>! (optional) -- the text style can be normal or italic, bold or a combination of both.
+\end{itemize}
+
+As named colors the 16 default web colors are supported: aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive, purple, red, silver, teal, white, yellow.
+
+Elements can not only be defined where they should be used, but there is also a mechanism of defining an element once and \textit{reusing} it several times. Instead of defining a new element, another element can be referenced -- internally this leads to a copy of the actual element. However, names have to be unique so that each element could only be referenced once. To avoid those name clashes a renaming mechanism had been implemented that allows to set new names for the actual copied element.
+\begin{lstlisting}
+Element -> NAME
+\end{lstlisting}
