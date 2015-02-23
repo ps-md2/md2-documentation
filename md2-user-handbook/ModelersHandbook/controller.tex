@@ -1,3 +1,210 @@
 % !TeX spellcheck = en_US
 % !TeX program = xelatex
 % !TeX root = ../md2-user-handbook.tex
+
+\paragraph{Main}
+The \lstinline!main! object contains all basic information about a project. Each project must contain exactly one \lstinline!main! object that can be in an arbitrary controller.
+\begin{lstlisting}
+main {
+	appVersion STRING
+	modelVersion STRING
+	workflowManager [WorkflowBackendConnection]
+	defaultConnection [RemoteConnection]
+}
+\end{lstlisting}
+
+The attributes are explained as follows:
+\begin{itemize}
+\item \lstinline!appVersion! -- a string representation of the current app version, e.g. \enquote{RC1}
+\item  \lstinline!modelVersion! (optional) -- a string representation of the current model version that has to be in accordance with the model version of the backend
+\item  \lstinline!defaultConnection! (optional) -- a default remote connection can be specified here, so that it is not necessary to specify the same connection in each content provider
+\item \lstinline!workflowManager! -- \todo{describe workflowManager}
+\end{itemize}
+
+\paragraph{Actions}
+An action provides the user the possibility to declare a set of tasks. An action can be either a CustomAction or a CombinedAction.
+
+A \textit{CustomAction} contains a list of CustomCodeFragments where each CustomCodeFragment contains one task. For each type of task there exist a specific CustomCodeFragment that is distinguished by the keyword that introduces it. The main tasks are binding actions to events, binding validators to view elements and mapping view elements to model elements. For every task there is a counterpart for unbinding and unmapping. Furthermore there are CallTasks that can call other actions.
+\begin{lstlisting}
+CustomAction NAME {
+	<CustomCodeFragment>
+	<...>
+}
+\end{lstlisting}
+
+Actions are bound to events. There are several types of actions and events available. CustomActions and CombinedActions are referenced externally whereas SimpleActions are declared directly. For events, there are local event types that listen to the state of a certain view element as well as global event types. The most powerful event type is the OnConditionEvent.
+
+\begin{lstlisting}
+bind|unbind action
+	<[CustomAction] | [CombinedAction] | SimpleAction> <...>
+	on|from
+	<[Container] | [Content]> . <elementEventType> |
+	<GlobalEventType> | <[OnConditionEvent]> <...>
+\end{lstlisting}
+
+SimpleActions provide a quick way to change the state of the app:
+\begin{itemize}
+\item \lstinline!NextStepAction! -- proceed to the next Workflow step
+\item  \lstinline!PreviousStepAction! -- go back to the last Workflow step
+\item  \lstinline!GotoStepAction (<WorkflowStep>, BOOLEAN)! -- Change to the given Workflow step. The second parameter indicates whether an error message should be shown if the action fails.
+\item \lstinline!GotoViewAction (<Container | Content>)! -- Change to the given view element
+\item \lstinline!DataAction (<AllowedOperation> <ContentProvider>)! -- Perform a CRUD action (save, load, remove) on the given ContentProvider
+\item \lstinline!NewObjectAction (<ContentProvider>)! -- Creates a new object for the given ContentProvider
+\item  \lstinline!AssignObjectAction (use <ContentProvider> for <ContentProvider.Attribute, ...)! -- Cross link two ContentProvider. The first parameter denotes the ContentProvider for the model element of a different ContentProvidewr defined in the second parameter
+\item \lstinline!GPSUpdateAction (<GPSField | STRING> <...> to <ContentProvider.Attribute>)! - Links a GPS property \lstinline!(latitude, longitude, altitude, citystreet, number, postalCode, country, province)! to a model element of a given ContentProvider
+\item  \lstinline!SetActiveWorkflowAction (<Workflow>)! -- Changes the current Workflow
+\end{itemize}
+
+There are different event types available:
+\begin{itemize}
+\item \lstinline!ElementEventType! -- onTouch, onLeftSwipe, onRightSwipe, onWrongValidation; preceded by a dot and a reference to a ContainerElement or ContentElement
+\item \lstinline!GlobalEventType! -- onConnectionLost
+\item \lstinline!OnConditionEvent!
+\end{itemize}
+
+
+The \textit{OnConditionEvent} provides the user the possibility to define own events via Conditions. The event is fired when the conditional expression evaluates to true.
+\begin{lstlisting}
+event NAME {
+	<Condition>
+}
+\end{lstlisting}
+
+A Condition can be defined recursively in one of the following ways. This is a simplified version of the grammar. For a comprehensive overview the grammar in the appendix can be consulted.
+\begin{lstlisting}
+Boolean |
+<[Container] | [Content]> equals not? <[Container] | [Content]> |
+<[Container] | [Content]> equals not? <STRING | INT | FLOAT> |
+is not? <valid|empty|checked|filled> <[Container] | [Content]> |
+not? <Condition> and|or not? <Condition>
+\end{lstlisting}
+
+\textit{Validators} are bound to view elements. The validator can be a referenced element or a shorthand definition can be used in place.
+\begin{lstlisting}
+bind|unbind validator
+	<[Validator]> <...>
+	on|from
+	<[ContainerElement] | [ContentElement]> <...>
+\end{lstlisting}
+
+The shorthand definition has the same options but does not allow reuse.
+\begin{lstlisting}
+bind|unbind validator
+	<IsIntValidator | NotNullValidator | IsNumberValidator | IsDateValidator | RegExValidator |NumberRangeValidator | StringRangeValidator (<params>)
+	on|from
+	<[ContainerElement] | [ContentElement]> <...>
+\end{lstlisting}
+
+A detailed description for validator type can be found in the Validator section. The available parameters at params are identical to those of the Validator element.
+
+View elements are \textit{mapped} to model elements that are in turn accessed through a ContentProvider.
+\begin{lstlisting}
+map|unmap
+	<[ContainerElement] | [ContentElement]>
+	to|from
+	<[ContentProvider.Attribute]>
+
+\end{lstlisting}
+
+\textit{CallTasks} call a different Action.
+\begin{lstlisting}
+call
+	<[CustomAction] | [CombinedAction] | [SimpleAction]>
+\end{lstlisting}
+
+\textit{CombinedActions} allow the composition of Actions.
+\begin{lstlisting}
+CombinedAction NAME {
+	actions <Action> <...>
+}
+\end{lstlisting}
+
+\textit{Validators} are used to validate user input. For each validator type corresponding parameters can be assigned. The \lstinline!message! parameter is valid for every type and will be shown to the user if the validation fails.
+
+The RegExValidator allows the definition of a regular expression that is used to validate the user input.
+\begin{lstlisting}
+validator RegExValidator NAME (message STRING regEx STRING)
+\end{lstlisting}
+
+The IsIntValidator checks whether the user input is a valid integer.
+\begin{lstlisting}
+validator IsIntValidator NAME (message STRING)
+\end{lstlisting}
+
+The IsNumberValidator checks whether the user input is a valid integer or float value.
+\begin{lstlisting}
+validator IsNumberValidator NAME (message STRING)
+\end{lstlisting}
+
+The IsDateValidator allows to define a format that the date at hand shall conform to.
+\begin{lstlisting}
+validator IsDateValidator NAME (message STRING format STRING)
+\end{lstlisting}
+
+The NumberRangeValidator allows the definition of a numeric range that shall contain the user input.
+\begin{lstlisting}
+validator NumberRangeValidator NAME (message STRING min FLOAT max FLOAT )
+\end{lstlisting}
+
+The StringRange allows the definition of a string length range. The length of the STRING input by the user will be checked against this range.
+\begin{lstlisting}
+validator StringRangeValidator NAME (message STRING minLength INT maxLength INT)
+\end{lstlisting}
+
+The NotNullValidator makes the input field required.
+\begin{lstlisting}
+validator NotNullValidator NAME (message STRING)
+\end{lstlisting}
+
+The \textit{RemoteValidator} allows to use a Validator offered by the backend server. By default only the content and id of the field on which the RemoteValidator has been assigned are transmitted to the backend server. However, additional information can be provided using the provideModel or
+provideAttributes keyword.
+\begin{lstlisting}
+validator RemoteValidator NAME (message STRING connection <RemoteConnection> model <ContentProvider>) |
+validator RemoteValidator NAME (message STRING connection <RemoteConnection> attributes <ContentProvider.Attribute> <...>)
+\end{lstlisting}
+
+\paragraph{ProcessChain}
+A ProcessChain is used to define several steps in which the application can currently be. It is possible to define several ProcessChains. ProcessChains can be nested and there is at most one ProcessChain active.
+\begin{lstlisting}
+workflow NAME {
+	<ProcessChainStep> <...>
+}
+\end{lstlisting}
+
+ Each ProcessChainStep defines one view that is related to it and will be displayed if the ProcessChainStep becomes the current ProcessChainStep of the active ProcessChain. Additionally conditions can be defined, that restrict switching to the next or previous ProcessChainStep. Also events can be specified that trigger the change to the next or previous ProcessChainStep.
+ 
+Instead of the aforementioned settings, a ProcessChain that will become active while this ProcessChainStep is the current one, can be referenced.
+\begin{lstlisting}
+step NAME:
+	view <[ContainerElement] | [ContentElement]>
+	forwardCondition { <Condition> }
+	forwardMessage STRING
+	backwardCondition { <Condition> }
+	backwardMessage STRING
+	forwardOnEvent forwardEvents <EventDef>
+	backwardOnEvent <EventDef>
+\end{lstlisting}
+
+ProcessChains can be refined using SubProcessChains.
+\begin{lstlisting}
+step NAME:
+	subProcessChain <ProcessChain>
+\end{lstlisting}
+
+The event definition for \lstinline!EventDef! is the same as for event bindings:
+\begin{lstlisting}
+<Container | Content> . <elementEventType> |
+<GlobalEventType> |
+<OnConditionEvent> <...>
+\end{lstlisting}
+
+Each \textit{content provider} manages one instance of an entity. View fields are not mapped directly to a model element, but only content providers can be mapped to view elements. Data instances of the content providers can be updated or persisted using DataActions.
+
+It allows to \lstinline!CREATE_OR_UPDATE! (save), \lstinline!READ! (load) and \lstinline!DELETE! (remove) the stored instance. Which of those operations is possible is specified in \lstinline!allowedOperations!. By default all operations are allowed. A filter enables to query a subset of all saved instances. The \lstinline!providerType! defines whether the instances shall be stored locally or remotely.
+
+The \textit{remote connection} allows to specify a URI for the backend communication. The backend must comply with the MD2 web service interface as specified in the appendix.
+\begin{lstlisting}
+remoteConnection NAME {
+	uri URI
+}
+\end{lstlisting}
