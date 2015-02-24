@@ -4,11 +4,12 @@
 
 \paragraph{Main}
 The \lstinline!main! object contains all basic information about a project. Each project must contain exactly one \lstinline!main! object that can be in an arbitrary controller.
+
 \begin{lstlisting}
 main {
 	appVersion STRING
 	modelVersion STRING
-	workflowManager [WorkflowBackendConnection]
+	workflowManager [WorkflowBackendConnection]\todo{what exactly needs to be written inside the brackets?}
 	defaultConnection [RemoteConnection]
 }
 \end{lstlisting}
@@ -21,10 +22,29 @@ The attributes are explained as follows:
 \item \lstinline!workflowManager! -- \todo{describe workflowManager}
 \end{itemize}
 
+Furthermore, the controller layer is subdivided into one or more workflow elements. While the workflow describes the interaction of workflow elements, their internal functionality needs to be specified in the controller layer. Each workflow element can be seen as an independent controller which is responsible for the successful execution of its functionality. In general, workflow elements are structured as follows
+
+\begin{lstlisting}
+WorkflowElement <workflowElementName>{
+	defaultProcessChain <ProcessChain>
+	onInit {
+		<...>
+	}
+	<...>
+}.
+\end{lstlisting}
+
+Workflow elements work with \lstinline!ProcessChains! that define a sequence of possible steps inside the workflow element and are further described in Section \ref{sec:processChain}. Since several process chains can be defined in a single workflow element, the \lstinline!defaultProcessChain! keyword is used to set a default process chain. This process chain will then be used as starting point for the workflow element and the first view to be shown will also be derived from the default process chain.
+
+The \lstinline!onInit! block is used to define everything that is supposed to happen on initialization of the workflow element, e.g. binding actions to buttons or mapping content to view fields. In the \lstinline!onInit! block, no workflow events may be fired, as this means handing off control from the workflow element directly at the initialization. This is enforced by raising a validator error in case the modeler tries to do this.
+
+Typically, workflow elements should be modeled in a way that they fire a workflow event after termination of their functionality to start a new workflow element or end the whole workflow. This can be done using the SimpleAction \lstinline!FireEventAction! as will be described in the following.
+
 \paragraph{Actions}
-An action provides the user the possibility to declare a set of tasks. An action can be either a CustomAction or a CombinedAction.
+An action provides the user the possibility to declare a set of tasks. An action can be either a \lstinline!CustomAction! or a \lstinline!CombinedAction!.
 
 A \textit{CustomAction} contains a list of CustomCodeFragments where each CustomCodeFragment contains one task. For each type of task there exist a specific CustomCodeFragment that is distinguished by the keyword that introduces it. The main tasks are binding actions to events, binding validators to view elements and mapping view elements to model elements. For every task there is a counterpart for unbinding and unmapping. Furthermore there are CallTasks that can call other actions.
+
 \begin{lstlisting}
 CustomAction NAME {
 	<CustomCodeFragment>
@@ -42,17 +62,47 @@ bind|unbind action
 	<GlobalEventType> | <[OnConditionEvent]> <...>
 \end{lstlisting}
 
-SimpleActions provide a quick way to change the state of the app:
+\textit{SimpleActions} provide a quick way to change the state of the project:
 \begin{itemize}
-\item \lstinline!NextStepAction! -- proceed to the next Workflow step
-\item  \lstinline!PreviousStepAction! -- go back to the last Workflow step
-\item  \lstinline!GotoStepAction (<WorkflowStep>, BOOLEAN)! -- Change to the given Workflow step. The second parameter indicates whether an error message should be shown if the action fails.
-\item \lstinline!GotoViewAction (<Container | Content>)! -- Change to the given view element
-\item \lstinline!DataAction (<AllowedOperation> <ContentProvider>)! -- Perform a CRUD action (save, load, remove) on the given ContentProvider
-\item \lstinline!NewObjectAction (<ContentProvider>)! -- Creates a new object for the given ContentProvider
-\item  \lstinline!AssignObjectAction (use <ContentProvider> for <ContentProvider.Attribute, ...)! -- Cross link two ContentProvider. The first parameter denotes the ContentProvider for the model element of a different ContentProvidewr defined in the second parameter
-\item \lstinline!GPSUpdateAction (<GPSField | STRING> <...> to <ContentProvider.Attribute>)! - Links a GPS property \lstinline!(latitude, longitude, altitude, citystreet, number, postalCode, country, province)! to a model element of a given ContentProvider
-\item  \lstinline!SetActiveWorkflowAction (<Workflow>)! -- Changes the current Workflow
+\item ProcessChainProceedAction: \lstinline!ProcessChainProceed!
+\subitem proceed to the next ProcessChain step
+\item ProcessChainReverseAction: \lstinline!ProcessChainReverse!
+\subitem go back to the last ProcessChain step
+\item ProcessChainGotoAction: \lstinline!ProcessChainGoto <processChainStep>!
+\subitem change to the given ProcessChain step
+\item SetProcessChainAction: \lstinline!SetProcessChain [ProcessChain]!
+\subitem changes the current ProcessChain
+\item GotoViewAction: \lstinline!GotoView (<ViewElement>)!
+\subitem change to the given view element
+\item DisableAction: \lstinline!Disable (<ViewElement>)!
+\subitem disables a view element
+\item EnableAction: \lstinline!Enable (<ViewElement>)!
+\subitem enables a view element
+\item DisplayMessageAction: \lstinline!DisplayMessage (<SimpleExpression>)!
+\subitem displays a message
+\item ContentProviderOperationAction: \lstinline!ContentProviderOperation (<AllowedOperation> <ContentProvider>)!
+\subitem perform a CRUD action (save, load, remove) on the given ContentProvider
+\item ContentProviderResetAction: \lstinline!ContentProviderReset (<ContentProvider>)!
+\subitem resets the given ContentProvider
+\item FireEventAction: \lstinline!FireEvent (<WorkflowEvent>)!
+\subitem fires a workflow event to the backend. In response a new workflow element will be started or the workflow terminated
+
+In addition, the LocationAction allows to extract an address from content provider fields and to generate a punctual location (i.e. longitude and latitude) for this address. For this purpose, all input and output fields have to be defined. The calculation result for longitude and latitude will be written in their respective output fields. The LocationAction is structured as follows:
+
+\begin{lstlisting}
+Location (
+	inputs (
+		cityInput <ContentProviderPath>
+		streetInput <ContentProviderPath>
+		streetNumberInput <ContentProviderPath>
+		postalInput <ContentProviderPath>
+		countryInput <ContentProviderPath> )
+	outputs (
+		latitudeOutput <ContentProviderPath>
+		longitudeOutput <ContentProviderPath>).
+\end{lstlisting}
+
+ 
 \end{itemize}
 
 There are different event types available:
@@ -70,7 +120,7 @@ event NAME {
 }
 \end{lstlisting}
 
-A Condition can be defined recursively in one of the following ways. This is a simplified version of the grammar. For a comprehensive overview the grammar in the appendix can be consulted.
+A condition can be defined recursively in one of the following ways. This is a simplified version of the grammar. For a comprehensive overview the grammar in the appendix can be consulted.
 \begin{lstlisting}
 Boolean |
 <[Container] | [Content]> equals not? <[Container] | [Content]> |
@@ -79,7 +129,7 @@ is not? <valid|empty|checked|filled> <[Container] | [Content]> |
 not? <Condition> and|or not? <Condition>
 \end{lstlisting}
 
-\textit{Validators} are bound to view elements. The validator can be a referenced element or a shorthand definition can be used in place.
+\textit{Validators are bound} to view elements. The validator can be a referenced element or a shorthand definition can be used in place.
 \begin{lstlisting}
 bind|unbind validator
 	<[Validator]> <...>
@@ -95,7 +145,7 @@ bind|unbind validator
 	<[ContainerElement] | [ContentElement]> <...>
 \end{lstlisting}
 
-A detailed description for validator type can be found in the Validator section. The available parameters at params are identical to those of the Validator element.
+A detailed description for validator type can be found in the validator description in the following. The available parameters at params are identical to those of the validator element.
 
 View elements are \textit{mapped} to model elements that are in turn accessed through a ContentProvider.
 \begin{lstlisting}
@@ -146,7 +196,7 @@ The NumberRangeValidator allows the definition of a numeric range that shall con
 validator NumberRangeValidator NAME (message STRING min FLOAT max FLOAT )
 \end{lstlisting}
 
-The StringRange allows the definition of a string length range. The length of the STRING input by the user will be checked against this range.
+The StringRange allows the definition of a string length range. The length of the \lstinline!STRING! input by the user will be checked against this range.
 \begin{lstlisting}
 validator StringRangeValidator NAME (message STRING minLength INT maxLength INT)
 \end{lstlisting}
@@ -156,17 +206,18 @@ The NotNullValidator makes the input field required.
 validator NotNullValidator NAME (message STRING)
 \end{lstlisting}
 
-The \textit{RemoteValidator} allows to use a Validator offered by the backend server. By default only the content and id of the field on which the RemoteValidator has been assigned are transmitted to the backend server. However, additional information can be provided using the provideModel or
-provideAttributes keyword.
+The \textit{RemoteValidator} allows to use a validator offered by the backend server. By default only the content and id of the field on which the RemoteValidator has been assigned are transmitted to the backend server. However, additional information can be provided using the \lstinline!provideModel! or
+\lstinline!provideAttributes! keyword.
 \begin{lstlisting}
 validator RemoteValidator NAME (message STRING connection <RemoteConnection> model <ContentProvider>) |
 validator RemoteValidator NAME (message STRING connection <RemoteConnection> attributes <ContentProvider.Attribute> <...>)
 \end{lstlisting}
 
 \paragraph{ProcessChain}
-A ProcessChain is used to define several steps in which the application can currently be. It is possible to define several ProcessChains. ProcessChains can be nested and there is at most one ProcessChain active.
+\label{sec:processChain}
+A ProcessChain is used to define several steps in which the WorkflowElement can currently be. It is possible to define several ProcessChains. ProcessChains can be nested and there is at most one ProcessChain active.
 \begin{lstlisting}
-workflow NAME {
+ProcessChain NAME {
 	<ProcessChainStep> <...>
 }
 \end{lstlisting}
