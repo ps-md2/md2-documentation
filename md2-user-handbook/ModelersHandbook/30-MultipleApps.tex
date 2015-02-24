@@ -4,6 +4,28 @@
 
 \subsection{Workflow across multiple Apps}
 \label{subsec:WorkflowMultipleApps}
+The \MD framework also allows to model and generate workflows that involve multiple apps. For this purpose, several apps rather than just one can be specified in the workflow layer. These apps can share the same workflow elements or use different ones as shown in Listing \ref{lst:multipleApps}. Apart from that, the workflow will look as usual, with the sequence of workflow elements being determined via events. After generation, each app is provided with a list of open issues in the start screen. In this list, all events are presented that were fired from another app and are supposed to start a workflow element which belongs to the current app in action. A user can simply click a listed event to continue the appropriate workflow element.
+
+\begin{lstlisting}[language=MD2, label=lst:multipleApps, caption=Workflow Definition for Multiple Apps]
+package <ProjectName>.workflows
+
+WorkflowElement <WorkflowElementOne>
+<...>
+WorkflowElement <WorkflowElementTwo>
+<...>
+WorkflowElement <WorkflowElementThree>
+<...>
+
+App <AppID1> {
+	<WorkflowElementOne> (startable: STRING),
+	<WorkflowElementTwo>
+}
+
+App <AppID2> {
+	<WorkflowElementOne>,
+	<WorkflowElementThree>
+}
+\end{lstlisting}
 
 
 \subsection{Deployment on map.apps}
