@@ -48,45 +48,32 @@ TabbedPane NAME {
 \end{lstlisting}
 
 \paragraph{Content Elements}
-\textit{Input elements} can be used to manipulate model data via mappings (see controller section). At the moment text inputs, dropdown fields and checkboxes are supported. All input elements support the optional attributes label and tooltip that can be used to create compound input fields with a label and a help text button added.
+\textit{Input elements} can be used to manipulate model data via mappings (see Section \ref{subsubsec:Controller}). At the moment BooleanInputs, TextInputs, IntegerInputs, NumberInputs, TimeInputs, DateInputs, DateTimeInputs and OptionInputs are supported. All input elements support the optional attributes \lstinline!label!, \lstinline!tooltip!, \lstinline!type!, \lstinline!disabled!, \lstinline!default! and \lstinline!width!. \lstinline!type! allows to specify the type of the field. \lstinline!disabled! was intended to provide a boolean for whether an input field is enabled od disabled, but is not regarded by the generator in the current implementation. Default values can be set using \lstinline!default! and the width using \lstinline!width!.
 
-\textit{Text input} fields can be used for freetext as well as date and time inputs.
+\textit{TextInput} fields can be used for freetext as well as date and time inputs.
 \begin{lstlisting}
-TextInput NAME {
+TextInput <name> { 
 	label STRING
 	tooltip STRING
-	type <textfield_type>
-}
-\end{lstlisting}
-Besides the tooltip and label attribute, a text field type can be specified to influence the appearance of the actual input field. The following text field types are supported:
-\begin{itemize}
-\item \lstinline!default! - display a standard input field (this is the default)
-\item \lstinline!date! - display a date picker
-\item \lstinline!time! - display a time picker
-\item \lstinline!timestamp! - display a combined date and time picker
-\end{itemize}
-
-\textit{Option inputs} are used to represent enumeration fields in the model.
-\begin{lstlisting}
-OptionInput NAME {
-	label STRING
-	tooltip STRING
-	options [Enum]
+	type <TextInputType>
+	disabled <true|false>
+	default STRING)
+	width <width>
 }
 \end{lstlisting}
 
-Besides the tooltip and label attribute, option inputs support the optional options attribute. This can be used to populate the input with the string values of the specified Enum. If options is not given, the displayed options depend on the Enum type of the attribute that has been mapped on the input field (see Section \ref{subsubsec:Controller}).
-
-\textit{Check boxes} are used as a representation for boolean model attributes.
+\textit{OptionInputs} are used to represent enumeration fields in the model. In addition to the aforementioned attributes, OptionInputs support the optional \lstinline!options! attribute. This can be used to populate the input with the string values of the specified Enum. If options is not given, the displayed options depend on the Enum type of the attribute that has been mapped on the input field (see Section \ref{subsubsec:Controller}).
 \begin{lstlisting}
-CheckBox NAME {
+OptionInput { 
 	label STRING
 	tooltip STRING
-	checked BOOLEAN
+	type <OptionInputType>
+	disabled <true|false>
+	default STRING)
+	width <width>
+	options <enum>
 }
 \end{lstlisting}
-
-Besides the tooltip and label attribute, check boxes provide the optional attribute checked that allows to specify whether the checkbox is checked by default or not. This setting will be overruled by actual values loaded from the model.
 
 \textit{Labels} allow the modeler to present text to the user. Often they are used to denote input elements. For the label definition there exists the following default definition
 \begin{lstlisting}

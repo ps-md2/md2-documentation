@@ -80,12 +80,15 @@ bind|unbind action
 \subitem enables a view element
 \item DisplayMessageAction: \lstinline!DisplayMessage (<SimpleExpression>)!
 \subitem displays a message
-\item ContentProviderOperationAction: \lstinline!ContentProviderOperation (<AllowedOperation> <ContentProvider>)!
+\item {ContentProviderOperationAction: \lstinline!ContentProviderOperation (<AllowedOperation>!
+
+ \lstinline!<ContentProvider>)!}
 \subitem perform a CRUD action (save, load, remove) on the given ContentProvider
 \item ContentProviderResetAction: \lstinline!ContentProviderReset (<ContentProvider>)!
 \subitem resets the given ContentProvider
 \item FireEventAction: \lstinline!FireEvent (<WorkflowEvent>)!
-\subitem fires a workflow event to the backend. In response a new workflow element will be started or the workflow terminated
+\subitem fires a workflow event to the backend. In response a new workflow element will be started or the workflow terminated.
+
 
 In addition, the LocationAction allows to extract an address from content provider fields and to generate a punctual location (i.e. longitude and latitude) for this address. For this purpose, all input and output fields have to be defined. The calculation result for longitude and latitude will be written in their respective output fields. The LocationAction is structured as follows:
 
@@ -228,12 +231,16 @@ Instead of the aforementioned settings, a ProcessChain that will become active w
 \begin{lstlisting}
 step NAME:
 	view <[ContainerElement] | [ContentElement]>
-	forwardCondition { <Condition> }
-	forwardMessage STRING
-	backwardCondition { <Condition> }
-	backwardMessage STRING
-	forwardOnEvent forwardEvents <EventDef>
-	backwardOnEvent <EventDef>
+	proceed {
+		on <Event>
+		given <Condition>
+		do <Action>
+	}
+	reverse on <Event>
+	goto <ProcessChainStep> (returnTo <ProcessChainStep>) on <Event>
+	return on <Event>
+	return and proceed on <Event>
+	message STRING
 \end{lstlisting}
 
 ProcessChains can be refined using SubProcessChains.
