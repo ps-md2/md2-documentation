@@ -2,7 +2,7 @@
 % !TeX program = xelatex
 % !TeX root = md2-user-handbook.tex
 
-\subsection{Workflow across multiple Apps}
+\subsection{Workflow across Multiple Apps}
 \label{subsec:WorkflowMultipleApps}
 The \MD framework also allows to model and generate workflows that involve multiple apps. For this purpose, several apps rather than just one can be specified in the workflow layer. These apps can share the same workflow elements or use different ones as shown in Listing \ref{lst:multipleApps}. Apart from that, the workflow will look as usual, with the sequence of workflow elements being determined via events. After generation, each app is provided with a list of open issues in the start screen. In this list, all events are presented that were fired from another app and are supposed to start a workflow element which belongs to the current app in action. A user can simply click a listed event to continue the appropriate workflow element.
 
@@ -28,5 +28,7 @@ App <AppID2> {
 \end{lstlisting}
 
 
-\subsection{Deployment on map.apps}
+\subsection{Deploying Multiple Apps}
 \label{subsec:DeploymentMultipleApps}
+
+The deployment of multiple apps is similar to that of a single app. In this case, however, not just one but all created apps have to be deployed, e.g. by setting the corresponding symbolic links as described in Section \ref{subsec:SingleAppDep} for each app.
