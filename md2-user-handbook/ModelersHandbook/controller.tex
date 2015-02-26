@@ -43,24 +43,35 @@ Typically, workflow elements should be modeled in a way that they fire a workflo
 \paragraph{Actions}
 An action provides the user the possibility to declare a set of tasks. An action can be either a \lstinline!CustomAction! or a \lstinline!CombinedAction!.
 
-A \textit{CustomAction} contains a list of CustomCodeFragments where each CustomCodeFragment contains one task. For each type of task there exist a specific CustomCodeFragment that is distinguished by the keyword that introduces it. The main tasks are binding actions to events, binding validators to view elements and mapping view elements to model elements. For every task there is a counterpart for unbinding and unmapping. Furthermore there are CallTasks that can call other actions.
+A \textit{CustomAction} contains a list of CustomCodeFragments where each CustomCodeFragment contains one task.
 
 \begin{lstlisting}
-CustomAction NAME {
+CustomAction <Action> {
 	<CustomCodeFragment>
 	<...>
 }
 \end{lstlisting}
 
-Actions are bound to events. There are several types of actions and events available. CustomActions and CombinedActions are referenced externally whereas SimpleActions are declared directly. For events, there are local event types that listen to the state of a certain view element as well as global event types. The most powerful event type is the OnConditionEvent.
+For each type of task there exist a specific CustomCodeFragment that is distinguished by the keyword that introduces it.
 
-\begin{lstlisting}
-bind|unbind action
-	<[CustomAction] | [CombinedAction] | SimpleAction> <...>
-	on|from
-	<[Container] | [Content]> . <elementEventType> |
-	<GlobalEventType> | <[OnConditionEvent]> <...>
-\end{lstlisting}
+\begin{itemize}
+\item \lstinline!bind <Action1> ... <ActionN> on <Event1> ... <EventN>!
+\item \lstinline!bind <Validator1> ... <ValidatorN> on <ViewElement1> ... <ViewelementN>!
+\item \lstinline!unbind <Action1> ... <ActionN> from <Event1> ... <EventN>!
+\item \lstinline!unbind <Validator1> ... <ValidatorN> from <ViewElement1> ... <ViewelementN>!
+\item \lstinline!call <Action>!
+\item \lstinline!map <ViewElement> to <ContentProviderField>!
+\item \lstinline!unmap <ViewElement> from <ContentProviderField>!
+\item \lstinline!set <ContentProvider> = <Expression>!
+\item \lstinline!set <ViewElement> = <Expression>!
+\item \lstinline!if (<Condition>) { <CustomCodeFragment> }!
+\item \lstinline!elseif (<Condition>) { <CustomCodeFragment> }!
+\item \lstinline!else {<CustomCodeFragment>}!
+\end{itemize}
+
+The main tasks are binding actions to events, binding validators to view elements and mapping view elements to model elements. For every task there is a counterpart for unbinding and unmapping. \lstinline!call! tasks can call other actions, \lstinline!set! operations set the value of a content provider field or a view element. The \lstinline!if!, \lstinline!elseif! and \lstinline!else! blocks allow to model case distictions, e.g. based on user input.
+
+Actions are bound to events. There are several types of actions and events available. CustomActions and CombinedActions are referenced externally whereas SimpleActions are declared directly. For events, there are local event types that listen to the state of a certain view element as well as global event types. The most powerful event type is the OnConditionEvent.
 
 \textit{SimpleActions} provide a quick way to change the state of the project:
 \begin{itemize}
@@ -123,14 +134,7 @@ event NAME {
 }
 \end{lstlisting}
 
-A condition can be defined recursively in one of the following ways. This is a simplified version of the grammar. For a comprehensive overview the grammar in the appendix can be consulted.
-\begin{lstlisting}
-Boolean |
-<[Container] | [Content]> equals not? <[Container] | [Content]> |
-<[Container] | [Content]> equals not? <STRING | INT | FLOAT> |
-is not? <valid|empty|checked|filled> <[Container] | [Content]> |
-not? <Condition> and|or not? <Condition>
-\end{lstlisting}
+A \textit{condition} allows to combine conditional expressions using the operators \lstinline!and!, \lstinline!or!, and \lstinline!not!. Conditional expressions evaluate to true or false. They can be BooleanExpressions, EqualsExpressions or GUIElementStateExpressions that check the state of a ViewGUIElement. In addition, \MD supports mathematical expressions such as \lstinline!equals!, \lstinline!>!, \lstinline!<!, \lstinline!>=!, and \lstinline!<=!.
 
 \textit{Validators are bound} to view elements. The validator can be a referenced element or a shorthand definition can be used in place.
 \begin{lstlisting}
@@ -266,3 +270,5 @@ remoteConnection NAME {
 	uri URI
 }
 \end{lstlisting}
+
+Furthermore, the \MD framework also provides a \textit{location provider}, i.e. a virtual content provider for locations. The entity which is automatically handled by this content provider contains attributes such as latitude, longitude, street, etc. In map.apps the location provider can be used to get coordinates from a map and resolve the corresponding address.
