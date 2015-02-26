@@ -2,8 +2,9 @@
 % !TeX program = xelatex
 % !TeX root = ../md2-user-handbook.tex
 
-The current implementation of the \MD framework generates web-based apps for a framework called map.apps, which is mainly based on JavaScript.
-The generated code can be subdivided into three parts: static map.apps code, dynamically generated map.apps code and a backend. The static map.apps code contains the part of the code which does not depend on the models created in the \MD DSL. Since it is static, it does not need to be generated, but is required for the overall functionality of the generated apps. The dynamically generated part is completely dependent on the model. The backend is implemented in Java and contains static as well as dynamic code. However, it is completely generated. The backend provides a server which offers functionality such as data storage and communication accross apps.
+The current implementation of the \MD framework generates web-based apps for a framework called map.apps, which is mainly based on JavaScript. Code generation of Android and iOS apps are also targeted, but not fully implemented yet.
+
+The generated code for map.apps can be subdivided into three parts: static map.apps code, dynamically generated map.apps code and a backend. The static map.apps code contains the part of the code which does not depend on the models created in the \MD DSL. Since it is static, it does not need to be generated, but is required for the overall functionality of the generated apps. The dynamically generated part is completely dependent on the model. The backend is implemented in Java and contains static as well as dynamic code. However, it is completely generated. The backend provides a server which offers functionality such as data storage and communication accross apps.
 
 Each of these three parts of the code is described in detail in the following.
 
