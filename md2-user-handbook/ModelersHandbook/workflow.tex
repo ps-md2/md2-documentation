@@ -2,11 +2,11 @@
 % !TeX program = xelatex
 % !TeX root = ../md2-user-handbook.tex
 
-The workflow layer is an additional abstraction on top of the controller layer. It thereby allows to specify the general course of action of one or more apps with few simple and well understandable model language constructs. Furthermore, this abstract workflow representation is intended to serve as a basis for communication with customers, e.g. for requirements engineering and collaborative app development.
+The workflow layer is an additional abstraction on top of the controller layer. It thereby allows to specify the general course of action of one or more apps with few simple and well understandable model language constructs. Furthermore, this abstract workflow representation is intended to serve as a basis for communication with customers, e.g. for requirements engineering and collaborative app development through rapid prototyping.
 
-In the workflow file of an MD2 model a workflow can be specified as a (possibly cyclic) directed graph of workflow elements. Workflow elements represent encapsulated functionality which is specified in detail in the controller layer. The workflow layer references the workflow elements from the controller layer to define their interaction.
+In the workflow file of an \MD model a workflow can be specified as a (possibly cyclic) directed graph of workflow elements. Workflow elements represent encapsulated functionality which is specified in detail in the controller layer. The workflow layer references the workflow elements from the controller layer to define their interaction.
 
-For this purpose, workflow elements are linked via events. For each workflow element one or more events can be specified that can be fired. However, at runtime a workflow element can fire only one of these events, i.e. a parallel processing of the workflow is not intended. Similar to the workflow elements, workflow events in the workflow layer are references to workflow events that are created in the respective controller.
+For this purpose, workflow elements are linked via events. For each workflow element one or more events can be specified that can be fired. However, at runtime a workflow element can fire only one of these events, i.\,e. a parallel processing of the workflow is not intended. Similar to the workflow elements, workflow events in the workflow layer are references to workflow events that are created in the respective controller.
 
 In addition to the events that can be fired, the workflow element also specifies which workflow element is to be started in response to a fired event using the keyword {\lstinline!start!}. Moreover, when an event is fired, not only workflow elements can be started but the workflow can be terminated by using the \lstinline!end workflow! keyword.
 A workflow element in the workflow layer typically looks as shown in Listing \ref{lst:wfe}.
@@ -21,7 +21,7 @@ A workflow element in the workflow layer typically looks as shown in Listing \re
 	}
 \end{lstlisting}
 
-After defining the sequence of workflow elements, the workflow also requires the specification of an app. As shown in Listing \ref{lst:app}, an app consists of its ID, a list of workflow elements that are used in the app and a name that is to be used as app titel. For the scenario where only a single app is modeled, all workflow elements can be listed in the app. However, it is also possible to have unused workflow elements.
+After defining the sequence of workflow elements, the workflow also requires the specification of an app. As shown in Listing \ref{lst:app}, an app consists of its ID, a list of workflow elements that are used in the app and a name that is to be used as the app title. In the scenario where only a single app is modeled, all workflow elements can be listed in the app. However, it is also possible to have unused workflow elements.
 
 \begin{lstlisting}[language=MD2, label=lst:app, caption=App Definition in \MD]
 App <AppID> {
@@ -34,9 +34,9 @@ App <AppID> {
 }
 \end{lstlisting}
 
-A workflow has one or more entry points, i.e. startable workflow elements. These are marked as {\lstinline!startable!} in the app specification. During code generation this will result in a button on the app's start screen that starts the corresponding workflow element. In addition, aa alias needs to be provided which is used as label or description for the button.
+A workflow has one or more entry points, i.\,e. startable workflow elements. These are marked as {\lstinline!startable!} in the app specification. During code generation this will result in a button on the app's start screen that starts the corresponding workflow element. In addition, an alias needs to be provided which is used as label or description for the button.
 
-Finally, the complete workflow specification for one app will be structured as shown in Listing \ref{lst:workflow}. Note that MD2 does not differentiate between different workflows. However, it is possible to implicitly create multiple workflows by using two or more startable workflow elements that start independent, disjunct sequences of workflow elements.
+Finally, the complete workflow specification for one app will be structured as shown in Listing \ref{lst:workflow}. Note that \MD does not differentiate between different workflows. However, it is possible to implicitly create multiple workflows by using two or more startable workflow elements that start independent, disjunct sequences of workflow elements.
 
 \begin{lstlisting}[language=MD2, label=lst:workflow, caption=Workflow Definition in \MD]
 package <ProjectName>.workflows

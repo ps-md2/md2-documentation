@@ -1,14 +1,31 @@
+% !TEX root = ../md2-user-handbook.tex
 % !TeX spellcheck = en_US
 % !TeX program = xelatex
-% !TeX root = ../md2-user-handbook.tex
+
 
 \subsection{Developing a Single App} 
 \label{subsec:SingleAppDev}
-In this section it is described how an application can be developed based on the current (March 2015) state of the MD2 DSL. To this end, this section is structured according to the different layers which constitute a \MD model and are represented in Figure \ref{fig:MD2Arch}. Aside from the conventional MVC layers -- model, view and controller -- this includes an additional layer, which enables and models the generation of workflows within and across apps and was established during the project seminar.
+This section describes how an application can be developed based on the current (March 2015) state of the \MD DSL. To this end, it is structured according to the different layers which constitute a \MD model and are represented in Figure \ref{fig:MD2Arch}. Aside from the conventional MVC layers -- model, view and controller -- the architecture includes an additional layer, which enables and models the generation of workflows within and across apps and was established during the project seminar.
+
+%\begin{figure}[htb!]
+%\centering
+%\includegraphics[width = 0.4\linewidth]{Fig/MD2Arch.png}
+%\caption{Architecture of \MD Models}
+%\label{fig:MD2Arch}
+%\end{figure}
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width = 0.4\linewidth]{Fig/MD2Arch.png}
+\begin{tikzpicture}[redbox/.style = {rectangle, fill=ercisred, text =white, text width=5em, minimum height = 3em, text centered, drop shadow}, >=stealth]
+	\node[redbox] (wf) {Workflow};
+	\node[redbox, below = of wf] (ctrl) {Controller};
+	\node[redbox, below left = of ctrl] (model) {Model};
+	\node[redbox, below right = of ctrl] (view) {View};
+	\draw[->, thick, ercisred] (wf) -- (ctrl);
+	\draw[->, thick, ercisred] (ctrl) -| (model);
+	\draw[->, thick, ercisred] (ctrl) -| (view);
+	\draw[gray!50!ercisred, thick, dashed] ($ (wf.south west) + (-1.5cm,-0.5cm) $) -- ($ (wf.south east) + (1.5, -0.5cm) $);
+\end{tikzpicture}
 \caption{Architecture of \MD Models}
 \label{fig:MD2Arch}
 \end{figure}

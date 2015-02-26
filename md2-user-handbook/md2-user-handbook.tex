@@ -1,5 +1,7 @@
+% !TEX TS-program = XeLaTeX
 % !TeX spellcheck = en_US
 % !TeX program = xelatex
+
 
 \documentclass[a4paper, 12pt, titlepage, headsepline, listof = totoc, bibliography = totoc, numbers = noenddot]{scrbook} %
 \usepackage[left = 2cm, right = 2cm, top = 3cm, bottom = 3cm]{geometry} % spaces on the sides of the paper
@@ -24,6 +26,10 @@
 % Graphics, subfigures, and colours
 \usepackage{graphicx}
 \usepackage[bf,IT]{subfigure}% http://ctan.org/pkg/subfigure
+\usepackage{tikz}
+\usetikzlibrary{calc,positioning,shadows,arrows,shapes}
+%\usetikzlibrary{calc,fit,shapes,shapes.callouts,shapes.symbols,positioning,shadows,arrows,decorations,backgrounds,plotmarks,external}
+%\tikzexternalize[prefix=tikz/]
 
 % Listings
 \usepackage{listings}
@@ -73,11 +79,29 @@
 
 %\usepackage{caption} 
 \renewcommand{\thesubfigure}{\alph{subfigure}}% (a) -> a
-\usepackage[table]{xcolor}
+%\usepackage[table]{xcolor}
 \definecolor{Lightgray}{gray}{0.9}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{RGB}{127,0,85}
+
+% Define ERCIS colors (see official corporate design manual)
+\definecolor{ercisblack}{RGB}{0,0,0}
+\definecolor{ercisgrey}{RGB}{94,94,93}
+\definecolor{ercisred}{RGB}{133,35,57}
+\definecolor{ercislightred}{RGB}{200,156,166}
+\definecolor{ercisblue}{RGB}{135,151,163}
+\definecolor{ercisclaim}{named}{ercislightred}
+
+% Additional ERCIS colors
+\definecolor{ercisdarkblue}{RGB}{67,92,139}
+\definecolor{erciscyan}{RGB}{0,156,179}
+\definecolor{ercisorange}{RGB}{231,124,18}
+\definecolor{ercisgreen}{RGB}{135,191,42}
+
+% Define WWU colors (see official Corporate Design manual, p. 21)
+\definecolor{pantoneblack7}{RGB}{62,62,59}
+
 %maths
 \usepackage{amssymb}
 \usepackage{amsfonts}
