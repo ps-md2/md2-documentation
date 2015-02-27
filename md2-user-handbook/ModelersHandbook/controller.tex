@@ -100,8 +100,10 @@ Actions are bound to events. There are several types of actions and events avail
 \item FireEventAction: \lstinline!FireEvent (<WorkflowEvent>)!
 \subitem fires a workflow event to the backend. In response a new workflow element will be started or the workflow terminated.
 
+\item WebServiceCallAction: \lstinline!WebServiceCall (<WebServiceCall>)!
+\subitem sends a request to call an external web service to the backend (for details cf. section \ref{subsec: CallingWebServices}).
 
-In addition, the LocationAction allows to extract an address from content provider fields and to generate a punctual location (i.e. longitude and latitude) for this address. For this purpose, all input and output fields have to be defined. The calculation result for longitude and latitude will be written in their respective output fields. The LocationAction is structured as follows:
+\item In addition, the LocationAction allows to extract an address from content provider fields and to generate a punctual location (i.e. longitude and latitude) for this address. For this purpose, all input and output fields have to be defined. The calculation result for longitude and latitude will be written in their respective output fields. The LocationAction is structured as follows:
 
 \begin{lstlisting}
 Location (
