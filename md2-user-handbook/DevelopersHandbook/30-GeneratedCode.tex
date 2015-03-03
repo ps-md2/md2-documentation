@@ -8,7 +8,59 @@ The generated code for map.apps can be subdivided into three parts: static map.a
 
 Each of these three parts of the code is described in detail in the following.
 
+% start of section for static map.apps implementation
+
 \subsection{Static map.apps Implementation}
+
+The static map.apps code is located at \texttt{src/main/js/bundles}, which is explained in the following subsections.
+
+\subsubsection{Form controls}
+
+\subsubsection{List of open issues}
+
+\subsubsection{Local store}
+
+\subsubsection{Location service}
+
+\subsubsection{Runtime}
+% actions
+% contentprovider
+% datamapper
+% datatypes
+% entities
+% events
+% handler
+% legacy
+% resources
+% templates
+% util
+% validators
+% view
+% workflow
+
+\textit{MD2MainWidget}
+
+Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own instance of a \MD main widget. This is specified in the respective controller of the workflow element bundle inside the app. That is, the \texttt{manifest.json} of the workflow element bundle references an \texttt{\_md2AppWidget} for its controller. Once the controller is activated (i.e. the \texttt{activate} function is called), the respective \MD main widget instance is built. 
+
+This \MD main widget is implemented in the file \texttt{MD2MainWidget}, which serves as the basic starting point to start a workflow. Thus, it provides methods to start a workflow element, e.g., from the map.apps tool bar.
+
+\begin{figure}[htb!]
+\centering
+\begin{tikzpicture}[redbox/.style = {rectangle, fill=ercisred, text =white, text width=5em, minimum height = 3em, text centered, drop shadow}, >=stealth]
+\node[redbox] (ctrl) {WfE Controller};
+\node[redbox, right = of ctrl] (main) {\MD Main Widget};
+\draw[->, thick, ercisred] (ctrl) -- node[above]{build} (main);
+
+\end{tikzpicture}
+\caption{Initializing of the \MD main widget}
+\label{fig:MD2MainWidget}
+\end{figure}
+
+\subsubsection{Store}
+
+\subsubsection{Workflow store}
+
+% end of section for static map.apps implementation
 
 \subsection{Dynamic map.apps code}
 
