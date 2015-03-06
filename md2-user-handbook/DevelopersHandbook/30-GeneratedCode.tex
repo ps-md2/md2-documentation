@@ -12,11 +12,19 @@ Each of these three parts of the code is described in detail in the following.
 
 \subsection{Static map.apps Implementation}
 
-The static map.apps code is located at \texttt{src/main/js/bundles}, which is explained in the following subsections.
+The static map.apps code is split into several bundles, which are then used by the generated map.apps code. These bundles are located at \texttt{src/main/js/bundles} and are explained in the following subsections.
 
 \subsubsection{Form controls}
 
+The form controls are defined within the bundle md2\_formcontrols. It extends the existing map.apps framework with additional form elements, which can be used in \MD. 
+
+TODO: Description of different form controls.
+
 \subsubsection{List of open issues}
+
+The \texttt{md2\_list\_of\_open\_issues} comprises all code necessary for the displaying the list of open issues within the app. This list shows all workflow instances, whose state is at a workflow element, which belongs to the current app. Currently supported data listed in this widget are the guid of the workflow instance, the workflow element name and the last fired event. 
+The list is included as \texttt{dijit\_Widget} and is listed as a \texttt{Tool} within the app.json under the bundle specifications of \texttt{toolset}. In the \texttt{ListOfOpenIssuesController} a \texttt{DataView} is created, which uses the workflow store as a \texttt{DataViewModel}. The workflow store is described in \cref{workflow_store}.
+In addition to just displaying the workflow instances it is possible to start the workflow element through clicking on the respective entry. Therefore the \texttt{ListOfOpenIssuesController} handles the event \texttt{onClicked} and calls the function \texttt{startWorkflow} of the respective \texttt{MD2MainWidget}.
 
 \subsubsection{Local store}
 
@@ -58,7 +66,7 @@ This \MD main widget is implemented in the file \texttt{MD2MainWidget}, which se
 
 \subsubsection{Store}
 
-\subsubsection{Workflow store}
+\subsubsection{Workflow store} \label{workflow_store}
 
 % end of section for static map.apps implementation
 
