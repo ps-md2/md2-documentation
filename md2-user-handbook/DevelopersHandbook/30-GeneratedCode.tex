@@ -4,27 +4,36 @@
 
 The current implementation of the \MD framework generates web-based apps for a framework called map.apps, which is mainly based on JavaScript. Code generation of Android and iOS apps are also targeted, but not fully implemented yet.
 
-The generated code for map.apps can be subdivided into three parts: static map.apps code, dynamically generated map.apps code and a backend. The static map.apps code contains the part of the code which does not depend on the models created in the \MD DSL. Since it is static, it does not need to be generated, but is required for the overall functionality of the generated apps. The dynamically generated part is completely dependent on the model. The backend is implemented in Java and contains static as well as dynamic code. However, it is completely generated. The backend provides a server which offers functionality such as data storage and communication accross apps.
+The generated code for \mapapps can be subdivided into three parts: static \mapapps code, dynamically generated \mapapps code and a backend. The static \mapapps code contains the part of the code which does not depend on the models created in the \MD DSL. Since it is static, it does not need to be generated, but is required for the overall functionality of the generated apps. The dynamically generated part is completely dependent on the model. The backend is implemented in Java and contains static as well as dynamic code. However, it is completely generated. The backend provides a server which offers functionality such as data storage and communication accross apps.
 
 Each of these three parts of the code is described in detail in the following.
 
 % start of section for static map.apps implementation
 
-\subsection{Static map.apps Implementation}
+\subsection{Static \mapapps Implementation}
 
-The static map.apps code is split into several bundles, which are then used by the generated map.apps code. These bundles are located at \texttt{src/main/js/bundles} and are explained in the following subsections.
+The static \mapapps code is split into several bundles, which are then used by the generated \mapapps code. These bundles are located at \lstinline!src/main/js/bundles!\todo{Keywords nur highlighten wenn freigestellt} and are explained in the following subsections.
 
 \subsubsection{Form controls}
 
-The form controls are defined within the bundle md2\_formcontrols. It extends the existing map.apps framework with additional form elements, which can be used in \MD. 
+The form controls are defined within the bundle \lstinline!md2_formcontrols!. It uses and extends the existing \mapapps bundle \lstinline|dataform| with additional form elements, which can be used in \MD. Each factory defined within the bundle of \MD, specifies how a JavaScript-object can be transformed to a data form widget. To define an own dataform or to understand the concepts of a dataform component the \href{http://developernetwork.conterra.de/documentation/31/developers/dataform}{\mapapps documentation} will be helpful.
 
-TODO: Description of different form controls.
+\begin{description}
+	\item[DateTimeBoxFactory] Defines a form control for the component \lstinline|DateTimeInput|, which is identified by the keyword \lstinline|datetimebox|. The widget shows a view element showing the time and the date of a \lstinline|datetime| value.
+	\item[GridPanelFactory] Defines a form control for the component \lstinline|GridLayoutPane|, which is identified by the keywords \lstinline|md2gridpanel| and \lstinline|gridpanel|. The widget enables to structure multiple view elements in a grid.
+	\item[ImageFactory] Defines a form control for the component \lstinline|Image|, which is identified by the keyword \lstinline|image|. The widget is able to display a static image within your app.
+	\item[SpacerFactory] Defines a form control for the component \lstinline|Spacer|, which is identified by the keyword \lstinline|spacer|. A spacer defines some white space between some components or within the grid of a \lstinline|GridLayoutPane|.
+	\item[StackContainerFactory] Defines a form control for the component \lstinline|AlternativesPane|, which is identified by the keyword \lstinline|stackcontainer|. This widget encapsulates the stackcontainer within \href{http://dojotoolkit.org/reference-guide/1.10/dijit/layout/StackContainer.html}{\lstinline|dijit/layout/StackContainer|}. It provides a view elements which has multiple views, but shows only one, similar to a book or a slide show. The user can navigate between them using specific keys. 
+	\item[TextOutputFactory] Defines a form control for the component \lstinline|Label|, which is identified by the keyword \lstinline|textoutput|. This widget enables to display uneditable text.
+	\item[TooltipFactory] Defines a form control for the component \lstinline|Tooltip|, which is identified by the keyword \lstinline|tooltipicon|. This widget offers a tooltip behind a question mark icon.
+	\item[UploadImageOutputFactory] Defines a form control for the component \lstinline|UploadedImageOutput|, which is identified by the keyword \lstinline|uploadimageoutput|. The widget is able to display an image within your app, which is uploaded/specified by the user.
+\end{description}
 
 \subsubsection{List of open issues}
 
-The \texttt{md2\_list\_of\_open\_issues} comprises all code necessary for the displaying the list of open issues within the app. This list shows all workflow instances, whose state is at a workflow element, which belongs to the current app. Currently supported data listed in this widget are the guid of the workflow instance, the workflow element name and the last fired event. 
-The list is included as \texttt{dijit\_Widget} and is listed as a \texttt{Tool} within the app.json under the bundle specifications of \texttt{toolset}. In the \texttt{ListOfOpenIssuesController} a \texttt{DataView} is created, which uses the workflow store as a \texttt{DataViewModel}. The workflow store is described in \cref{workflow_store}.
-In addition to just displaying the workflow instances it is possible to start the workflow element through clicking on the respective entry. Therefore the \texttt{ListOfOpenIssuesController} handles the event \texttt{onClicked} and calls the function \texttt{startWorkflow} of the respective \texttt{MD2MainWidget}.
+The \lstinline!md2_list_of_open_issues! comprises all code necessary for displaying the list of open issues within the app. This list shows all workflow instances, whose state is at a workflow element, which belongs to the current app. Currently supported data listed in this widget are the guid of the workflow instance, the workflow element name and the last fired event. 
+The list is included as \lstinline!dijit\_Widget! and is listed as a \texttt{Tool} within the app.json under the bundle specifications of \lstinline!toolset!. In the \lstinline!ListOfOpenIssuesController! a \lstinline!DataView! is created, which uses the workflow store as a \lstinline!DataViewModel!. The workflow store is described in \cref{workflow_store}.
+In addition to just displaying the workflow instances it is possible to start the workflow element through clicking on the respective entry. Therefore the \lstinline!ListOfOpenIssuesController! handles the event \lstinline!onClicked! and calls the function \lstinline!startWorkflow! of the respective \lstinline!MD2MainWidget!.
 
 \subsubsection{Local store}
 
