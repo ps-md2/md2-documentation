@@ -40,21 +40,19 @@ In addition to just displaying the workflow instances it is possible to start th
 
 \subsubsection{Location service}
 
-\subsubsection{Runtime}
-% actions
-% contentprovider
-% datamapper
-% datatypes
-% entities
-% events
-% handler
-% legacy
-% resources
-% templates
-% util
-% validators
-% view
-% workflow
+\subsubsection{Runtime}\todo{Add descriptions of folders: 
+contentprovider, 
+datamapper, 
+datatypes, 
+entities, 
+events, 
+handler, 
+legacy, 
+resources, 
+templates, 
+util, 
+validators, 
+view}
 
 \paragraph{MD2MainWidget}
 Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own instance of a \MD main widget. This is specified in the respective controller of the workflow element bundle inside the app. That is, the \texttt{manifest.json} of the workflow element bundle references an \texttt{\_md2AppWidget} for its controller. Once the controller is activated (i.e. the \texttt{activate} function is called), the respective \MD main widget instance is built. This \MD main widget is implemented in the file \texttt{MD2MainWidget}, which serves as the basic starting point to start a workflow. Thus, it provides methods to start a workflow element. There are different ways a workflow can be started. One way is to start it directly from the map.apps tool bar. Another way is to start a workflow from the list of open issues (see section \ref{sec:listOfOpenIssues}). Figure~\ref{fig:InitMD2MainWidget} depicts this initialization process.
@@ -106,6 +104,8 @@ Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own inst
 \paragraph{Workflow}\todo{Erlaeuterung der transactionID im WorkflowStateHandler + Erlaeuterung vom WorkflowStateTransaction.js fehlt noch...}
 For each started workflow instance an unique ID is generated and assigned to that instance. This is done in the method \texttt{startWorfklow} of the \texttt{MD2MainWidget}. A global \texttt{WorkflowStateHandler} provides methods to set and get the currently active workflow instance ID. This information is needed to suspend a workflow and to resume that workflow at a later time.
 
+\paragraph{Actions}
+Each action that is defined in the \MD DSL must also exist in the \MD runtime bundle in map.apps to be used. Individual actions are stored in the subfolder \texttt{simpleactions}. Moreover, an \texttt{ActionFactory} must provide a simple method that returns an instance of the respective action (e.g., \texttt{getLocationAction} for the \texttt{LocationAction}). All actions provide a method \texttt{execute} that implements the action. An individual constructor allows to initialize the action, e.g., setting the city's name for a \texttt{LocationAction}. The \texttt{ActionFactory} is instanced in the method \texttt{build} of the \texttt{MD2MainWidget} (see figure~\ref{fig:InitMD2MainWidget}). Thus, every workflow element can access and use this factory.
 
 \subsubsection{Store}
 
