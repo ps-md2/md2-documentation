@@ -55,11 +55,8 @@ In addition to just displaying the workflow instances it is possible to start th
 % view
 % workflow
 
-\textit{MD2MainWidget}
-
-Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own instance of a \MD main widget. This is specified in the respective controller of the workflow element bundle inside the app. That is, the \texttt{manifest.json} of the workflow element bundle references an \texttt{\_md2AppWidget} for its controller. Once the controller is activated (i.e. the \texttt{activate} function is called), the respective \MD main widget instance is built. 
-
-This \MD main widget is implemented in the file \texttt{MD2MainWidget}, which serves as the basic starting point to start a workflow. Thus, it provides methods to start a workflow element, e.g., from the map.apps tool bar.
+\paragraph{MD2MainWidget}
+Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own instance of a \MD main widget. This is specified in the respective controller of the workflow element bundle inside the app. That is, the \texttt{manifest.json} of the workflow element bundle references an \texttt{\_md2AppWidget} for its controller. Once the controller is activated (i.e. the \texttt{activate} function is called), the respective \MD main widget instance is built. This \MD main widget is implemented in the file \texttt{MD2MainWidget}, which serves as the basic starting point to start a workflow. Thus, it provides methods to start a workflow element, e.g., from the map.apps tool bar. Figure~\ref{fig:InitMD2MainWidget} depicts this initialization process.
 
 \begin{figure}[htb!]
 \centering
@@ -93,13 +90,14 @@ This \MD main widget is implemented in the file \texttt{MD2MainWidget}, which se
 
 \draw [redbox] (5,-2) rectangle (11,-1) node[pos=.5] {WorkflowStateHandler};
 
-
-
-
 \end{tikzpicture}
 \caption{Initializing of the \MD main widget in order to start a workflow}
 \label{fig:InitMD2MainWidget}
 \end{figure}
+
+\paragraph{Workflow}\todo{Erlaeuterung der transactionID im WorkflowStateHandler + Erlaeuterung vom WorkflowStateTransaction.js fehlt noch...}
+For each started workflow instance a unique ID is generated and assigned to that instance. This is done in the method \texttt{startWorfklow} of the \texttt{MD2MainWidget}. A global \texttt{WorkflowStateHandler} provides methods to set and get the currently active workflow instance ID. This information is needed to suspend a workflow and to resume that workflow at a later time.
+
 
 \subsubsection{Store}
 
