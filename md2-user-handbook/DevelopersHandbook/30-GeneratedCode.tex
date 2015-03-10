@@ -69,22 +69,22 @@ Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own inst
 \draw [fill=gray!20!white] (-3.5,-0.9) rectangle (-0.7,-0.5) node[pos=.5] {\small{List of open issues}};
 \draw [redbox] (-3.3,-2) rectangle (1,-1) node[pos=.5] {OpenIssueListController};
 
-\draw [->, thick, ercisred] (1,-1.1) -- (4.2,-1.1) node[above, arrowlbl] {startWorkflow} -- (4.2,0.4) -- (6.5,0.4);
+\draw [->, thick, ercisred] (1,-1.1) -- (4.2,-1.1) node[above, arrowlbl] {\lstinline!startWorkflow!} -- (4.2,0.4) -- (6.5,0.4);
 
-\draw [->, thick, ercisred] (1,-1.9) -- node[above, arrowlbl] {getMD2MainWidget} (6,-1.9);
+\draw [->, thick, ercisred] (1,-1.9) -- node[above, arrowlbl] {\lstinline!getMD2MainWidget!} (6,-1.9);
 
 \node[draw] (tool) at (-1.25, -3) {\small{\textit{map.apps tool}}};
-\draw [->, thick, ercisred] (tool) -- (5.35,-3) node[above, arrowlbl] {startWorkflowFromTool} -- (5.35,0.2) -- (6.5,0.2);
+\draw [->, thick, ercisred] (tool) -- (5.35,-3) node[above, arrowlbl] {\lstinline!startWorkflowFromTool!} -- (5.35,0.2) -- (6.5,0.2);
 
-\draw [->, thick, ercisred] (-2.5,1) -- node[above, arrowlbl] {load} (-1.5,1);
+\draw [->, thick, ercisred] (-2.9,1) -- node[above, arrowlbl] {\lstinline!load!} (-1.9,1);
 
-\node [above] at (-0.7,0.5) {activate};
-\draw [->, thick, ercisred] (-1.4,1) -- (-1.4,0.5) -- (0,0.5);
-\draw [fill=gray!20!white](-1.5,1.1) rectangle (-0.6,1.5) node[pos=.5] {\small{WfE}};
-\draw (-1.5,-0.25) rectangle (2.25,1.5);
+\node [above] at (-0.9,0.5) {\lstinline!activate!};
+\draw [->, thick, ercisred] (-1.8,1) -- (-1.8,0.5) -- (0,0.5);
+\draw [fill=gray!20!white](-1.9,1.1) rectangle (-0.8,1.5) node[pos=.5] {\small{WfE}};
+\draw (-1.9,-0.25) rectangle (2.25,1.5);
 \draw [redbox] (0,0) rectangle (2,1) node[pos=.5] {Controller};
 
-\draw [->, thick, ercisred] (2,0.65) -- node[above, arrowlbl] {build} (6.5,0.65);
+\draw [->, thick, ercisred] (2,0.65) -- node[above, arrowlbl] {\lstinline!build!} (6.5,0.65);
 
 \draw [fill=gray!20!white] (5.5,1.1) rectangle (8,1.5) node[pos=.5] {\small{MD2Runtime}};
 \draw (5.5,-2.25) rectangle (11.25,1.5);
@@ -92,7 +92,7 @@ Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own inst
 %\node [rotate=270] at (10.7,0.35) {\small{startWorkflow}};
 %\draw [->, thick, ercisred] (10,0.8) -- (10.5,0.8) -- (10.5,0.2) -- (10,0.2);
 
-\draw [->, thick, ercisred] (7,0) -- node[right, arrowlbl] {register} (7,-1);
+\draw [->, thick, ercisred] (7,0) -- node[right, arrowlbl] {\lstinline!register!} (7,-1);
 
 \draw [redbox] (6,-2) rectangle (11,-1) node[pos=.5] {WorkflowStateHandler};
 
