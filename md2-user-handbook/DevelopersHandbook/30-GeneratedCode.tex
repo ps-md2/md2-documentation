@@ -64,13 +64,41 @@ This \MD main widget is implemented in the file \texttt{MD2MainWidget}, which se
 \begin{figure}[htb!]
 \centering
 \begin{tikzpicture}[redbox/.style = {rectangle, fill=ercisred, text =white, text width=5em, minimum height = 3em, text centered, drop shadow}, >=stealth]
-\node[redbox] (ctrl) {WfE Controller};
-\node[redbox, right = of ctrl] (main) {\MD Main Widget};
-\draw[->, thick, ercisred] (ctrl) -- node[above]{build} (main);
+
+\draw (-2.5,-2) rectangle (0,-1.5) node[pos=.5] {\small{map.apps tool}};
+\node [above] at (2.1,-1.75) {startWorkflowFromTool};
+\draw [->, thick, ercisred] (0,-1.75) -- (4.25,-1.75) -- (4.25,0.5) -- (5,0.5);
+
+\node [above] at (-2,1) {load};
+\draw [->, thick, ercisred] (-2.5,1) -- (-1.5,1);
+
+\node [above] at (-0.7,0.5) {activate};
+\draw [->, thick, ercisred] (-1.4,1) -- (-1.4,0.5) -- (0,0.5);
+\draw (-1.5,1.25) rectangle (-0.7,1.5) node[pos=.5] {\tiny{WfE}};
+\draw (-1.5,-0.25) rectangle (2.25,1.5);
+\draw [redbox] (0,0) rectangle (2,1) node[pos=.5] {Controller};
+
+\node [above] at (3.5,0.65) {build};
+\draw [->, thick, ercisred] (2,0.65) -- (5,0.65);
+
+\draw (4.5,1.25) rectangle (6,1.5) node[pos=.5] {\tiny{MD2Runtime}};
+\draw (4.5,-2.25) rectangle (11.25,1.5);
+\draw [redbox] (5,0) rectangle (10,1) node[pos=.5] {MD2MainWidget};
+\node [rotate=270] at (10.7,0.35) {\small{startWorkflow}};
+\draw [->, thick, ercisred] (10,0.8) -- (10.5,0.8) -- (10.5,0.2) -- (10,0.2);
+
+
+\node [right] at (7,-0.5) {register};
+\draw [->, thick, ercisred] (7,0) -- (7,-1);
+
+\draw [redbox] (5,-2) rectangle (11,-1) node[pos=.5] {WorkflowStateHandler};
+
+
+
 
 \end{tikzpicture}
-\caption{Initializing of the \MD main widget}
-\label{fig:MD2MainWidget}
+\caption{Initializing of the \MD main widget in order to start a workflow}
+\label{fig:InitMD2MainWidget}
 \end{figure}
 
 \subsubsection{Store}
