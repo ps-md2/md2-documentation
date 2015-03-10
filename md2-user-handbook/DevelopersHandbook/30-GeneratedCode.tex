@@ -1,6 +1,6 @@
+% !TEX root = ../md2-user-handbook.tex
 % !TeX spellcheck = en_GB
 % !TeX program = xelatex
-% !TeX root = ../md2-user-handbook.tex
 
 The current implementation of the \MD framework generates web-based apps for a framework called map.apps, which is mainly based on JavaScript. Code generation of Android and iOS apps are also targeted, but not fully implemented yet.
 
@@ -58,16 +58,18 @@ In addition to just displaying the workflow instances it is possible to start th
 \paragraph{MD2MainWidget}
 Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own instance of a \MD main widget. This is specified in the respective controller of the workflow element bundle inside the app. That is, the \texttt{manifest.json} of the workflow element bundle references an \texttt{\_md2AppWidget} for its controller. Once the controller is activated (i.e. the \texttt{activate} function is called), the respective \MD main widget instance is built. This \MD main widget is implemented in the file \texttt{MD2MainWidget}, which serves as the basic starting point to start a workflow. Thus, it provides methods to start a workflow element, e.g., from the map.apps tool bar. Figure~\ref{fig:InitMD2MainWidget} depicts this initialization process.
 
-\begin{figure}[htb!]
+\begin{figure}
 \centering
-\begin{tikzpicture}[redbox/.style = {rectangle, fill=ercisred, text =white, text width=5em, minimum height = 3em, text centered, drop shadow}, >=stealth]
+\begin{tikzpicture}[
+	redbox/.style = {rectangle, fill=ercisred, text =white, draw=none, text centered, drop shadow},
+	arrowlbl/.style = {pos=.5, black},
+	>=stealth
+]
 
-\draw (-2.5,-2) rectangle (0,-1.5) node[pos=.5] {\small{map.apps tool}};
-\node [above] at (2.1,-1.75) {startWorkflowFromTool};
-\draw [->, thick, ercisred] (0,-1.75) -- (4.25,-1.75) -- (4.25,0.5) -- (5,0.5);
+\node[draw] (tool) at (-1.25, -1.75) {\small{map.apps tool}};
 
-\node [above] at (-2,1) {load};
-\draw [->, thick, ercisred] (-2.5,1) -- (-1.5,1);
+\draw [->, thick, ercisred] (tool) -- (4.25,-1.75) node[above, arrowlbl] {startWorkflowFromTool} -- (4.25,0.5) -- (5,0.5);
+\draw [->, thick, ercisred] (-2.5,1) -- node[above, arrowlbl] {load} (-1.5,1);
 
 \node [above] at (-0.7,0.5) {activate};
 \draw [->, thick, ercisred] (-1.4,1) -- (-1.4,0.5) -- (0,0.5);
@@ -75,8 +77,7 @@ Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own inst
 \draw (-1.5,-0.25) rectangle (2.25,1.5);
 \draw [redbox] (0,0) rectangle (2,1) node[pos=.5] {Controller};
 
-\node [above] at (3.5,0.65) {build};
-\draw [->, thick, ercisred] (2,0.65) -- (5,0.65);
+\draw [->, thick, ercisred] (2,0.65) -- node[above, arrowlbl] {build} (5,0.65);
 
 \draw (4.5,1.25) rectangle (6,1.5) node[pos=.5] {\tiny{MD2Runtime}};
 \draw (4.5,-2.25) rectangle (11.25,1.5);
@@ -84,14 +85,12 @@ Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own inst
 \node [rotate=270] at (10.7,0.35) {\small{startWorkflow}};
 \draw [->, thick, ercisred] (10,0.8) -- (10.5,0.8) -- (10.5,0.2) -- (10,0.2);
 
-
-\node [right] at (7,-0.5) {register};
-\draw [->, thick, ercisred] (7,0) -- (7,-1);
+\draw [->, thick, ercisred] (7,0) -- node[right, arrowlbl] {register} (7,-1);
 
 \draw [redbox] (5,-2) rectangle (11,-1) node[pos=.5] {WorkflowStateHandler};
 
 \end{tikzpicture}
-\caption{Initializing of the \MD main widget in order to start a workflow}
+\caption{Initialization of the \MD main widget in order to start a workflow}
 \label{fig:InitMD2MainWidget}
 \end{figure}
 
