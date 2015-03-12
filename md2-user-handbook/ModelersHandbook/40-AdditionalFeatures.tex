@@ -2,12 +2,61 @@
 % !TeX program = xelatex
 % !TeX root = md2-user-handbook.tex
 
-\subsection{Uploading, Saving and Displaying RESTful Web Services}
+\subsection{Uploading and Displaying Files}
 \label{subsec: UploadSaveDisplayWebServices}
+The current \MD version allows for uploading and displaying files such as images to or in an application. Therefore, in addition to conventional data types (e.g. string) the DSL comprises a data type representing files. In the model file of a \MD model this type can be assigned to an attribute, which can be marked as optional (cf. listing X). Moreover, in the view file the input element for files -- the FileUpload construct -- needs to be used. Using this construct a button having the specified attributes and allowing for uploading a file, is displayed on the respective UI form. In the controller file a remote connection specifying the location to which the file should be uploaded needs to be defined and listed in the main block of the controller. 
+
+Aside from uploading files, they can be displayed in an application which is done by using the UploadedImageOutput construct in the view file.
+
+Moreover, the content view elements should be linked to content provider fields in the init action to establish a connection between the UI elements and the respective data fields, as it is applicable for all other view content elements.
+
+A specification of a sample image upload and its display, including all applicable attributes, is depicted in the following listing.
+
+\begin{lstlisting}
+
+//in model file:
+entity sampleEntity {
+	picture : file (optional)
+}
+
+// in view file:
+// provide upload button
+FileUpload pic {
+	label "piclabel"
+	text "pictext"
+	tooltip "pictooltip"		
+	style picstyle
+	width 42%
+}		
+
+// display image (here: image uploaded before)
+UploadedImageOutput pic1display {
+	imgHeight 2
+	imgWidth 2
+	width 2
+}
+
+// in controller file:
+main {
+	//...
+	fileUploadConnection FileUploadConnection
+}
+
+remoteConnection FileUploadConnection{
+	uri "http://localhost:9090/proxy?sampleUri"
+	storagePath "sampleFileUploadPath"
+}
+
+// moreover: specify respective content provider and mappings in init action
+
+\end{lstlisting}
+
+
+
 
 \subsection{Calling RESTful Web Service from the App}
 \label{subsec: CallingWebServices}
-With the current \MD version it is possible to call REST web services that are provided by external applications. To do so, it is necessary to specify the web service's url and REST method (e.g. GET), as well as the parameters to be transferred to it. The parameters are represented as <key, value> pairs and can be sent as query parameters and/or via the body of the request. Accordingly, depending on the option expected by the service to be called, the DSL allows the modeler to specify queryparams or bodyparams. 
+With the current \MD version it is possible to call RESTful web services that are provided by external applications. To do so, it is necessary to specify the web service's url and REST method (e.g. GET), as well as the parameters to be transferred to it. The parameters are represented as <key, value> pairs and can be sent as query parameters and/or via the body of the request. Accordingly, depending on the option expected by the service to be called, the DSL allows the modeler to specify queryparams or bodyparams. 
 
 Aside from static values to be set at design time, it is possible to set a parameter to the value of a particular ContentProviderPath, i.e. the value of a content provider's field, which is derived at run time. If the value is set statically at design time the data types String, Integer, Float and Boolean are allowed. 
 
@@ -30,7 +79,7 @@ externalWebService sampleWebService {
 
 // Specify action to call the web service
 action CustomAction callWS {
-		call WebServiceCall sampleWebService
+	call WebServiceCall sampleWebService
 }
 	
 \end{lstlisting}
