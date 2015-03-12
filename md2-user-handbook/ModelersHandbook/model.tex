@@ -33,6 +33,7 @@ Supported simple data types are:
 \item{\lstinline!date! -- a date is a string that conforms the following format: \lstinline!YYYY-MM-DD!}
 \item{\lstinline!time! -- a time is a string that conforms the following format: \lstinline!hh:mm:ss[(+|-)hh[:mm]]!}
 \item{\lstinline!datetime! -- a date time is a string that conforms the following format: \lstinline!YYYY-MM-DDThh:mm:ss [(+|-)hh[:mm]]!}
+\item{\lstinline!file! -- a file to be uploaded and stored in an entity field}
 \end{itemize}
 
 Parameters are optional and will be transformed into implicit validators during the generation process. They have to be specified as a comma-separated list. On default each specified attribute is mandatory. To allow null values the parameter optional can be set. Further supported parameters depend on the used data type and are explained as follows:

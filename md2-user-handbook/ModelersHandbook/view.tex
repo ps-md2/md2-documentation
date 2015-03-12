@@ -52,7 +52,7 @@ TabbedPane NAME {
 
 \textit{TextInput} fields can be used for freetext as well as date and time inputs.
 \begin{lstlisting}
-TextInput <name> { 
+TextInput NAME { 
 	label STRING
 	tooltip STRING
 	type <TextInputType>
@@ -64,12 +64,12 @@ TextInput <name> {
 
 \textit{OptionInputs} are used to represent enumeration fields in the model. In addition to the aforementioned attributes, OptionInputs support the optional \lstinline!options! attribute. This can be used to populate the input with the string values of the specified Enum. If options is not given, the displayed options depend on the Enum type of the attribute that has been mapped on the input field (see Section \ref{subsubsec:Controller}).
 \begin{lstlisting}
-OptionInput { 
+OptionInput NAME { 
 	label STRING
 	tooltip STRING
 	type <OptionInputType>
 	disabled <true|false>
-	default STRING)
+	default STRING
 	width <width>
 	options <enum>
 }
@@ -136,6 +136,30 @@ Images support the following attributes:
 \item \lstinline!height! (optional) -- Height of the image in pixels
 \item \lstinline!width! (optional) -- Width of the image in pixels
 \end{itemize}
+
+
+While the \lstinline!Image! construct can only be used to display images that have a fixed URI, the \textit{UploadedImageOutput} can be used to display images that are stored in a field of an entity and were uploaded before. \lstinline!UploadedImageOutput! features the same attributes as \lstinline!Image! and is specified as follows.
+
+\begin{lstlisting}
+UploadedImageOutput NAME {
+	height INT
+	width INT
+}
+\end{lstlisting}
+
+\textit{FileUpload} is an input element for files. Using this construct a button having the specified attributes and allowing for uploading a file, is displayed on the respective UI form. \lstinline!FileUpload! can be specified using the following attributes.
+
+\begin{lstlisting}
+FileUpload NAME {
+	label STRING
+	text STRING
+	tooltip STRING		
+	style <[style] | style>
+	width INT%
+}	
+\end{lstlisting}
+
+To be able to display an uploaded using the \lstinline!UploadedImageOutput! construct it is necessary to map the respective view elements to the corresponding entity fields in the controller as it is applicable for all other view content elements. 
 
 A \textit{Spacer} is used in a \lstinline!GridLayoutPane! to mark an empty cell or in a \lstinline!FlowLayoutPane! to occupy some space. Using an optional additional parameter the actual number of spacers can be specified.
 \begin{lstlisting}
