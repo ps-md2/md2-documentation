@@ -4,7 +4,7 @@
 
 \subsection{Uploading and Displaying Files}
 \label{subsec: UploadSaveDisplayWebServices}
-The current \MD version allows for uploading and displaying files such as images to or in an application. Therefore, in addition to conventional data types (e.g. string) the DSL comprises a data type representing files. In the model file of a \MD model this type can be assigned to an attribute, which can be marked as optional (cf. listing X). Moreover, in the view file the input element for files -- the FileUpload construct -- needs to be used. Using this construct a button having the specified attributes and allowing for uploading a file, is displayed on the respective UI form. In the controller file a remote connection specifying the location to which the file should be uploaded needs to be defined and listed in the main block of the controller. 
+The current \MD version allows for uploading and displaying files such as images to or in an application. Therefore, in addition to conventional data types (e.g. string), the DSL comprises a data type representing files. In the model file of a \MD model this type can be assigned to an attribute, which can be marked as optional (cf. listing X). Moreover, in the view file the input element for files -- the FileUpload construct -- needs to be used. Using this construct a button having the specified attributes and allowing for uploading a file, is displayed on the respective UI form. In the controller file a remote connection specifying the location to which the file should be uploaded needs to be defined and listed in the main block of the controller. 
 
 Aside from uploading files, they can be displayed in an application which is done by using the UploadedImageOutput construct in the view file.
 
@@ -12,7 +12,7 @@ Moreover, the content view elements should be linked to content provider fields 
 
 A specification of a sample image upload and its display, including all applicable attributes, is depicted in the following listing.
 
-\begin{lstlisting}
+\begin{lstlisting}[language=MD2, label=lst:uploadfiles, caption=Upload and Display of Files]
 
 //in model file:
 entity sampleEntity {
@@ -47,7 +47,7 @@ remoteConnection FileUploadConnection{
 	storagePath "sampleFileUploadPath"
 }
 
-// moreover: specify respective content provider and mappings in init action
+// moreover: specify respective content provider and mappings in init action in controller
 
 \end{lstlisting}
 
@@ -62,7 +62,7 @@ Aside from static values to be set at design time, it is possible to set a param
 
 An exemplary web service description based on the DSL as well as the corresponding call of the action is depicted in the following.
 
-\begin{lstlisting}
+\begin{lstlisting}[language=MD2, label=lst:callWSfromWF, caption=Calling a Web Service From Within a Workflow]
 
 // Specification of the web service call
 externalWebService sampleWebService {
