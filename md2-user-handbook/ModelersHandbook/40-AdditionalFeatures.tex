@@ -2,7 +2,7 @@
 % !TeX program = xelatex
 % !TeX root = md2-user-handbook.tex
 
-\subsection{Calling RESTful Web Service from the App}
+\subsection{Calling RESTful Web Services from an App}
 \label{subsec: CallingWebServices}
 With the current \MD version it is possible to call RESTful web services that are provided by external applications. To do so, it is necessary to specify the web service's url and REST method (e.g. GET), as well as the parameters to be transferred to it. The parameters are represented as <key, value> pairs and can be sent as query parameters and/or via the body of the request. Accordingly, depending on the option expected by the service to be called, the DSL allows the modeler to specify queryparams or bodyparams. 
 
@@ -19,11 +19,11 @@ externalWebService <externalWebServiceCallOne> {
 	queryparams(
 		STRING : (INT | STRING | FLOAT | BOOLEAN | <ContentProviderPath>)	
 		STRING : (INT | STRING | FLOAT | BOOLEAN | <ContentProviderPath>)
-		...	
+		<...>	
 	)
 	bodyparams (
 		STRING : (INT | STRING | FLOAT | BOOLEAN | <ContentProviderPath>)
-		...
+		<...>
 	)
 }
 
