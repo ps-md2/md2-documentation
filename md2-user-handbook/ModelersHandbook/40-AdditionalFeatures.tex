@@ -2,35 +2,34 @@
 % !TeX program = xelatex
 % !TeX root = md2-user-handbook.tex
 
-\subsection{Uploading, Saving and Displaying RESTful Web Services}
-\label{subsec: UploadSaveDisplayWebServices}
-
 \subsection{Calling RESTful Web Service from the App}
 \label{subsec: CallingWebServices}
-With the current \MD version it is possible to call REST web services that are provided by external applications. To do so, it is necessary to specify the web service's url and REST method (e.g. GET), as well as the parameters to be transferred to it. The parameters are represented as <key, value> pairs and can be sent as query parameters and/or via the body of the request. Accordingly, depending on the option expected by the service to be called, the DSL allows the modeler to specify queryparams or bodyparams. 
+With the current \MD version it is possible to call RESTful web services that are provided by external applications. To do so, it is necessary to specify the web service's url and REST method (e.g. GET), as well as the parameters to be transferred to it. The parameters are represented as <key, value> pairs and can be sent as query parameters and/or via the body of the request. Accordingly, depending on the option expected by the service to be called, the DSL allows the modeler to specify queryparams or bodyparams. 
 
 Aside from static values to be set at design time, it is possible to set a parameter to the value of a particular ContentProviderPath, i.e. the value of a content provider's field, which is derived at run time. If the value is set statically at design time the data types String, Integer, Float and Boolean are allowed. 
 
 An exemplary web service description based on the DSL as well as the corresponding call of the action is depicted in the following.
 
-\begin{lstlisting}
+\begin{lstlisting}[language=MD2, label=lst:callWSfromWF, caption=Calling a Web Service From Within a Workflow]
 
 // Specification of the web service call
-externalWebService sampleWebService {
-	url "http://sampleURL"
-	method POST
+externalWebService <externalWebServiceCallOne> {
+	url URL
+	method (GET | POST | PUT | DELETE)
 	queryparams(
-		"param1": 42	
+		STRING : (INT | STRING | FLOAT | BOOLEAN | <ContentProviderPath>)	
+		STRING : (INT | STRING | FLOAT | BOOLEAN | <ContentProviderPath>)
+		...	
 	)
 	bodyparams (
-		"param2": "sampleString"
-		"param3": sampleProvider.sampleField
+		STRING : (INT | STRING | FLOAT | BOOLEAN | <ContentProviderPath>)
+		...
 	)
 }
 
 // Specify action to call the web service
-action CustomAction callWS {
-		call WebServiceCall sampleWebService
+action CustomAction <CustomActionOne> {
+	call WebServiceCall <externalWebServiceCallOne>
 }
 	
 \end{lstlisting}
