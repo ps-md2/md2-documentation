@@ -26,14 +26,30 @@ The form controls are defined within the bundle \lstinline!md2_formcontrols!. It
 	\item[StackContainerFactory] Defines a form control for the component \lstinline|AlternativesPane|, which is identified by the keyword \lstinline|stackcontainer|. This widget encapsulates the stackcontainer within \href{http://dojotoolkit.org/reference-guide/1.10/dijit/layout/StackContainer.html}{\lstinline|dijit/layout/StackContainer|}. It provides a view elements which has multiple views, but shows only one, similar to a book or a slide show. The user can navigate between them using specific keys. 
 	\item[TextOutputFactory] Defines a form control for the component \lstinline|Label|, which is identified by the keyword \lstinline|textoutput|. This widget enables to display uneditable text.
 	\item[TooltipFactory] Defines a form control for the component \lstinline|Tooltip|, which is identified by the keyword \lstinline|tooltipicon|. This widget offers a tooltip behind a question mark icon.
-	\item[UploadImageOutputFactory] Defines a form control for the component \lstinline|UploadedImageOutput|, which is identified by the keyword \lstinline|uploadimageoutput|. The widget is able to display an image within your app, which is uploaded/specified by the user.
+	\item[UploadImageOutputFactory] Defines a form control for the component \lstinline|UploadedImageOutput|, which is identified by the keyword \lstinline|uploadimageoutput|. The widget is able to display an image within your app, which is uploaded/specified by the user. 
 \end{description}
+
+Special dataform elements enable the use of uploaded files. The \lstinline|UploadedImageOutput| displays image which have been uploaded by an app's user using a \lstinline|FileUpload| input element. Given that both elements are mapped to an entity's attribute of type \lstinline|file|, these elements retrieve an image from, or store an image on the server, respectively. For this procedure, a specialised \lstinline|remoteConnection| needs to be defined by the modeller, thus defining the remote location of this service and a local path where this service is able to store files (\lstinline|fileUploadConnection|). Consequently, this remote connection can be different from every other remote connection used e.g.\ by content providers.
+
+\begin{figure}[b!]
+\centering % trim=l b r t
+\includegraphics[clip,  trim=0 17.4cm 3.cm 0, scale=0.8]{Fig/upload-sequence.pdf}
+\caption{Procedure of uploading and retrieving user-uploaded images}
+\label{fig:remoteFileUpload}
+\end{figure}
+
+As a further consequence, the uploaded file is not directly stored in the database. Instead, when called by a \lstinline|FileUpload| element, the upload service stores the file on disk at the specified path (\lstinline|storagePath|) and returns an identifier string of this file to the calling client (\Cref{fig:remoteFileUpload}, step 1).
+This identifier is then used throughout the model, particularly as the value of a corresponding attribute of type \lstinline|file|  (\Cref{fig:remoteFileUpload}, step 2).
+
+When such an identifier is encountered as the value of an \lstinline|UploadedImageOutput|, this element calls a servlet at the \lstinline|fileUploadConnection|, passing the identifier as a parameter (\Cref{fig:remoteFileUpload}, step 4). That way, the image is downloaded for the client just as soon as it is needed, instead of loading it at every initialisation of entities by a content provider. Note that currently only JPEG images should be uploaded, since the servlet always tries to output any given file using the content type \lstinline|image/jpeg|.
+
+
 
 \subsubsection{List of open issues}
 \label{sec:listOfOpenIssues}
 
 The \lstinline!md2_list_of_open_issues! comprises all code necessary for displaying the list of open issues within the app. This list shows all workflow instances, whose state is at a workflow element, which belongs to the current app. Currently supported data listed in this widget are the guid of the workflow instance, the workflow element name and the last fired event. 
-The list is included as \lstinline!dijit\_Widget! and is listed as a \texttt{Tool} within the app.json under the bundle specifications of \lstinline!toolset!. In the \lstinline!ListOfOpenIssuesController! a \lstinline!DataView! is created, which uses the workflow store as a \lstinline!DataViewModel!. The workflow store is described in \cref{workflow_store}.
+The list is included as \lstinline!dijit_Widget! and is listed as a \texttt{Tool} within the app.json under the bundle specifications of \lstinline!toolset!. In the \lstinline!ListOfOpenIssuesController! a \lstinline!DataView! is created, which uses the workflow store as a \lstinline!DataViewModel!. The workflow store is described in \cref{workflow_store}.
 In addition to just displaying the workflow instances it is possible to start the workflow element through clicking on the respective entry. Therefore the \lstinline!ListOfOpenIssuesController! handles the event \lstinline!onClicked! and calls the function \lstinline!startWorkflow! of the respective \lstinline!MD2MainWidget!.
 
 \subsubsection{Local store} \label{local_store}
