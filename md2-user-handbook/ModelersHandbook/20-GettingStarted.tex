@@ -1,7 +1,20 @@
 % !TEX root = ../md2-user-handbook.tex
 % !TeX spellcheck = en_US
 % !TeX program = xelatex
+\subsection{Creating a Project}
+\begin{enumerate}
+\item  Initialize a new project by navigating to \lstinline[language=Simple]|File > New > Project...|. There, choose \lstinline[language=Simple]|Other > MD2 Project| and click \lstinline|Next|.
+\item Choose a project name (note that it may not contain whitespace or other non-alphanumerical characters). If necessary, choose a location different from the proposed default.
+\item After clicking on \lstinline|Finish|, a default project structure is generated which you can extend as you need.
+\end{enumerate}
 
+The created project contains the following folders:
+
+\begin{itemize}
+\item \lstinline[language=Simple]|src| contains the \MD models of your application and is initialized with a simple default. model.
+\item \lstinline[language=Simple]|resources| contains resources that the generator will copy into the generated applications.
+\item \lstinline[language=Simple]|src-gen| contains all artifacts that the generator derives from your model. This folder is organized by platform. For example, there is a folder for the backend and for \mapapps.
+\end{itemize}
 
 \subsection{Developing a Single App} 
 \label{subsec:SingleAppDev}
