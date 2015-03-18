@@ -2,6 +2,8 @@
 % !TeX spellcheck = en_GB
 % !TeX program = xelatex
 
+\lstset{language=Simple}
+
 The current implementation of the \MD framework generates web-based apps for a framework called map.apps, which is mainly based on JavaScript. Code generation of Android and iOS apps are also targeted, but not fully implemented yet.
 
 The generated code for \mapapps can be subdivided into three parts: static \mapapps code, dynamically generated \mapapps code and a backend. The static \mapapps code contains the part of the code which does not depend on the models created in the \MD DSL. Since it is static, it does not need to be generated, but is required for the overall functionality of the generated apps. The dynamically generated part is completely dependent on the model. The backend is implemented in Java and contains static as well as dynamic code. However, it is completely generated. The backend provides a server which offers functionality such as data storage and communication accross apps.
@@ -12,7 +14,7 @@ Each of these three parts of the code is described in detail in the following.
 
 \subsection{Static \mapapps Implementation}
 
-The static \mapapps code is split into several bundles, which are then used by the generated \mapapps code. These bundles are located at \lstinline!src/main/js/bundles! \todo{@JULE Keywords nur highlighten wenn freigestellt} and are explained in the following subsections.
+The static \mapapps code is split into several bundles, which are then used by the generated \mapapps code. These bundles are located at \lstinline!src/main/js/bundles! and are explained in the following subsections.
 
 \subsubsection{Form controls}
 
@@ -136,7 +138,17 @@ The \lstinline|md2_store| bundle provides the second of the three stores. It cou
 
 The workflow store within \lstinline|md2_workflow_store| differs from the other stores provided by the static bundles. While the local (\cref{local_store} the remote store (\cref{store}) are used within a content provider the workflow store has its own purposes. This store is used to save and query the status of all workflow instances. On the one side it is injected in the \lstinline|WorkflowStateTransaction| of the \lstinline|md2_runtime| bundle (\todo{insert ref to subbundle}). There it is responsible of informing the backend of an change within the workflow instance. In the model this action can be represented by the \lstinline|FireEventAction|. Beside the information which event has been fired and which was the current workflow element and instance id, the backend get a list of all ids registered in the content providers. This is necessary to be able to restore the state of the content providers in another app.
 
-On the other hand the workflow store is referenced in the list of open issues. The workflow store implements, same as the other, the functions of the \lstinline|dojo/Store|. Through this it is possible to hand the workflow store over to a \lstinline|DataView|, which then displays the information retrieved from the store.
+On the other hand the workflow store is referenced in the list of open issues. The workflow store implements, same as the other, the functions of the \lstinline|dojo/Store|. Through this it is possible to hand the workflow store over to a \lstinline|DataView|, which then displays the information retrieved from the store. While the \lstinline|query| function enables to query the whole list of the list of open issues
+
+For the workflow store to work, the app.json needs to provide appropriate configuration for the REST location and the current app ID, for which the web service should filter. The following snippet (with equivalent values) is automatically generated:
+\begin{lstlisting}[language=Javascript]
+"md2_workflow_store": {
+	"MD2WorkflowStore": {
+		"uri": "http://localhost:8080/ReferenceProject.backend/service/workflowState/",
+		"app": "Citizenapp"
+	}
+}
+\end{lstlisting}
 
 % end of section for static map.apps implementation
 
