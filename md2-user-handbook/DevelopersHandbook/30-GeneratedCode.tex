@@ -12,7 +12,7 @@ Each of these three parts of the code is described in detail in the following.
 
 \subsection{Static \mapapps Implementation}
 
-The static \mapapps code is split into several bundles, which are then used by the generated \mapapps code. These bundles are located at \lstinline!src/main/js/bundles!\todo{Keywords nur highlighten wenn freigestellt} and are explained in the following subsections.
+The static \mapapps code is split into several bundles, which are then used by the generated \mapapps code. These bundles are located at \lstinline!src/main/js/bundles! \todo{Keywords nur highlighten wenn freigestellt} and are explained in the following subsections.
 
 \subsubsection{Form controls}
 
@@ -87,10 +87,10 @@ Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own inst
 ]
 
 \draw (-3.5,-2.25) rectangle (1.2,-0.5);
-\draw [fill=gray!20!white] (-3.5,-0.9) rectangle (-0.7,-0.5) node[pos=.5] {\small{List of open issues}};
+\draw [fill=gray!20!white] (-3.5,-0.95) rectangle (-0.7,-0.5) node[pos=.5] {\small{List of open issues}};
 \draw [redbox] (-3.3,-2) rectangle (1,-1) node[pos=.5] {OpenIssueListController};
 
-\draw [->, thick, ercisred] (1,-1.1) -- (4.2,-1.1) node[above, arrowlbl] {\lstinline!startWorkflow!} -- (4.2,0.4) -- (6.5,0.4);
+\draw [->, thick, ercisred] (1,-1.1) -- (4.6,-1.1) node[above, arrowlbl] {\lstinline!startWorkflow!} -- (4.6,0.4) -- (6.5,0.4);
 
 \draw [->, thick, ercisred] (1,-1.9) -- node[above, arrowlbl] {\lstinline!getMD2MainWidget!} (6,-1.9);
 
@@ -107,8 +107,8 @@ Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own inst
 
 \draw [->, thick, ercisred] (2,0.65) -- node[above, arrowlbl] {\lstinline!build!} (6.5,0.65);
 
-\draw [fill=gray!20!white] (5.5,1.1) rectangle (8,1.5) node[pos=.5] {\small{MD2Runtime}};
-\draw (5.5,-2.25) rectangle (11.25,1.5);
+\draw [fill=gray!20!white] (5.7,1.1) rectangle (8,1.5) node[pos=.5] {\small{MD2Runtime}};
+\draw (5.7,-2.25) rectangle (11.25,1.5);
 \draw [redbox] (6.5,0) rectangle (11,1) node[pos=.5] {MD2MainWidget};
 %\node [rotate=270] at (10.7,0.35) {\small{startWorkflow}};
 %\draw [->, thick, ercisred] (10,0.8) -- (10.5,0.8) -- (10.5,0.2) -- (10,0.2);
@@ -178,7 +178,7 @@ public class InternalIdWrapper {
 \subsection{Entities}
 The entities and enumerations defined in the \MD model are generated into the subpackage \lstinline|entities.models|. Moreover, two static Java classes are generated:  \lstinline|RequestDTO| and \lstinline|WorkflowState|. The former is used as an encapsulation for all client requests, e.g., to create a corresponding REST request. The latter is used as a representation of the state an instance of a workflow has. A workflow can consist of multiple workflow elements, that in turn can fire different events. Thus, every started workflow (i.e. every workflow instance) must keep track of its current workflow element and the last fired event in it.
 
-\subsection{Filedownload}\todo{Please give me a description...}
+\subsection{Filedownload}\todo{Please give me a description... @JAN}
 
 \subsection{Webservices}
 Similar to the generation of the stateless session beans, a webservice is only generated for those entities that are used in at least one remote content provider. Those webservice provide a simple access to the entity data.

@@ -179,7 +179,7 @@ Model-driven Mobile Development\\
 
 \begin{document}
 
-	
+
 
 \thispagestyle{empty}
 \maketitle
@@ -201,14 +201,14 @@ Model-driven Mobile Development\\
 \setcounter{page}{1}
 
 \chapter{Introduction}
+\todo{Searchtags for TODOs: @TOBI, @JAN, @CARO, @MALTE, @JULE, @ANDI; \newline \newline FOR EVERYONE: @ALL}
 \input{Introduction}
-
+\todo{Warum gibt es vor jedem Kapitel eine leere Seite? @JAN}
 
 \chapter{Modeler's Handbook}
 \label{cha:modelersHandbook}
 
-\todo{Maybe add a short introduction to the chapters directly below the main parts of the chapters (unter "2").}
-\todo{Include a short part that the modeller can also use the formatter via STRG+SHIFT+F (intro to the modeling env.)}
+\input{ModelersHandbook/00-Introduction}
 
 \section{Installation}
 \input{ModelersHandbook/10-Installation}
@@ -226,8 +226,7 @@ Model-driven Mobile Development\\
 
 \chapter{Developer's Handbook}
 
-\todo{Short introduction to the dev handbook}
-\todo{incl. "whenever the language is changed, it affects the formatter and... , so the dev workflow should always take that into consideration"}
+\input{DevelopersHandbook/00-Introduction}
 
 \section{Installation}
 \input{DevelopersHandbook/10-Installation}
@@ -250,9 +249,11 @@ Model-driven Mobile Development\\
 %\input{90-Appendix}
 
 \chapter{Sample Workflow}
-\input{99-SampleWorkflow}
+\input{Appendix/A1-SampleWorkflow}
 
 
+\chapter{Known issues and suggestions for future development}
+\input{Appendix/A2-Suggestions}
 
 
 %% Stop section "numbering" after appendix
