@@ -21,7 +21,7 @@ A workflow element in the workflow layer typically looks as shown in Listing \re
 	}
 \end{lstlisting}
 
-After defining the sequence of workflow elements, the workflow also requires the specification of an app. As shown in Listing \ref{lst:app}, an app consists of its ID, a list of workflow elements that are used in the app and a name that is to be used as the app title. In the scenario where only a single app is modeled, all workflow elements can be listed in the app. However, it is also possible to have unused workflow elements.
+After defining the sequence of workflow elements, the workflow also requires the specification of an app that executes the workflow elements. As shown in Listing \ref{lst:app}, an app consists of its ID, a list of workflow elements that are used in the app and a name that is to be used as the app title. In the scenario where only a single app is modeled, all workflow elements can be listed in the app. However, it is also possible to have unused workflow elements.
 
 \begin{lstlisting}[language=MD2, label=lst:app, caption=App Definition in \MD]
 App <AppID> {
