@@ -1,0 +1,32 @@
+% !TeX spellcheck = en_GB
+% !TeX program = xelatex
+% !TeX root = md2-user-handbook.tex
+
+\section{Reference a Generated App in the Development Project}
+\label{subsec:link-apps}
+
+By using a symlink, a running NetBeans instance will automatically notice changes to the generated app. Consequently, if the Jetty server is running, the newly generated app will automatically be published and made available in the browser.
+
+\begin{enumerate}
+\item Open a terminal and navigate to the \mapapps NetBeans project directory (e.g. the extracted \lstinline[language=Simple]|sample ProjRemote| from step \ref{item:extraction} in \Cref{subsec:basic-setup}).
+\item Navigate to the \lstinline[language=Simple]|apps/| directory using \lstinline[language=Simple]|cd src/main/js/apps|.
+\item Create a symbolic link using an appropriate command (where \lstinline[language=Simple]|<PROJECT_NAME>| is the name of your \MD Project in Eclipse, \lstinline[language=Simple]|<ECLIPSE_PROJECT_LOCATION>| is its location, and \lstinline[language=Simple]|<APP_NAME>| is the name of the generated app(s)): \label{item:create-symlink}
+	\begin{enumerate}
+	\item Windows:\\
+	\lstinline|mklink /j <APP_NAME> <ECLIPSE_PROJECT_LOCATION>\<PROJECT_NAME>\src-gen\ <PROJECT_NAME>.mapapps\<APP_NAME>|
+	
+	\item Linux / OS X: \\
+	\lstinline|ln -s <ECLIPSE_PROJECT_LOCATION>/<PROJECT_NAME>/src-gen/<PROJECT_NAME>. mapapps/<APP_NAME> <APP_NAME>|
+	\end{enumerate}
+	
+\item Repeat step \ref{item:create-symlink} for every generated app that you would like to have refreshed automatically.
+\end{enumerate}
+
+
+\section{Jetty: Allow Serving of Symbolically Linked Files}
+\label{subsec:jetty-symbolic-files}
+
+On Linux/OSX, Jetty by default does not serve symbolically linked files due to security concerns.
+To override this setting (which is not recommended in a production environment), put the provided file \lstinline[language=Simple]|jetty-web.xml| into the folder \lstinline[language=Simple]|/src/test/webapp/WEB-INF/| of your map.apps project.
+
+
