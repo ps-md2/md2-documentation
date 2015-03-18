@@ -170,7 +170,7 @@ For each started workflow instance an unique ID is generated and assigned to tha
 To change the current workflow element, the \lstinline|WorkflowStateHandler| provides to methods \lstinline|changeWorkflowElement| and \lstinline|fireEventToBackend|. 
 The first one  just opens another \lstinline|MD2MainWidget|, since the workflow is continued in the same app.
 The later one, on the other hand, will exit the workflow instance for the current app and close all windows, since the workflow is supposed to continue in another app. Additionally the backend is informed about this step by eventually calling the \lstinline|fireEventToBackend| of the \lstinline|WorkflowStore| (\cref{workflow_store}). Since the \lstinline|WorkflowStore| is supposed to send the content provider ids, this leads to a problem. 
-The saving operation of the content providers is usually done shortly before the workflow event is fired. Since the content provider ids are not set until the backend has answered to the webservice calls, they may not be accessible already. For this purpose the \lstinline|WorkflowStateTransaction| is used. 
+The saving operation of the content providers is usually done shortly before the workflow event is fired. Since the content provider ids are not set until the backend has answered to the web service calls, they may not be accessible already. For this purpose the \lstinline|WorkflowStateTransaction| is used. 
 With a new workflow instance id a new transaction is created as well. It keeps a list of all started content provider saving operations and allows only to fire a workflow event, when no operation is in progress. Additionally the transaction is informed via a subscription about each termination of a content provider operation and will then retry to fire a workflow element, if one was queued before.
 
 \subsubsection{Store}\label{store}
@@ -232,16 +232,16 @@ public class InternalIdWrapper {
 \subsection{Entities}
 The entities and enumerations defined in the \MD model are generated into the subpackage \lstinline|entities.models|. Moreover, two static Java classes are generated:  \lstinline|RequestDTO| and \lstinline|WorkflowState|. The former is used as an encapsulation for all client requests, e.g., to create a corresponding REST request. The latter is used as a representation of the state an instance of a workflow has. A workflow can consist of multiple workflow elements, that in turn can fire different events. Thus, every started workflow (i.e. every workflow instance) must keep track of its current workflow element and the last fired event in it.
 
-\subsection{Filedownload}\todo{Please give me a description... @JAN}
+\subsection{File Download Servlet}\todo{Please give me a description... @JAN}
 
-\subsection{Webservices}
-Similar to the generation of the stateless session beans, a webservice is only generated for those entities that are used in at least one remote content provider. Those webservice provide a simple access to the entity data.
+\subsection{Web Services}
+Similar to the generation of the stateless session beans, a web service is only generated for those entities that are used in at least one remote content provider. Those web service provide a simple access to the entity data.
 
-Additionally, some static webservice are generated that are used for specific features. Those webservices are explained in the following.
-\subsubsection{Call external websevice}
-As a simple way to interact with external services, a webservice \lstinline|CallExternalWebServiceWS| in the backend allows to call another webservice, that might be on a different system or server. The webservice in the backend provides a method that takes a JSON-encoded object as an input. This object must contain the URL, the REST method type and the set of parameters of that method. For example, the following listing depicts how such a JSON object is constructed in map.apps.
+Additionally, some static web service are generated that are used for specific features. Those web services are explained in the following.
+\subsubsection{Calls to External Websevices}
+As a simple way to interact with external services, a web service \lstinline|CallExternalWebServiceWS| in the backend allows to call another web service, that might be on a different system or server. The web service in the backend provides a method that takes a JSON-encoded object as an input. This object must contain the URL, the REST method type and the set of parameters of that method. For example, the following listing depicts how such a JSON object is constructed in map.apps.
 
-\begin{lstlisting}[language=Javascript, label=lst:callExtWSJSON, caption=JSON-encoded object containing information to call an external webservice]
+\begin{lstlisting}[language=Javascript, label=lst:callExtWSJSON, caption=JSON-encoded object containing information to call an external web service]
 data: json.stringify({
   "url": this._url,
   "requestMethod": this._method,
@@ -250,9 +250,9 @@ data: json.stringify({
 })
 \end{lstlisting}
 
-\subsubsection{Event handler} 
+\subsubsection{Event Handler} 
 
-For the communication across apps, the backend offers an event handler webservice. This webservice handles all workflow events that are fired in one app and start a workflow element in another app, i.e. it is necessary for all switches between apps. Required parameters for this webservice are
+For the communication across apps, the backend offers an event handler web service. This web service handles all workflow events that are fired in one app and start a workflow element in another app, i.e. it is necessary for all switches between apps. Required parameters for this web service are
 
 \begin{itemize}
 \item the instance ID of the workflow instance,
@@ -261,16 +261,16 @@ For the communication across apps, the backend offers an event handler webservic
 \item and the current workflow element which fired the event.
 \end{itemize}
 
-The event handler webservice uses these parameters to perform adjustments in the workflow state of the current workflow instance. This includes setting the last event fired and the current workflow element. Furthermore, the content provider IDs are stored in the workflow state so that subsequent apps can load data from content providers using these IDs.
+The event handler web service uses these parameters to perform adjustments in the workflow state of the current workflow instance. This includes setting the last event fired and the current workflow element. Furthermore, the content provider IDs are stored in the workflow state so that subsequent apps can load data from content providers using these IDs.
 
-\subsubsection{Workflow state} 
+\subsubsection{Workflow State} 
 
-The workflow state webservice allows to retrieve open workflow instances or add new ones. Whenever the list of open issues is opened in an app, this app sends its name to the workflow state webservice. The webservice then returns all workflow states whose current workflow element is part of the app with the given app name. For this purpose, the belongingness of workflow elements to apps is originally derived from the DSL model and stored in a hashmap in the backend.
+The workflow state web service allows to retrieve open workflow instances or add new ones. Whenever the list of open issues is opened in an app, this app sends its name to the workflow state web service. The web service then returns all workflow states whose current workflow element is part of the app with the given app name. For this purpose, the belongingness of workflow elements to apps is originally derived from the DSL model and stored in a hashmap in the backend.
 
-Furthermore, for every new workflow instance, a new workflow state needs to be created. To do so, the workflow state webservice is called as soon as the app which started the workflow hands the control over to the backend. This app generates a globally unique if as described in \ref{subsec:beans} and provides it in the webservice call.
+Furthermore, for every new workflow instance, a new workflow state needs to be created. To do so, the workflow state web service is called as soon as the app which started the workflow hands the control over to the backend. This app generates a globally unique if as described in \ref{subsec:beans} and provides it in the web service call.
 
-\subsubsection{File upload} \todo{@JAN Please give me a description...}
+\subsubsection{File Upload} \todo{@JAN Please give me a description...}
 
-\subsubsection{Version negotiation} \todo{Please give me a description...}
-
+\subsubsection{Version Negotiation} 
+This web service can be used by generated apps to check whether they were generated from the same model version as the backend. Consequently, this is only useful if the modeller always changes the model version after making changes to the data model.
 
