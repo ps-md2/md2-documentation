@@ -27,7 +27,7 @@ As a prerequisite, ensure that the following software is installed:
 \end{itemize}
 
 \begin{enumerate}
-\item {Basic \mapapps Development Setup} \label{subsec:basic-setup}
+\item {Set up your \mapapps  development environment in NetBeans}
 
 \begin{enumerate}
 \item Extract the \lstinline|sampleProjRemote| project from the \mapapps distribution and load it in NetBeans. \label{item:extraction}
@@ -38,25 +38,27 @@ As a prerequisite, ensure that the following software is installed:
 
 \end{enumerate}
 
-\item {Deploy MD2 Runtime Bundles}
-\begin{enumerate}
-\item Copy the MD2 runtime bundles into the \texttt{bundles/} directory of the project:
+\item Deploy the generic \MD runtime bundles by copying the \MD runtime bundles into the directory \lstinline[language=Simple]|src/main/js/bundles/| in the project:
 	\begin{quotation}
-		 \texttt{md2\_formcontrols}
+		 \lstinline|md2_formcontrols|
 		 
-		 \texttt{md2\_local\_store}
+		 \lstinline|md2_list_of_open_issues|
 		 
-		 \texttt{md2\_location\_service}
+		 \lstinline|md2_local_store|
 		 
-		 \texttt{md2\_runtime}
+		 \lstinline|md2_location_service|
 		 
-		 \texttt{md2\_store}
+		 \lstinline|md2_runtime|
+		 		 
+		 \lstinline|md2_store|
 		 
-		 \texttt{onlinestatus}
+		 \lstinline|md2_workflow_store|
+		 
+		 \lstinline|onlinestatus|
 	\end{quotation}
 
-\item Copy a generated MD2 app into the project or use a symlink to reference apps from another location (see \Cref{subsec:link-apps}).
-\end{enumerate}
+\item As soon as you have a generated map.apps app: Copy it into the \lstinline[language=Simple]|src/main/js/app/| directory of the project or use a 
+		symbolic link to reference apps from another location (see \Cref{subsec:link-apps}).
 
 
 \end{enumerate}
