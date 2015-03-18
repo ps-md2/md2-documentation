@@ -57,7 +57,6 @@ As a prerequisite, ensure that the following software is installed:
 		 \lstinline|onlinestatus|
 	\end{quotation}
 
-\item As soon as you have a generated \mapapps app: Copy it into the \lstinline[language=Simple]|src/main/js/app/| directory of the project or use a symbolic link to reference apps from another location (see \Cref{subsec:link-apps}).
 
 
 \end{enumerate}
@@ -65,9 +64,6 @@ As a prerequisite, ensure that the following software is installed:
 \subsection{Setting up GlassFish to Run Generated Backends}
 To enable deployment of generated backends, follow the subsequent steps:
 
-\begin{enumerate}
-
-\item Configure Eclipse to manage GlassFish
 %Hint for developers of MD2:
 %As you typically work in at least two instances of Eclipse, you are now free to choose which one you want to use for managing the backend.
 %However, we suggest to use the generated instance, since this way all your app-related contents will be within this generated instance.
@@ -85,30 +81,5 @@ To enable deployment of generated backends, follow the subsequent steps:
 	\end{quotation}
 	Otherwise, follow the assistant's hints.
 \item Click \enquote{Finish}.
-
-\end{enumerate}
-
-
-
-\item Start GlassFish and add the Backend
-
-	The following steps will start the server.
-	Therefore, please grant all privileges that your firewall asks for, if any, so that the server can be accessed.
-
-\begin{enumerate}
-\item Within the GlassFish installation directory, navigate to \lstinline[language=Simple]|glassfish/bin/|.
-\item Run the \lstinline[language=Simple]|asadmin| utility (Windows: Double-click on \lstinline[language=Simple]|asadmin.bat|, Linux/OS X: Open a terminal in that directory and run \lstinline[language=Simple]|./asadmin|).
-\item In the GlassFish administration utility, type \lstinline[language=Simple]|start-database| to start the Derby database for the backend.
-\item Start Eclipse and import the generated project \lstinline[language=Simple]|<PROJECT_NAME>.backend| by choosing \enquote{General} $\rightarrow$ \enquote{Existing Projects into Workspace} in the import wizard.
-\item In the Project Explorer tab, right-click the project in Eclipse, choose \enquote{Properties}, and navigate to \enquote{Targeted Runtime}.
-\item Deselect all runtimes and click \enquote{Apply}.
-\item Select the item \enquote{GlassFish 4.0} and click \enquote{Apply}.
-\item Correct JRE-related build path problems, if any, by resorting to the default JRE.
-\item Confirm by clicking \enquote{OK}.
-\item In the Servers tab, right-click the \enquote{GlassFish 4.0} entry, and choose \enquote{Add/Remove}.
-\item Add the backend project to the server.
-\item Start the server.
-\end{enumerate}
-
 
 \end{enumerate}
