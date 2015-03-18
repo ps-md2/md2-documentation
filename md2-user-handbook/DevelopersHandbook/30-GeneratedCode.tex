@@ -77,8 +77,13 @@ util,
 validators, 
 view}
 
-\paragraph{MD2MainWidget}\todo{@TOBI review}
-Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own instance of a \MD main widget. This is specified in the respective controller of the workflow element bundle inside the app. That is, the \lstinline!manifest.json! of the workflow element bundle references an \lstinline!_md2AppWidget! for its controller. Once the controller is activated (i.e. the \lstinline!activate! function is called), the respective \MD main widget instance is built. This \MD main widget is implemented in the file \lstinline!MD2MainWidget!, which serves as the basic starting point to start a workflow. Thus, it provides methods to start a workflow element. There are different ways a workflow can be started. One way is to start it directly from the map.apps tool bar. Another way is to start a workflow from the list of open issues (see section \ref{sec:listOfOpenIssues}). Figure~\ref{fig:InitMD2MainWidget} depicts this initialization process.
+\paragraph{MD2MainWidget}
+Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own instance of a \MD main widget. This is specified in the respective controller of the workflow element bundle inside the app. That is, the \lstinline!manifest.json! of the workflow element bundle references an \lstinline!_md2AppWidget! for its controller. Once the controller is activated (i.e. the \lstinline!activate! function is called), the respective \MD main widget instance is built. This \MD main widget is implemented in the file \lstinline!MD2MainWidget!, which serves as the basic starting point to start a workflow. Thus, it provides methods to start a workflow element. There are different ways a workflow can be started:
+\begin{itemize}
+	\item One way is to start it directly from the map.apps tool bar. Each workflow element marked as \lstinline|startable| in the model for this app, gets its own tool. Through clicking on it the method \lstinline|startWorkflowFromTool| is stared, which first resets all current workflow elements and the workflow handlers and then calls the \lstinline|startworkflow| function.
+	\item Another way is to start a workflow from the list of open issues (see section \ref{sec:listOfOpenIssues}). Therefore the \lstinline|startWorkflow| is directly started from the \lstinline|OpenIssuesListController|.
+\end{itemize}
+Figure~\ref{fig:InitMD2MainWidget} depicts this initialization process.
 
 \begin{figure}
 \centering
