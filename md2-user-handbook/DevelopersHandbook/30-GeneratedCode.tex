@@ -83,6 +83,7 @@ Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own inst
 	\item One way is to start it directly from the map.apps tool bar. Each workflow element marked as \lstinline|startable| in the model for this app, gets its own tool. Through clicking on it the method \lstinline|startWorkflowFromTool| is stared, which first resets all current workflow elements and the workflow handlers and then calls the \lstinline|startworkflow| function.
 	\item Another way is to start a workflow from the list of open issues (see section \ref{sec:listOfOpenIssues}). Therefore the \lstinline|startWorkflow| is directly started from the \lstinline|OpenIssuesListController|.
 \end{itemize}
+Each \lstinline|MD2MainWidget| contains a runtime variable \$, which contains important objects needed within the context of the widget. While many objects are created anew for each widget, some objects as the \lstinline|WorkflowStateHandler| (\cref{par:workflowStateHandler}) are globally used and thus only created once.
 Figure~\ref{fig:InitMD2MainWidget} depicts this initialization process.
 
 \begin{figure}
@@ -129,8 +130,15 @@ Figure~\ref{fig:InitMD2MainWidget} depicts this initialization process.
 \label{fig:InitMD2MainWidget}
 \end{figure}
 
-\paragraph{Workflow}\todo{@TOBI Erlaeuterung der transactionID im WorkflowStateHandler + Erlaeuterung vom WorkflowStateTransaction.js fehlt noch...}
-For each started workflow instance an unique ID is generated and assigned to that instance. This is done in the method \lstinline!startWorfklow! of the \lstinline!MD2MainWidget!. A global \lstinline!WorkflowStateHandler! provides methods to set and get the currently active workflow instance ID. This information is needed to suspend a workflow and to resume that workflow at a later time.
+\paragraph{Workflow}\label{par:workflowStateHandler}\todo{@TOBI Erlaeuterung der transactionID im WorkflowStateHandler + Erlaeuterung vom WorkflowStateTransaction.js fehlt noch...}
+The \lstinline|WorkflowStateHandler| together with the generated \lstinline|WorkflowEventHandler| are responsible for managing the state of the current workflow instance. This includes the transitions between workflow elements within the context of one and as well as firing workflow events to the backend.  
+For each started workflow instance an unique ID is generated and assigned to that instance. This is done in the method \lstinline!startWorfklow! of the \lstinline!MD2MainWidget!. A \lstinline!WorkflowStateHandler! provides methods to set and get the currently active workflow instance ID in a global context. This information is needed to suspend a workflow and to resume that workflow at a later time. 
+
+To change the current workflow element, the \lstinline|WorkflowStateHandler| provides to methods \lstinline|changeWorkflowElement| and \lstinline|fireEventToBackend|. 
+The first one  just opens another \lstinline|MD2MainWidget|, since the workflow is continued in the same app.
+The later one, on the other hand, will exit the workflow instance for the current app and close all windows, since the workflow is supposed to continue in another app. Additionally the backend is informed about this step by eventually calling the \lstinline|fireEventToBackend| of the \lstinline|WorkflowStore| (\cref{workflow_store}). Since the \lstinline|WorkflowStore| is supposed to send the content provider ids, this leads to a problem. 
+The saving operation of the content providers is usually done shortly before the workflow event is fired. Since the content provider ids are not set until the backend has answered to the webservice calls, they may not be accessible already. For this purpose the \lstinline|WorkflowStateTransaction| is used. 
+With a new workflow instance id a new transaction is created as well. It keeps a list of all started content provider saving operations and allows only to fire a workflow event, when no operation is in progress. Additionally the transaction is informed via a subscription about each termination of a content provider operation and will then retry to fire a workflow element, if one was queued before.
 
 \paragraph{Actions}
 Each action that is defined in the \MD DSL must also exist in the \MD runtime bundle in map.apps to be used. Individual actions are stored in the subfolder \lstinline!simpleactions!. Moreover, an \lstinline!ActionFactory! must provide a simple method that returns an instance of the respective action (e.g., \lstinline!getLocationAction! for the \lstinline!LocationAction!). All actions provide a method \lstinline!execute! that implements the action. An individual constructor allows to initialize the action, e.g., setting the city's name for a \lstinline!LocationAction!. The \lstinline!ActionFactory! is instanced in the method \lstinline!build! of the \lstinline!MD2MainWidget! (see figure~\ref{fig:InitMD2MainWidget}). Thus, every workflow element can access and use this factory.
@@ -204,7 +212,7 @@ Additionally, some static webservice are generated that are used for specific fe
 \subsubsection{Call external websevice}
 As a simple way to interact with external services, a webservice \lstinline|CallExternalWebServiceWS| in the backend allows to call another webservice, that might be on a different system or server. The webservice in the backend provides a method that takes a JSON-encoded object as an input. This object must contain the URL, the REST method type and the set of parameters of that method. For example, the following listing depicts how such a JSON object is constructed in map.apps.
 
-\begin{lstlisting}[language=MD2, label=lst:callExtWSJSON, caption=JSON-encoded object containing information to call an external webservice]
+\begin{lstlisting}[language=Javascript, label=lst:callExtWSJSON, caption=JSON-encoded object containing information to call an external webservice]
 data: json.stringify({
   "url": this._url,
   "requestMethod": this._method,
