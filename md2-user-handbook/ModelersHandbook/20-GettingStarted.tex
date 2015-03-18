@@ -75,4 +75,11 @@ The package name has to be a fully qualified name that reflects the actual folde
 
 \subsubsection{map.apps} 
 \label{subsubsec:mapapps}
-\todo{empty @ALL}
+
+You have two alternatives for deploying a \mapapps app into your NetBeans development environment:
+\begin{itemize}
+\item Copy it into the \lstinline[language=Simple]|src/main/js/app/| directory of the project, or
+\item use a symbolic link to reference apps from another location (see \Cref{subsec:link-apps}).
+\end{itemize} 
+
+An additional benefit of the last alternative is that newly generated code, that results from changes to your model, will automatically be pushed to the \mapapps development environment. If the server is running there, the code will also be deployed to the server automatically.
