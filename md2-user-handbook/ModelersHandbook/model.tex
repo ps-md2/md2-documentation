@@ -7,14 +7,14 @@ In the model layer the structure of data objects is being described. As model el
 An entity is indicated by the keyword {\lstinline!entity!} followed by an arbitrary name that identifies it.
 \begin{lstlisting}
 entity NAME {
-<attribute1 ... attribute n>
+	<attribute1 ... attribute n>
 }
 \end{lstlisting}
 Each entity may contain an arbitrary number of attributes of the form
 \begin{lstlisting}
 ATTRIBUTE_NAME: <datatype>[] (<parameters>) {
-name STRING
-description STRING
+	name STRING
+	description STRING
 }
 \end{lstlisting}
 The optional square brackets [] indicate a one-to-many relationship. That means that the corresponding object may hold an arbitrary number of values of the given datatype.
@@ -70,6 +70,6 @@ An enumeration is indicated by the keyword \lstinline!enum! followed by an arbit
 Exemplary enum element to specify weekdays:
 \begin{lstlisting}
 enum Weekday {
-"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
+	"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
 }
 \end{lstlisting}
