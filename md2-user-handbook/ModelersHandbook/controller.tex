@@ -18,10 +18,10 @@ main {
 The attributes are explained as follows:
 \begin{itemize}
 \item \lstinline!appVersion! -- a string representation of the current app version, e.g. \enquote{RC1}
-\item  \lstinline!modelVersion! (optional) -- a string representation of the current model version that has to be in accordance with the model version of the backend
+\item  \lstinline!modelVersion! -- a string representation of the current model version that has to be in accordance with the model version of the backend
 \item  \lstinline!defaultConnection! (optional) -- a default remote connection can be specified here, so that it is not necessary to specify the same connection in each content provider
-\item \lstinline!workflowManager! -- \todo{describe workflowManager}
-\item \lstinline!fileUploadConnection! -- a remote connection to be specified if a file is expected to be uploaded or an uploaded file to be displayed. It is obligatory if at least one \lstinline!UploadedImageOutput! or \lstinline!FileUpload! is specified in the view.
+\item \lstinline!workflowManager! -- the remote connection to the workflow manager has to be specified here \todo{review points for correctness @MALTE}
+\item \lstinline!fileUploadConnection! (optional) -- a remote connection to be specified if a file is expected to be uploaded or an uploaded file to be displayed. It is obligatory if at least one \lstinline!UploadedImageOutput! or \lstinline!FileUpload! is specified in the view.
 \end{itemize}
 
 Furthermore, the controller layer is subdivided into one or more workflow elements. While the workflow describes the interaction of workflow elements, their internal functionality needs to be specified in the controller layer. Each workflow element can be seen as an independent controller which is responsible for the successful execution of its functionality. In general, workflow elements are structured as follows
@@ -268,7 +268,7 @@ Each \textit{content provider} manages one instance of an entity. View fields ar
 
 It allows to \lstinline!CREATE_OR_UPDATE! (save), \lstinline!READ! (load) and \lstinline!DELETE! (remove) the stored instance. Which of those operations is possible is specified in \lstinline!allowedOperations!. By default all operations are allowed. A filter enables to query a subset of all saved instances. The \lstinline!providerType! defines whether the instances shall be stored locally or remotely.
 
-The \textit{remote connection} allows to specify a URI for the backend communication as well as a path to specify the storage location of files to be uploaded. The backend must comply with the MD2 web service interface as specified in the appendix. \todo{Wir haben noch keinen Appendix}
+The \textit{remote connection} allows to specify a URI for the backend communication as well as a path to specify the storage location of files to be uploaded. The backend must comply with the MD2 web service interface as specified in the appendix. \todo{Wir haben noch keinen Appendix @ALL}
 \begin{lstlisting}
 remoteConnection NAME {
 	uri URI
