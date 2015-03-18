@@ -12,7 +12,7 @@ Each of these three parts of the code is described in detail in the following.
 
 \subsection{Static \mapapps Implementation}
 
-The static \mapapps code is split into several bundles, which are then used by the generated \mapapps code. These bundles are located at \lstinline!src/main/js/bundles! \todo{Keywords nur highlighten wenn freigestellt} and are explained in the following subsections.
+The static \mapapps code is split into several bundles, which are then used by the generated \mapapps code. These bundles are located at \lstinline!src/main/js/bundles! \todo{@JULE Keywords nur highlighten wenn freigestellt} and are explained in the following subsections.
 
 \subsubsection{Form controls}
 
@@ -61,7 +61,7 @@ The local store can be used by a content provider (set to local within the contr
 
 \subsubsection{Location service}
 
-\subsubsection{Runtime}\todo{Add descriptions of folders: 
+\subsubsection{Runtime}\todo{@TOBI @JAN @ANDI Add descriptions of folders: 
 contentprovider, 
 datamapper, 
 datatypes, 
@@ -75,7 +75,7 @@ util,
 validators, 
 view}
 
-\paragraph{MD2MainWidget}
+\paragraph{MD2MainWidget}\todo{@TOBI review}
 Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own instance of a \MD main widget. This is specified in the respective controller of the workflow element bundle inside the app. That is, the \lstinline!manifest.json! of the workflow element bundle references an \lstinline!_md2AppWidget! for its controller. Once the controller is activated (i.e. the \lstinline!activate! function is called), the respective \MD main widget instance is built. This \MD main widget is implemented in the file \lstinline!MD2MainWidget!, which serves as the basic starting point to start a workflow. Thus, it provides methods to start a workflow element. There are different ways a workflow can be started. One way is to start it directly from the map.apps tool bar. Another way is to start a workflow from the list of open issues (see section \ref{sec:listOfOpenIssues}). Figure~\ref{fig:InitMD2MainWidget} depicts this initialization process.
 
 \begin{figure}
@@ -122,7 +122,7 @@ Each workflow element (see \ref{sec:developAndDeployMultiApps}) has its own inst
 \label{fig:InitMD2MainWidget}
 \end{figure}
 
-\paragraph{Workflow}\todo{Erlaeuterung der transactionID im WorkflowStateHandler + Erlaeuterung vom WorkflowStateTransaction.js fehlt noch...}
+\paragraph{Workflow}\todo{@TOBI Erlaeuterung der transactionID im WorkflowStateHandler + Erlaeuterung vom WorkflowStateTransaction.js fehlt noch...}
 For each started workflow instance an unique ID is generated and assigned to that instance. This is done in the method \lstinline!startWorfklow! of the \lstinline!MD2MainWidget!. A global \lstinline!WorkflowStateHandler! provides methods to set and get the currently active workflow instance ID. This information is needed to suspend a workflow and to resume that workflow at a later time.
 
 \paragraph{Actions}
@@ -196,10 +196,10 @@ data: json.stringify({
 })
 \end{lstlisting}
 
-\subsubsection{Event handler} \todo{Please give me a description...}
+\subsubsection{Event handler} \todo{@TOBI @JULE @CARO Please give me a description...}
 
-\subsubsection{File upload} \todo{Please give me a description...}
+\subsubsection{File upload} \todo{@JAN Please give me a description...}
 
 \subsubsection{Version negotiation} \todo{Please give me a description...}
 
-\subsubsection{Workflow state} \todo{Please give me a description...}
+\subsubsection{Workflow state} \todo{@TOBI @JULE @CARO Please give me a description...}
