@@ -268,7 +268,7 @@ Each \textit{content provider} manages one instance of an entity. View fields ar
 
 It allows to \lstinline!CREATE_OR_UPDATE! (save), \lstinline!READ! (load) and \lstinline!DELETE! (remove) the stored instance. Which of those operations is possible is specified in \lstinline!allowedOperations!. By default all operations are allowed. A filter enables to query a subset of all saved instances. The \lstinline!providerType! defines whether the instances shall be stored locally or remotely.
 
-The \textit{remote connection} allows to specify a URI for the backend communication as well as a path to specify the storage location of files to be uploaded. The backend must comply with the MD2 web service interface as specified in the appendix. \todo{Wir haben noch keinen Appendix @ALL}
+The \textit{remote connection} allows to specify a URI for the backend communication as well as a path to specify the storage location of files to be uploaded. The backend must comply with the \MD web service interface as specified in \Cref{chp:appendix:backend-ws-spec}.
 \begin{lstlisting}
 remoteConnection NAME {
 	uri URI

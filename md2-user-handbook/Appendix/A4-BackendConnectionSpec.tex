@@ -1,0 +1,147 @@
+% !TeX spellcheck = en_GB
+% !TeX program = xelatex
+% !TeX root = md2-user-handbook.tex
+
+\todo{@ALL review pls}
+\section{Resource paths}
+Format: \\
+VERB - Path - Request body \hfill \lstinline|<Status> - <Response body>|
+
+\subsection*{Entities}
+
+Load\\
+\lstinline|GET - /<entity.name>/?filter=<filter>| \hfill \lstinline|200 OK - List<Entity>| \\
+\lstinline|GET - /<entity.name>/first?filter=<filter>| \hfill \lstinline|200 OK - Entity or 404 NOT FOUND|
+\\
+\\
+Save\\
+\lstinline|PUT - /<entity.name>/ - List<Entity>| \hfill \lstinline|200 OK - List<{ “__internalId”: <id> }>|
+\\
+\\
+Delete\\
+\lstinline|DEL - /<entity.name>/<id>| \hfill \lstinline|200 OK or 404 NOT FOUND|
+
+
+\subsection*{Remote validations}
+\lstinline|GET - /md2_validator/<remoteValidator.name>/ - Entity| 
+
+~ \hfill \lstinline|200 OK - ValidationResult object|
+\\ \\
+\lstinline|GET - /md2_validator/<remoteValidator.name>/?attrName1=content&attrName2=content ... &attrNameN=content| 
+
+~ \hfill \lstinline|200 OK - ValidationResult object|
+\\
+\\
+attrNameX is a fully qualified name, having \\
+\lstinline|contentProviderName.path.to.attribute|
+
+
+\subsection*{Filter parameter}
+\lstinline!not <Attribute> (equals|greater|smaller|<=|>=) (<Int>|<Float>|<String>|<InputField>) !\\
+\lstinline!((and|or)(not)? <Attribute> (equals|greater|smaller|<=|>=) (<Int>|<Float>|<String>|!\\
+\lstinline!<InputField>))*!
+
+\subsection*{Resource for model version checks}
+The model version should be checked by the apps for all remote connections. Requests are only valid if the server accepts the current model version. \\
+\lstinline|GET /md2_model_version/current| \hfill \lstinline|200 OK - <version>| \\
+\\
+\lstinline|GET /md2_model_version/is_valid?version=<version>| 
+
+~ \hfill \lstinline!200 OK - { "isValid": (true|false) }!
+
+
+\section{JSON format conventions}
+List<Entity>:
+\begin{lstlisting}[language=Javascript]
+{
+	"entityName": [
+	{
+		"attribute": <Value type see below>,
+		[...]
+	},
+	{
+		"attribut": <Value type see below>,
+		[...]
+	} [...]
+	]
+}
+\end{lstlisting}
+Having <Entity> = Entity without root node
+\\
+\\
+Entity:
+\begin{lstlisting}[language=Javascript]
+{
+	"entityName": [
+		"attribute": <Value type see below>,
+		[...]
+	}
+}
+\end{lstlisting}
+~
+\\
+Validation Result:
+\begin{lstlisting}[language=Javascript]
+{
+	"ok": (true|false),
+	"error": [
+	{
+		"message": "Allgemeine Fehlermeldung",
+		"attributes": ["attribut1", "attribut2"]
+	},
+	{
+		"message": "can’t be blank",
+		"attributes": ["forename", "surname"]
+	}
+	]
+	[...]
+}
+\end{lstlisting}
+~
+\\ \\
+Mapping for data types (language data type -> JSON type for attribute values) \\
+\lstinline|Enum -> Int (index of the currently selected value)| \\
+\lstinline|Int -> Number|	
+\\ \\
+\lstinline|Float -> Number| \\
+\lstinline|<Everything else> -> String| \\
+\lstinline|Date -> String im Format yyyy-mm-ddThh:mm:ss+hh:mm| \\
+
+
+\section{Examples}
+
+GET \lstinline|/customer/first| returning one customer
+\begin{lstlisting}[language=Javascript]
+{
+	"customer": {
+		"__internalId": "0",
+		"firstName": "Ulrich",
+		"lastName": "M\u00c3\u00bcller",
+		"membership": "1",
+		"professionalCategory": "0"
+	}
+}
+\end{lstlisting}
+~
+\\
+GET \lstinline|/customer| returning multiple customers
+\begin{lstlisting}[language=Javascript]
+{
+	"customer": [
+	{
+		"__internalId": "0",
+		"firstName": "Ulrich",
+		"lastName": "M\u00c3\u00bcller",
+		"membership": "1",
+		"professionalCategory": "0"
+	},
+	{
+		"__internalId": "0",
+		"firstName": "Hans",
+		"lastName": "Dampf",
+		"membership": "1",
+		"professionalCategory": "0"
+	}
+	]
+}
+\end{lstlisting}
