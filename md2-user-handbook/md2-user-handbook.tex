@@ -59,24 +59,55 @@
   morestring=[b]',
   morestring=[b]"""
 }
-\lstset{
-  language=MD2,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\footnotesize\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{mauve},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{blue},
-  breaklines=true,
-  breakatwhitespace=true
-  tabsize=3
+
+
+\lstdefinelanguage{JavaScript}{
+	keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywords={class, export, boolean, throw, implements, import, this},
+	ndkeywordstyle=\color{darkgray}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{brown}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
 }
 
+\definecolor{javastringblue}{rgb}{0.164,0,1} % for strings
+\definecolor{javagreen}{rgb}{0.25,0.5,0.35} % comments
+\definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords
+\definecolor{javadocblue}{rgb}{0.25,0.35,0.75} % javadoc
 
+\lstdefinelanguage{Java}{
+	basicstyle=\ttfamily,
+	keywordstyle=\color{javapurple}\bfseries,
+	stringstyle=\color{javastringblue},
+	commentstyle=\color{javagreen},
+	morecomment=[s][\color{javadocblue}]{/**}{*/},
+}
+\lstdefinelanguage{Simple}{
+}
+
+%Set default language
+\lstset{
+	language=MD2,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\footnotesize\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{mauve},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{blue},
+	breaklines=true,
+	breakatwhitespace=true
+	tabsize=3
+}
 %\usepackage{caption} 
 \renewcommand{\thesubfigure}{\alph{subfigure}}% (a) -> a
 %\usepackage[table]{xcolor}
