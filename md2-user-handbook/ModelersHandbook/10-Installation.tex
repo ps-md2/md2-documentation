@@ -2,27 +2,61 @@
 % !TeX program = xelatex
 % !TeX root = md2-user-handbook.tex
 
+\subsection{Setting up your \MD model development environment}
 
-
-The following software is required prior to the next steps:
+The following software is required to enable modelling of \MD models and deployment of generated backends:
 
 \begin{itemize}
-\item Eclipse IDE for Java and DSL Developers (e.g. Version Luna, which contains Xtend and Xtext 2.7.3), and add the following features:
-\begin{itemize}
-\item GlassFish Tools for Luna
-\item Eclipse Java EE Developer Tools
-\item Eclipse Java Web Developer Tools
-\item Data Tools Platform Extender SDK
-\item JSF Tools
-\end{itemize}
+\item A current Eclipse IDE with support for Java EE development (e.g. Luna)
+\item Using the \href{https://eclipse.org/Xtext/download.html}{Xtext Update Site}, install a current version of the Xtext redistributable
+\item From the archive that you obtained, install the \MD features
 \item GlassFish 4.+
+\end{itemize}
+
+You are ready to go.
+
+
+\subsection{Setting up a \mapapps development environment}
+
+As a prerequisite, ensure that the following software is installed:
+
+\begin{itemize}
 \item map.apps 3.1.0
 \item NetBeans EE (e.g. Version 8.0)
-\item Apache Tomcat 7.0 with running map.apps runtime \todo{reference map.apps installation guide}
+\item Apache Tomcat 7.0 with running \mapapps runtime\footnote{For details on their installation, please refer to the \mapapps documentation.}
 \end{itemize}
 
+\begin{enumerate}
+\item {Basic \mapapps Development Setup} \label{subsec:basic-setup}
+
+\begin{enumerate}
+\item Extract the \lstinline|sampleProjRemote| project from the \mapapps distribution and load it in NetBeans. \label{item:extraction}
+\item In its \lstinline|pom.xml|,
+ set the \lstinline|mapapps.remote.base| directive to the URL where the \mapapps runtime is installed.
+\item Right-click the project, select \enquote{Custom} and select \enquote{Goals...} to create a new Maven goal. \todo{Describe configuration}
+\item Open the \lstinline|nbactions.xml|. \todo{Describe set property for Jetty port 9090}
+
+\end{enumerate}
+
+\item {Deploy MD2 Runtime Bundles}
+\begin{enumerate}
+\item Copy the MD2 runtime bundles into the \texttt{bundles/} directory of the project:
+	\begin{quotation}
+		 \texttt{md2\_formcontrols}
+		 
+		 \texttt{md2\_local\_store}
+		 
+		 \texttt{md2\_location\_service}
+		 
+		 \texttt{md2\_runtime}
+		 
+		 \texttt{md2\_store}
+		 
+		 \texttt{onlinestatus}
+	\end{quotation}
+
+\item Copy a generated MD2 app into the project or use a symlink to reference apps from another location (see \Cref{subsec:link-apps}).
+\end{enumerate}
 
 
-\todo{Den MapApps installation Guide hier einbinden oder im Anhang referenzieren? @ALL}
-
-
+\end{enumerate}

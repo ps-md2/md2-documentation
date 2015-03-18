@@ -2,8 +2,6 @@
 % !TeX program = xelatex
 % !TeX root = md2-user-handbook.tex
 
-\todo{empty @ALL}
-
 Since the generators for iOS and Android were not further development, they need to be adapted in the future in order to be compatible with the new version of the DSL and support all new features. Special attetion should be paid to the former workflows which were renamed as process chains during the course of the project seminar. In the iOS and Android implementations, these naming adjustments also need to be performed.
 
 Furthermore, the division into workflow elements allows for a very modular architecture of the created apps. To exploit this advantage, a renaming of workflow elements should be allowed in the model in a way that different apps can use the same workflow element using different names for them. This way, it would be possible to determine very precisely which workflow element in which app is to be started rather than starting a workflow element which can be processed by any app that has the respective workflow element assigned.
@@ -11,3 +9,22 @@ Furthermore, the division into workflow elements allows for a very modular archi
 Another possible extension is to allow return values when external webservices are called. This would enable programmers to include almost arbitrary functionality in the model without the need to offer it as explicit construct in the DSL. The only requirement is that return values comply with the data types supported by the \MD framework to ensure that they can be used in a purposeful way.
 
 In addition, there are still improvement possibilities in the DSL using validators. One possibility is to check whether the fire event action in a workflow element is the last action and warn if it is not. This can be helpful, for example, when a save action follows a fire event action. In this case, saving data will not be performed, since the fire event action immediately forwards control to the next workflow element. Another possibility is to throw warnings or errors when a controller maps something to view elements which are never used by the controller, e.g. mapping something to a view which only appears in a different app. Finally, in the case that several content providers are used, a validator can check whether all content providers are saved, in order to ensure that a modeller does not forget any save actions.
+
+Other possible features are
+
+\begin{itemize}
+\item call other external applications apart from REST,
+\item extend the location features (rather map.apps specific):
+\subitem display locations on a map,
+\subitem convert a click on a map into location data,
+\subitem convert coordinates into an address,
+\item allow the definition of custom icons for startable elements,
+\item support white spaces in project names,
+\item support temporary offline usage,
+\item generate only relevant content for each app, e.g. only generate entities which are used by the apps,
+\item provide build scripts for \MD,
+\item provide auto formatting in the IDE,
+\item access foreign apps such as the phone, camera and GPS.
+\end{itemize}
+
+
