@@ -130,7 +130,7 @@ Figure~\ref{fig:InitMD2MainWidget} depicts this initialization process.
 \paragraph{Actions}
 Each action that is defined in the \MD DSL must also exist in the \MD runtime bundle in map.apps to be used. Individual actions are stored in the subfolder \lstinline!simpleactions!. Moreover, an \lstinline!ActionFactory! must provide a simple method that returns an instance of the respective action (e.g., \lstinline!getLocationAction! for the \lstinline!LocationAction!). All actions provide a method \lstinline!execute! that implements the action. An individual constructor allows to initialize the action, e.g., setting the city's name for a \lstinline!LocationAction!. The \lstinline!ActionFactory! is instanced in the method \lstinline!build! of the \lstinline!MD2MainWidget! (see figure~\ref{fig:InitMD2MainWidget}). Thus, every workflow element can access and use this factory.
 
-\paragraph{Content Provider}
+\paragraph{Content Provider}\label{par:contentProvider}
 The content providers are responsible for saving and persisting the state of one or many objects. While the generated code just provides factories for the creation of content providers the actual code is positioned within the static bundles. Each content provider is instantiated with an unique name, the app ID it belongs to, a store (either remote or local), the information if it is a provider for a list of objects, a filter restricting the queried items and the information if it is a remote or a local store.
 Besides functions to get or set the content of the provider, functions are offered to access the injected store and persist the data.
 Additionally each content provider can inform other components of the app about changes within attributes. This can be used for example to refresh the values of view elements.
@@ -195,9 +195,17 @@ For the workflow store to work, the app.json needs to provide appropriate config
 
 % end of section for static map.apps implementation
 
-\subsection{Generated map.apps implementation} \todo{Maybe join this with the \enquote{map.apps Generator} section}
+\subsection{Generated map.apps implementation} 
+
+The generated code of \mapapps contains everything, which can not be generalised in the static implementation. This is mainly the defined content providers, entities, and workflow elements, as well as the workflow mechanism described in the workflow model. Additionally some components of the static \mapapps implementation are injected with model specific settings.
+
+It is important to note, that each app definition within the workflow model will result in its own app. Each app gets its own content provider, model, and workflow element implementation. However, only file for those objects are created, which are necessary within the context of the specific app.
 
 \subsubsection{Content Providers}
+The content providers are created as an individual bundle within each app. Each content provider is represented within its own file. However, the file does not corporate the content provider itself, but a content provider factory. It is used to create an instance of the content provider class included in the static \lstinline|md2_runtime| bundle (see \Cref{par:contentProvider}).
+
+Each content provider is created using the name defined in the model, the app ID and an instance of the respective local or remote store. The stores are created using a store factory injected within the mainifest.json.
+Additionally the remote stores are initialised with the url of their corresponding remote connection.
 \subsubsection{Models}
 \subsubsection{Workflow Elements}
 \subsubsection{Workflow}
