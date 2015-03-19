@@ -142,7 +142,7 @@ Whenever a value within a content provider changes it is necessary to inform the
 \paragraph{Data Types}
 In this folder all data types known by the \MD \mapapps framework are listed. Each data type provides additional functions for working with the data objects such as cast or compare operations. The \lstinline|TypeFactory| is used to instantiate an object according to its data type and is injected to the runtime variable \$ within the \lstinline|MD2MainWidget|.
 
-\paragraph{Entities}
+\paragraph{Entities}\label{par:Entities}
 This folder contains all internal entities known to the \MD \mapapps framework. This is the \lstinline|Location| entity and the abstract class \lstinline|_Entity|, which is inherited by all generated entities.
 
 \paragraph{Events}
@@ -206,7 +206,13 @@ The content providers are created as an individual bundle within each app. Each 
 
 Each content provider is created using the name defined in the model, the app ID and an instance of the respective local or remote store. The stores are created using a store factory injected within the mainifest.json.
 Additionally the remote stores are initialised with the url of their corresponding remote connection.
+
+Besides the content providers defined within the model, two local content providers are created (\lstinline|__returnStepStackProvider| and \lstinline|__processChainControllerStateProvider|). They enable for the usage of process chains within a workflow element. Therefore they safe the steps taken and their respective state to be able to return to a previous step, if wanted.
+
 \subsubsection{Models}
+
+The entities are group within the bundle \lstinline|md2_models|. Each defined entity and enum in the model gets its own file. Additionally the two entities \lstinline|__ProcessChainControllerState| and \lstinline|__returnStepStack| are created to map the state of the two content providers listed above. Each entity inherits from the static class \lstinline|_Entity| described in \Cref{par:Entities}. They describe the own data type as well as the types of all their attributes or in case of an enum its possible values. Additionally the entities have a \lstinline|_initialize| function to create empty attribute types for all attributes, except the referenced entities. For those the values have to be set manually using return value of another content provider later in the code.
+
 \subsubsection{Workflow Elements}
 \subsubsection{Workflow}
 \subsubsection{App.json}
