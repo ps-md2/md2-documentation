@@ -164,6 +164,9 @@
 \usepackage{hyperref}
 \usepackage{cleveref}
 
+\crefname{paragraph}{paragraph}{paragraphs}
+\Crefname{paragraph}{Paragraph}{Paragraphs}
+
 
 
 % Table design
@@ -304,7 +307,6 @@ University of Münster\\
 \vfill % Fill the rest of the page with whitespace
 
 \end{titlepage}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% table of contents
 
@@ -326,6 +328,7 @@ University of Münster\\
 	\setcounter{table}{0}
 	\setcounter{figure}{0}
 	\setcounter{section}{0}
+	\renewcommand*{\theHsection}{ch#1.\the\value{section}}
 }
 \renewcommand*\thesection{\arabic{section}}
 \renewcommand*\thetable{\arabic{table}}
