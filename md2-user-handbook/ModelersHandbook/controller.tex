@@ -227,16 +227,16 @@ validator RemoteValidator NAME (message STRING connection <RemoteConnection> att
 
 \paragraph{ProcessChain}
 \label{sec:processChain}
-A ProcessChain is used to define several steps in which the WorkflowElement can currently be. It is possible to define several ProcessChains. ProcessChains can be nested and there is at most one ProcessChain active.
+A ProcessChain is used to define several steps in which the workflow element can currently be. It is possible to define several process chains. Process chains can be nested and there is at most one active process chain.
 \begin{lstlisting}
 ProcessChain NAME {
 	<ProcessChainStep> <...>
 }
 \end{lstlisting}
 
- Each ProcessChainStep defines one view that is related to it and will be displayed if the ProcessChainStep becomes the current ProcessChainStep of the active ProcessChain. Additionally conditions can be defined, that restrict switching to the next or previous ProcessChainStep. Also events can be specified that trigger the change to the next or previous ProcessChainStep.
+Each ProcessChainStep defines one view that is related to it and will be displayed once the process chain step becomes the current process chain step of the active process chain. Additionally conditions can be defined, that restrict switching to the next or previous process chain step. Also events can be specified that trigger the change to the next or previous process chain step.
  
-Instead of the aforementioned settings, a ProcessChain that will become active while this ProcessChainStep is the current one, can be referenced.
+Instead of the aforementioned settings, a process chain that will become active while this process chain step is the current one, can be referenced.
 \begin{lstlisting}
 step NAME:
 	view <[ContainerElement] | [ContentElement]>
@@ -252,7 +252,7 @@ step NAME:
 	message STRING
 \end{lstlisting}
 
-ProcessChains can be refined using SubProcessChains.
+Processchains can be refined using sub process chains.
 \begin{lstlisting}
 step NAME:
 	subProcessChain <ProcessChain>
@@ -267,7 +267,7 @@ The event definition for \lstinline!EventDef! is the same as for event bindings:
 
 Each \textit{content provider} manages one instance of an entity. View fields are not mapped directly to a model element, but only content providers can be mapped to view elements. Data instances of the content providers can be updated or persisted using DataActions.
 
-It allows to \lstinline!CREATE_OR_UPDATE! (save), \lstinline!READ! (load) and \lstinline!DELETE! (remove) the stored instance. Which of those operations is possible is specified in \lstinline!allowedOperations!. By default all operations are allowed. A filter enables to query a subset of all saved instances. The \lstinline!providerType! defines whether the instances shall be stored locally or remotely.
+It allows to create or update (save), read (load) or DELETE (remove) the stored instance. Which of those operations is possible is specified in \lstinline!allowedOperations!. By default all operations are allowed. A filter enables to query a subset of all saved instances. The \lstinline!providerType! defines whether the instances shall be stored locally or remotely.
 
 The \textit{remote connection} allows to specify a URI for the backend communication as well as a path to specify the storage location of files to be uploaded. The backend must comply with the \MD web service interface as specified in \Cref{chp:appendix:backend-ws-spec}.
 \begin{lstlisting}
