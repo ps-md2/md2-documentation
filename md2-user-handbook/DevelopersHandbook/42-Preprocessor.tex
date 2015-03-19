@@ -1,0 +1,177 @@
+%% !TEX root = ../md2-user-handbook.tex
+%% !TeX spellcheck = en_GB
+%% !TeX program = xelatex
+
+For each target platform an own generator class is written that needs to adhere to the interface IPlatformGenerator. Each generator class is registered in MD2RuntimeModule and gets injected into the the framework automatically. During modelling the Xtext Builder participant then starts the building process every time a model file is saved and generates the platform files.
+Prior to generating the source code in an intermediary step the model gets transformed and then passed to the implementing generator classes. Basically this step can be considered an model-to-model transformation with the aim to simplify the generation process.
+\subsection{Autogenerator}
+The Autogenerator is a handy feature to easily create view elements from model definitions. During preprocessing the references to ContentProviders are resolved and ContentElements are created based on the model attribute types that the ContentProvider declare . The schema for generation is as follows:
+
+\begin{itemize}
+\item \lstinline!IntegerType, FloatType, StringType! become TextInput fields
+\item \lstinline!DateType, TimeType, DateTimeType! become TextInput fields with corresponding time type attribution (later depicted as Date/Time pickers)
+\item \lstinline!BooleanType! becomes an CheckBox field
+\item \lstinline!ReferencedType!
+\subitem \lstinline!Enum! becomes an OptionInput field
+\subitem \lstinline!Entites! are processed recursively and all elements are wrapped into a FlowLayoutPane
+\end{itemize}
+
+\subsubsection{Remarks}
+With each ContentElement a new \lstinline!MappingTask! is created accordingly that maps the ContentElement to the attribute provided by the ContentProvider. For this purpose a CustomAction by the name of autoGenerationAction is created that the platform generators need to parse manually. If the view element is unmapped on startup or an user-specified mapping is found, the auto-generated mapping is removed.
+In case the model attribute, from which a ContentElement is created, has the optional parameters \lstinline!name! or \lstinline!description! set, these values are converted to label and tooltip representations for TextInputs, OptionInputs and CheckBoxes. If no name is given by the modeller the ID of the ContentElement will be assigned as a label name with each uppercase letter preceded by a whitespace (eg. objectAddress -> Object Address).
+
+\subsubsection{Cloning and references}
+The \MD language allows to define certain view elements once and then lets the modeller reuse these elements multiple times. Internally these elements are copied and references pointing to them are resolved during preprocessing. The same behavior applies to view elements that are referenced in a view container (eg. FlowLayoutPane), but are defined outside of this container. A small example might illustrate these two use cases:
+
+\begin{lstlisting}[language=MD2]
+TabbedPane mainView {
+customerPane -> customerView(tabTitle "Customer")
+generalPane -> generalView(tabTitle "General")
+}
+FlowLayoutPane customerPane(vertical) {
+headerPane
+TextInput myTextInput
+}
+FlowLayoutPane generalPane(vertical) {
+headerPane
+// Some view elements
+}
+FlowLayoutPane headerPane {
+Image logoImage("./capitol.png")
+}
+\end{lstlisting}
+
+The code excerpt shows a TabbedPane that references two ContainerElements. These containers again reference the same sub container twice. After preprocessing the model appears to the code generators as follows:
+\begin{lstlisting}[language=MD2]
+TabbedPane mainView {
+	FlowLayoutPane customerView(tabTitle "Customer", vertical) {
+	    FlowLayoutPane headerPane {
+	    	Image logoImage("./capitol.png")
+	    }
+		TextInput myTextInput
+}
+	FlowLayoutPane generalPane(tabTitle "General", vertical) {
+		FlowLayoutPane headerPane {
+		Image logoImage("./capitol.png")
+		}
+	}
+}
+\end{lstlisting}
+
+\subsubsection{Resolving references}
+Because view elements can be reused and referenced across the whole model, \MD needed to provide means how to use these virtual elements in behavioral elements like actions. The problem is that Xtext only allows to reference the originating element, but not the reference itself. In the example provided that means, only \lstinline!headerPane! can be referenced, but any \lstinline!headerPane! in a \lstinline!customerPane! or \lstinline!generalPane! not, because simply there is no such element during runtime. To solve this issue \MD introduces the language type \lstinline!AbstractViewGUIElementRef! that deals with these kind of references. This element allows to chain references to any element of the model in an arbitrary order. However, the scope has to be restricted to offer just the possible elements during autocompletion. During preprocessing the pseudo-referenced elements become real elements and any reference to this element will be resolved.
+
+The reference to \lstinline!myTextInput! that resides in \lstinline!customerPane! and is part of the TabbedPane \lstinline!mainView! can be referenced: \lstinline!mainView.customerView->customerPane.myTextInput!. Basically two elements are chained here with -> as a delimiter.
+
+The modeller also might want to reference an auto-generated ContentElement. This is done by referencing the AutoGenerater followed by the model element in square brackets. In the following scenario the TextInput field that is generated for the Customer’s firstname shall be referenced:
+
+\begin{lstlisting}[language=MD2]
+FlowLayoutPane myPane {
+	AutoGenerator customerAutoGenerator {
+		contentProvider customerContentProvider
+		)
+	}
+}
+contentProvider Customer customerContentProvider {
+	providerType default
+}
+
+entity Customer {
+	firstName: string
+}
+\end{lstlisting}
+
+The reference will be: \lstinline!myPane.customerAutoGenerator[Customer.firstName]!
+
+\subsubsection{Remarks}
+When a view element, which is referenced or reused at a different place, will be copied, each event binding, mapping or validator binding pointing to this view element will be copied as well. The copied version of the controller elements will be redirect to the copied version of the view elements. This does not work the other way around; any behavior element pointing to a referencing view element does not apply to the original element.
+
+\subsection{Validators}
+To ensure proper data integrity and to validate user input each ContentElement can be attributed with validators in a ValidatorBindingTask. When a view element is mapped to a model attribute some validators can be inferred automatically based on the attribute type (eg. Integer) and its parameters (eg. optional). In these cases a validator is automatically created and bound to the view element in question. However, the modeler can still overwrite or unbind these validators in any actions that are performed on startup.
+
+\subsubsection{Type specific}
+\begin{itemize}
+\item \lstinline!IntegerType! enforces a StandardIsIntValidator being bound
+\item \lstinline!FloatType! enforces a StandardIsNumberValidator being bound
+\item \lstinline!StringType! enforces a StandardStringRangeValidator being bound
+\end{itemize}
+
+\subsubsection{Type Parameter specific}
+
+\begin{itemize}
+\item Omitting the \lstinline!optional! keyword will result in a StandardNotNullValidator beeing bound
+\item Setting \lstinline!min! or \lstinline!max! values for any kind of attribute will result in an appropriate validator being bound that ensures the range for this data type
+\end{itemize}
+
+\subsection{Replacements}
+\subsubsection{Enums}
+The \MD language allows to declare enums explicitly and implicitly. Internally all enums will be treated as explicitly defined enums and converted accordingly.
+
+Before:
+
+\begin{lstlisting}[language=MD2]
+entity User {
+	gender: {"male", "female"}
+}
+\end{lstlisting}
+
+After:
+
+\begin{lstlisting}[language=MD2]
+entity User {
+	gender: User_Gender
+}
+enum User_Gender {
+	"male", "female"
+}
+\end{lstlisting}[language=MD2]
+
+\subsubsection{Workflows}
+Nested workflows will be flattened.
+
+Before:
+
+\begin{lstlisting}[language=MD2]
+processChain pc1 {
+	step firstStep:
+		view mainView.customerView
+	step nestedStep:
+		subworkflow wf2
+	step thirdStep:
+		view mainView.resultView
+}
+processChainpcf2 {
+	step secondStep:
+		view mainView.InputView
+}
+\end{lstlisting}
+
+After:
+
+\begin{lstlisting}[language=MD2]
+processChain pc1 {
+	step firstStep:
+		view mainView.customerView
+	step secondStep:
+		view mainView.InputView
+	step thirdStep:
+		view mainView.resultView
+}
+
+\end{lstlisting}
+
+\subsubsection{CombinedAction}
+The sole use of CombinedActions is to trigger execution of other actions. This behavior can also be achieved by using CallTasks in CustomActions. Thus all CombinedActions will be converted to CustomActions internally.
+
+\subsubsection{Miscellaneous}
+Some minor adjustments are made to the model:
+
+\begin{itemize}
+\item Check for existence of \lstinline!flowDirection! parameter for all FlowLayoutPanes.
+\item Duplicate spacer according to the specified number of spacers
+\item Replace all named colors by their hex color equivalents
+\item Replace custom validators with standard validator definitions
+\end{itemize}
+
+\subsubsection{TestGenerator}
+Usually model transformations are transparent to the modeller and even for the developer hard to trace. With the TestGenerator, though, there is a way to get a glimpse of the model’s state as XMI definition before it gets passed to the platform generators.
