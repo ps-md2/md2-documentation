@@ -2,22 +2,25 @@
 %% !TeX spellcheck = en_GB
 %% !TeX program = xelatex
 
-For each target platform an own generator class is written that needs to adhere to the interface IPlatformGenerator. Each generator class is registered in MD2RuntimeModule and gets injected into the the framework automatically. During modelling the Xtext Builder participant then starts the building process every time a model file is saved and generates the platform files.
+
+\todo{@ALL review pls}
+For each target platform an own generator class is written that needs to adhere to the interface \\ \lstinline|IPlatformGenerator|. Each generator class is registered in  \lstinline|MD2RuntimeModule| and gets injected into the the framework automatically. During modelling the Xtext Builder participant then starts the building process every time a model file is saved and generates the platform files.
 Prior to generating the source code in an intermediary step the model gets transformed and then passed to the implementing generator classes. Basically this step can be considered an model-to-model transformation with the aim to simplify the generation process.
 \subsection{Autogenerator}
 The Autogenerator is a handy feature to easily create view elements from model definitions. During preprocessing the references to ContentProviders are resolved and ContentElements are created based on the model attribute types that the ContentProvider declare . The schema for generation is as follows:
 
 \begin{itemize}
-\item \lstinline!IntegerType, FloatType, StringType! become TextInput fields
-\item \lstinline!DateType, TimeType, DateTimeType! become TextInput fields with corresponding time type attribution (later depicted as Date/Time pickers)
-\item \lstinline!BooleanType! becomes an CheckBox field
-\item \lstinline!ReferencedType!
-\subitem \lstinline!Enum! becomes an OptionInput field
-\subitem \lstinline!Entites! are processed recursively and all elements are wrapped into a FlowLayoutPane
+	\item \lstinline!IntegerType, FloatType, StringType! become TextInput fields
+	\item \lstinline!DateType, TimeType, DateTimeType! become TextInput fields with corresponding time type attribution (later depicted as Date/Time pickers)
+	\item \lstinline!BooleanType! becomes an CheckBox field
+	\item \lstinline!ReferencedType!
+		\subitem \lstinline!Enum! becomes an OptionInput field
+		\subitem \lstinline!Entites! are processed recursively and all elements are wrapped into a FlowLayoutPane
 \end{itemize}
 
 \subsubsection{Remarks}
 With each ContentElement a new \lstinline!MappingTask! is created accordingly that maps the ContentElement to the attribute provided by the ContentProvider. For this purpose a CustomAction by the name of autoGenerationAction is created that the platform generators need to parse manually. If the view element is unmapped on startup or an user-specified mapping is found, the auto-generated mapping is removed.
+
 In case the model attribute, from which a ContentElement is created, has the optional parameters \lstinline!name! or \lstinline!description! set, these values are converted to label and tooltip representations for TextInputs, OptionInputs and CheckBoxes. If no name is given by the modeller the ID of the ContentElement will be assigned as a label name with each uppercase letter preceded by a whitespace (eg. objectAddress -> Object Address).
 
 \subsubsection{Cloning and references}
@@ -25,34 +28,35 @@ The \MD language allows to define certain view elements once and then lets the m
 
 \begin{lstlisting}[language=MD2]
 TabbedPane mainView {
-customerPane -> customerView(tabTitle "Customer")
-generalPane -> generalView(tabTitle "General")
+	customerPane -> customerView(tabTitle "Customer")
+	generalPane -> generalView(tabTitle "General")
 }
 FlowLayoutPane customerPane(vertical) {
-headerPane
-TextInput myTextInput
+	headerPane
+	TextInput myTextInput
 }
 FlowLayoutPane generalPane(vertical) {
-headerPane
-// Some view elements
+	headerPane
+	// Some view elements
 }
 FlowLayoutPane headerPane {
-Image logoImage("./capitol.png")
+	Image logoImage("./capitol.png")
 }
 \end{lstlisting}
-
-The code excerpt shows a TabbedPane that references two ContainerElements. These containers again reference the same sub container twice. After preprocessing the model appears to the code generators as follows:
+~
+\\
+The code excerpt shows a TabbedPane that references two ContainerElements. These containers again reference the same sub container twice. After preprocessing the model appears to the code generators as follows: 
 \begin{lstlisting}[language=MD2]
 TabbedPane mainView {
 	FlowLayoutPane customerView(tabTitle "Customer", vertical) {
-	    FlowLayoutPane headerPane {
-	    	Image logoImage("./capitol.png")
+		FlowLayoutPane headerPane {
+			Image logoImage("./capitol.png")
 	    }
 		TextInput myTextInput
-}
+	}
 	FlowLayoutPane generalPane(tabTitle "General", vertical) {
 		FlowLayoutPane headerPane {
-		Image logoImage("./capitol.png")
+			Image logoImage("./capitol.png")
 		}
 	}
 }
@@ -65,10 +69,12 @@ The reference to \lstinline!myTextInput! that resides in \lstinline!customerPane
 
 The modeller also might want to reference an auto-generated ContentElement. This is done by referencing the AutoGenerater followed by the model element in square brackets. In the following scenario the TextInput field that is generated for the Customer’s firstname shall be referenced:
 
+\todo{check for bracket @ALL}
 \begin{lstlisting}[language=MD2]
 FlowLayoutPane myPane {
 	AutoGenerator customerAutoGenerator {
 		contentProvider customerContentProvider
+		
 		)
 	}
 }
@@ -80,7 +86,8 @@ entity Customer {
 	firstName: string
 }
 \end{lstlisting}
-
+~
+\\
 The reference will be: \lstinline!myPane.customerAutoGenerator[Customer.firstName]!
 
 \subsubsection{Remarks}
@@ -105,18 +112,16 @@ To ensure proper data integrity and to validate user input each ContentElement c
 
 \subsection{Replacements}
 \subsubsection{Enums}
-The \MD language allows to declare enums explicitly and implicitly. Internally all enums will be treated as explicitly defined enums and converted accordingly.
-
+The \MD language allows to declare enums explicitly and implicitly. Internally all enums will be treated as explicitly defined enums and converted accordingly. \\ \\
 Before:
-
 \begin{lstlisting}[language=MD2]
 entity User {
 	gender: {"male", "female"}
 }
 \end{lstlisting}
-
+~
+\\
 After:
-
 \begin{lstlisting}[language=MD2]
 entity User {
 	gender: User_Gender
@@ -126,28 +131,27 @@ enum User_Gender {
 }
 \end{lstlisting}
 
-\subsubsection{Workflows}
-Nested workflows will be flattened.
 
+\subsubsection{Process Chains}
+Nested process chains will be flattened. \\ \\
 Before:
-
 \begin{lstlisting}[language=MD2]
 processChain pc1 {
 	step firstStep:
 		view mainView.customerView
 	step nestedStep:
-		subworkflow wf2
+		subProcessChain pc2
 	step thirdStep:
 		view mainView.resultView
 }
-processChainpcf2 {
+processChain pc2 {
 	step secondStep:
 		view mainView.InputView
 }
 \end{lstlisting}
-
+~
+\\
 After:
-
 \begin{lstlisting}[language=MD2]
 processChain pc1 {
 	step firstStep:
@@ -167,7 +171,7 @@ The sole use of CombinedActions is to trigger execution of other actions. This b
 Some minor adjustments are made to the model:
 
 \begin{itemize}
-\item Check for existence of \lstinline!flowDirection! parameter for all FlowLayoutPanes.
+\item Check for existence of \lstinline!flowDirection! parameter for all FlowLayoutPanes
 \item Duplicate spacer according to the specified number of spacers
 \item Replace all named colors by their hex color equivalents
 \item Replace custom validators with standard validator definitions
