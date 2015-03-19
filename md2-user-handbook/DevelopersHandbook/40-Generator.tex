@@ -30,3 +30,9 @@ Local and remote content providers are created by this class and put into the co
 This class generates the logic of the workflow event handler, which decides whether a combination of event and sending workflow element should cause another, local workflow element to be started. If that is not the case, the workflow will be terminated locally and all relevant data is transmitted to the backend, thus creating an entry in the list of open issues of another app.
 
 \subsection{Expressions.xtend, CustomActionClass.xtend, and CustomActionInterfaceClass.xtend}
+
+The last three classes are responsible together for creating logic code for the workflow elements. This includes the generation of JavaScript code for actions that are run during initialisation of an app or when mapped actions are clicked. 
+
+Note that process chains are not considered here, since the preprocessor has turned them into actions, which are handled by the \lstinline|CustomActionClass| accordingly.
+
+The \lstinline|Expressions| class is used to store intermediate values used inside the actions, such as entity attribute values or comparisons of values. It is also used for storing literal values, which were hard-coded into the model, in a variable for use in later comparisons.
