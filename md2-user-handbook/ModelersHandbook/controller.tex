@@ -54,7 +54,7 @@ CustomAction <Action> {
 }
 \end{lstlisting}
 
-For each type of task there exist a specific CustomCodeFragment that is distinguished by the keyword that introduces it.
+For each type of task there exists a specific CustomCodeFragment that is distinguished by the keyword that introduces it.
 
 \begin{itemize}
 \item \lstinline!bind <Action1> ... <ActionN> on <Event1> ... <EventN>!
@@ -75,7 +75,7 @@ The main tasks are binding actions to events, binding validators to view element
 
 Actions are bound to events. There are several types of actions and events available. CustomActions and CombinedActions are referenced externally whereas SimpleActions are declared directly. For events, there are local event types that listen to the state of a certain view element as well as global event types. The most powerful event type is the OnConditionEvent.
 
-\textit{SimpleActions} provide a quick way to change the state of the project:
+\textit{SimpleActions} provide a quick way to perform functionality:
 \begin{itemize}
 \item ProcessChainProceedAction: \lstinline!ProcessChainProceed!
 \subitem proceed to the next ProcessChain step
@@ -117,7 +117,8 @@ Location (
 		countryInput <ContentProviderPath> )
 	outputs (
 		latitudeOutput <ContentProviderPath>
-		longitudeOutput <ContentProviderPath>).
+		longitudeOutput <ContentProviderPath>)
+).
 \end{lstlisting}
 
  
@@ -131,7 +132,7 @@ There are different event types available:
 \end{itemize}
 
 
-The \textit{OnConditionEvent} provides the user the possibility to define own events via Conditions. The event is fired when the conditional expression evaluates to true.
+The \textit{OnConditionEvent} provides the user the possibility to define own events via conditions. The event is fired when the conditional expression evaluates to true.
 \begin{lstlisting}
 event NAME {
 	<Condition>
@@ -140,7 +141,7 @@ event NAME {
 
 A \textit{condition} allows to combine conditional expressions using the operators \lstinline!and!, \lstinline!or!, and \lstinline!not!. Conditional expressions evaluate to true or false. They can be BooleanExpressions, EqualsExpressions or GUIElementStateExpressions that check the state of a ViewGUIElement. In addition, \MD supports mathematical expressions such as \lstinline!equals!, \lstinline!>!, \lstinline!<!, \lstinline!>=!, and \lstinline!<=!.
 
-\textit{Validators are bound} to view elements. The validator can be a referenced element or a shorthand definition can be used in place.
+\textit{Validators} are bound to view elements. The validator can be a referenced element or a shorthand definition can be used in place.
 \begin{lstlisting}
 bind|unbind validator
 	<[Validator]> <...>
@@ -151,14 +152,14 @@ bind|unbind validator
 The shorthand definition has the same options but does not allow reuse.
 \begin{lstlisting}
 bind|unbind validator
-	<IsIntValidator | NotNullValidator | IsNumberValidator | IsDateValidator | RegExValidator |NumberRangeValidator | StringRangeValidator (<params>)
+	<IsIntValidator | NotNullValidator | IsNumberValidator | IsDateValidator | RegExValidator |NumberRangeValidator | StringRangeValidator (<parameters>)
 	on|from
 	<[ContainerElement] | [ContentElement]> <...>
 \end{lstlisting}
 
-A detailed description for validator type can be found in the validator description in the following. The available parameters at params are identical to those of the validator element.
+A detailed description for validator types can be found in the validator description in the following. The available parameters are identical to those of the validator element.
 
-View elements are \textit{mapped} to model elements that are in turn accessed through a ContentProvider.
+View elements are \textit{mapped} to model elements that are in turn accessed through a content provider.
 \begin{lstlisting}
 map|unmap
 	<[ContainerElement] | [ContentElement]>
@@ -167,13 +168,13 @@ map|unmap
 
 \end{lstlisting}
 
-\textit{CallTasks} call a different Action.
+\textit{CallTasks} call a different action.
 \begin{lstlisting}
 call
 	<[CustomAction] | [CombinedAction] | [SimpleAction]>
 \end{lstlisting}
 
-\textit{CombinedActions} allow the composition of Actions.
+\textit{CombinedActions} allow the composition of actions.
 \begin{lstlisting}
 CombinedAction NAME {
 	actions <Action> <...>
@@ -207,7 +208,7 @@ The NumberRangeValidator allows the definition of a numeric range that shall con
 validator NumberRangeValidator NAME (message STRING min FLOAT max FLOAT )
 \end{lstlisting}
 
-The StringRange allows the definition of a string length range. The length of the \lstinline!STRING! input by the user will be checked against this range.
+The StringRangeValidator allows the definition of a string length range. The length of the \lstinline!STRING! input by the user will be checked against this range.
 \begin{lstlisting}
 validator StringRangeValidator NAME (message STRING minLength INT maxLength INT)
 \end{lstlisting}
@@ -226,16 +227,16 @@ validator RemoteValidator NAME (message STRING connection <RemoteConnection> att
 
 \paragraph{ProcessChain}
 \label{sec:processChain}
-A ProcessChain is used to define several steps in which the WorkflowElement can currently be. It is possible to define several ProcessChains. ProcessChains can be nested and there is at most one ProcessChain active.
+A ProcessChain is used to define several steps in which the workflow element can currently be. It is possible to define several process chains. Process chains can be nested and there is at most one active process chain.
 \begin{lstlisting}
 ProcessChain NAME {
 	<ProcessChainStep> <...>
 }
 \end{lstlisting}
 
- Each ProcessChainStep defines one view that is related to it and will be displayed if the ProcessChainStep becomes the current ProcessChainStep of the active ProcessChain. Additionally conditions can be defined, that restrict switching to the next or previous ProcessChainStep. Also events can be specified that trigger the change to the next or previous ProcessChainStep.
+Each ProcessChainStep defines one view that is related to it and will be displayed once the process chain step becomes the current process chain step of the active process chain. Additionally conditions can be defined, that restrict switching to the next or previous process chain step. Also events can be specified that trigger the change to the next or previous process chain step.
  
-Instead of the aforementioned settings, a ProcessChain that will become active while this ProcessChainStep is the current one, can be referenced.
+Instead of the aforementioned settings, a process chain that will become active while this process chain step is the current one, can be referenced.
 \begin{lstlisting}
 step NAME:
 	view <[ContainerElement] | [ContentElement]>
@@ -251,7 +252,7 @@ step NAME:
 	message STRING
 \end{lstlisting}
 
-ProcessChains can be refined using SubProcessChains.
+Processchains can be refined using sub process chains.
 \begin{lstlisting}
 step NAME:
 	subProcessChain <ProcessChain>
@@ -266,7 +267,7 @@ The event definition for \lstinline!EventDef! is the same as for event bindings:
 
 Each \textit{content provider} manages one instance of an entity. View fields are not mapped directly to a model element, but only content providers can be mapped to view elements. Data instances of the content providers can be updated or persisted using DataActions.
 
-It allows to \lstinline!CREATE_OR_UPDATE! (save), \lstinline!READ! (load) and \lstinline!DELETE! (remove) the stored instance. Which of those operations is possible is specified in \lstinline!allowedOperations!. By default all operations are allowed. A filter enables to query a subset of all saved instances. The \lstinline!providerType! defines whether the instances shall be stored locally or remotely.
+It allows to create or update (save), read (load) or DELETE (remove) the stored instance. Which of those operations is possible is specified in \lstinline!allowedOperations!. By default all operations are allowed. A filter enables to query a subset of all saved instances. The \lstinline!providerType! defines whether the instances shall be stored locally or remotely.
 
 The \textit{remote connection} allows to specify a URI for the backend communication as well as a path to specify the storage location of files to be uploaded. The backend must comply with the \MD web service interface as specified in \Cref{chp:appendix:backend-ws-spec}.
 \begin{lstlisting}

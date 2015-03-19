@@ -35,7 +35,13 @@ public class InternalIdWrapper {
 \subsection{Entities}
 The entities and enumerations defined in the \MD model are generated into the subpackage \lstinline|entities.models|. Moreover, two static Java classes are generated:  \lstinline|RequestDTO| and \lstinline|WorkflowState|. The former is used as an encapsulation for all client requests, e.g., to create a corresponding REST request. The latter is used as a representation of the state an instance of a workflow has. A workflow can consist of multiple workflow elements, that in turn can fire different events. Thus, every started workflow (i.e. every workflow instance) must keep track of its current workflow element and the last fired event in it.
 
-\subsection{File Download Servlet}\todo{Please give me a description... @JAN}
+\subsection{File Download Servlet}
+This servlet is only used to deliver uploaded files to a requesting client. It is accessible at the path \lstinline|/DownloadFile| below the web root of your deployed project. 
+
+In a \lstinline[language=Simple]|GET| request to this servlet you need to set the parameter \lstinline|file| to the identifier of an uploaded file, which was returned by the file upload web service before (cf. \Cref{fig:remoteFileUpload}). 
+All files are stored in the file system. Therefore, the download servlet needs to look for files using the identifier in a central directory, which is also referenced by the upload web service. This location  is defined in the generated \lstinline[language=Java]|Config.UPLOAD_FILE_STORAGE_PATH|, which is derived from the \lstinline|storagePath| element in the file upload remote connection in your model.
+
+Note that currently only images can be delivered, since the download servlet assumes a content type of \lstinline|image/jpeg|. This could be changed in the future by storing the correct content type during upload and retrieving it in this servlet.
 
 \subsection{Web Services}
 Similar to the generation of the stateless session beans, a web service is only generated for those entities that are used in at least one remote content provider. Those web service provide a simple access to the entity data.
