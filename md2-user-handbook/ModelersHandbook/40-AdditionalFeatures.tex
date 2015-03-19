@@ -10,7 +10,7 @@ Aside from static values to be set at design time, it is possible to set a param
 
 An exemplary web service description based on the DSL as well as the corresponding call of the action is depicted in the following.
 
-\begin{lstlisting}[language=MD2, label=lst:callWSfromWF, caption=Calling a Web Service From Within a Workflow]
+\begin{lstlisting}[language=MD2, label=lst:callWSfromWF, caption=Calling a web service from within a workflow]
 
 // Specification of the web service call
 externalWebService <externalWebServiceCallOne> {
@@ -43,7 +43,7 @@ action CustomAction <CustomActionOne> {
 The \MD language offers a possibility to define a RESTful web service according to \cref{lst:offerWStoSWF}, which will start a certain workflow element. For this purpose for each workflow element marked as \lstinline|invokable| a web service is created with one endpoint for each invoke definition. 
 When an invoke definition is created within a workflow element of the controller model, the respective workflow element in the workflow model has to be marked as invokable as well. Here an event description can be added, which will be shown in the list of open issues as last event fired.
 
-\begin{lstlisting}[language=MD2, label=lst:offerWStoSWF, caption=Offer a Web Service to Start a Workflow]
+\begin{lstlisting}[language=MD2, label=lst:offerWStoSWF, caption=Offer a web service to start a workflow]
 invokable at STRING using (POST | PUT) {
 	<ContentProviderPath> as ALIAS
 	default <ContentProviderPath> = <Value>
