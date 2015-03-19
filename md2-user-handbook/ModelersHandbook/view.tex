@@ -6,7 +6,7 @@ View elements are either ContentElements or ContainerElements that can contain o
 
 \paragraph{Container Elements}
 
-\textit{Grid layouts} align all containing elements in a grid. Elements can either be containers or content elements. The grid is populated row-by-row beginning in the top-leftmost cell.
+\textit{Grid layout panes} align all containing elements in a grid. Elements can either be containers or content elements. The grid is populated row-by-row beginning in the top-leftmost cell.
 
 \begin{lstlisting}
 GridLayoutPane NAME (<parameters>) {
@@ -23,7 +23,7 @@ For each grid layout at least the number of rows or the number of columns has to
 \item \lstinline!tabTitle STRING! -- if the layout is a direct child of a TabbedPane, a text can be specified that is displayed on the corresponding tab. See section on TabbedPanes for more details.
 \end{itemize}
 
-A \textit{flow layout} arranges elements (containers or content elements) either horizontally or vertically. By default all elements are arranged in a left-to-right flow.
+A \textit{flow layout pane} arranges elements (containers or content elements) either horizontally or vertically. By default all elements are arranged vertically in a left-to-right flow.
 \begin{lstlisting}
 FlowLayoutPane NAME (<parameters>) {
 	<Container | Content | [Container] | [Content]>
@@ -48,7 +48,7 @@ TabbedPane NAME {
 \end{lstlisting}
 
 \paragraph{Content Elements}
-\textit{Input elements} can be used to manipulate model data via mappings (see Section \ref{subsubsec:Controller}). At the moment BooleanInputs, TextInputs, IntegerInputs, NumberInputs, TimeInputs, DateInputs, DateTimeInputs and OptionInputs are supported. All input elements support the optional attributes \lstinline!label!, \lstinline!tooltip!, \lstinline!type!, \lstinline!disabled!, \lstinline!default! and \lstinline!width!. \lstinline!type! allows to specify the type of the field. \lstinline!disabled! was intended to provide a boolean for whether an input field is enabled od disabled, but is not regarded by the generator in the current implementation. Default values can be set using \lstinline!default! and the width using \lstinline!width!.
+\textit{Input elements} can be used to manipulate model data via mappings (see Section \ref{subsubsec:Controller}). At the moment BooleanInputs, TextInputs, IntegerInputs, NumberInputs, TimeInputs, DateInputs, DateTimeInputs, OptionInputs and FileUploads are supported. All input elements support the optional attributes \lstinline!label!, \lstinline!tooltip!, \lstinline!type!, \lstinline!disabled!, \lstinline!default! and \lstinline!width!. \lstinline!type! allows to specify the type of the field. \lstinline!disabled! was intended to provide a boolean for whether an input field is enabled od disabled, but is not regarded by the generator in the current implementation. Default values can be set using \lstinline!default! and the width using \lstinline!width!.
 
 \textit{TextInput} fields can be used for freetext as well as date and time inputs.
 \begin{lstlisting}
@@ -62,7 +62,7 @@ TextInput NAME {
 }
 \end{lstlisting}
 
-\textit{OptionInputs} are used to represent enumeration fields in the model. In addition to the aforementioned attributes, OptionInputs support the optional \lstinline!options! attribute. This can be used to populate the input with the string values of the specified Enum. If options is not given, the displayed options depend on the Enum type of the attribute that has been mapped on the input field (see Section \ref{subsubsec:Controller}).
+\textit{OptionInputs} are used to represent enumeration fields in the model. In addition to the aforementioned attributes, OptionInputs support the optional \lstinline!options! attribute. This can be used to populate the input with the string values of the specified enum. If options is not given, the displayed options depend on the enum type of the attribute that has been mapped on the input field (see Section \ref{subsubsec:Controller}).
 \begin{lstlisting}
 OptionInput NAME { 
 	label STRING
@@ -166,14 +166,14 @@ A \textit{Spacer} is used in a \lstinline!GridLayoutPane! to mark an empty cell 
 Spacer (INT)
 \end{lstlisting}
 
-The \textit{AutoGenerator} is used to automatically generate view elements to display all attributes of a related entity and the according mappings of the view elements to a Content Provider. It is possible to either exclude attributes using the \lstinline!exclude! keyword or to provide a positive list of attributes using the keyword \lstinline!only!.
+The \textit{AutoGenerator} is used to automatically generate view elements to display all attributes of a related entity and the according mappings of the view elements to a content provider. It is possible to either exclude attributes using the \lstinline!exclude! keyword or to provide a positive list of attributes using the keyword \lstinline!only!.
 \begin{lstlisting}
 AutoGenerator NAME {
 	contentProvider [ContentProvider] (exclude|only [Attribute])
 }
 \end{lstlisting}
 
-In case of one-to-many relationships for attributes (annotated with []) or a content provider it has to be defined which of the elements should be displayed in the auto-generated fields. The \textit{EntitySelector} allows the user to select an element from a list of elements. The attribute \lstinline!textProposition! defines which ContentProvider stores the list and which attribute of the elements shall be displayed to the user to allow him to find the desired element.
+In case of one-to-many relationships for attributes (annotated with []) or a content provider it has to be defined which of the elements should be displayed in the auto-generated fields. The \textit{EntitySelector} allows the user to select an element from a list of elements. The attribute \lstinline!textProposition! defines which content provider stores the list and which attribute of the elements shall be displayed to the user to allow him to find the desired element.
 \begin{lstlisting}
 EntitySelector NAME {
 	textProposition [ContentProvider.Attribute]
@@ -189,14 +189,14 @@ style NAME {
 }
 \end{lstlisting}
 
-The following optional style attributes are supported. If a attribute is not set, the standard setting is used for each platform.
+The following optional style attributes are supported. If an attribute is not set, the standard setting is used for each platform.
 \begin{itemize}
 \item \lstinline!color <color>! (optional) -- specifies the color of the element as a named color or a six or eight digit hex color (with alpha channel)
 \item \lstinline!fontSize INT! (optional) -- specifies the font size
-\item \lstinline!textStyle <textstyle>! (optional) -- the text style can be normal or italic, bold or a combination of both.
+\item \lstinline!textStyle <textstyle>! (optional) -- the text style can be \lstinline!normal! or \lstinline!italic!, \lstinline!bold! or a combination of both.
 \end{itemize}
 
-As named colors the 16 default web colors are supported: aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive, purple, red, silver, teal, white, yellow.
+As named colors the 16 default web colors are supported: \lstinline!aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive, purple, red, silver, teal, white, yellow!.
 
 Elements can not only be defined where they should be used, but there is also a mechanism of defining an element once and \textit{reusing} it several times. Instead of defining a new element, another element can be referenced -- internally this leads to a copy of the actual element. However, names have to be unique so that each element could only be referenced once. To avoid those name clashes a renaming mechanism had been implemented that allows to set new names for the actual copied element.
 \begin{lstlisting}
