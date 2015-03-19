@@ -2,8 +2,7 @@
 % !TeX program = xelatex
 % !TeX root = md2-user-handbook.tex
 
-\todo{@ALL review pls}
-\section{Resource paths}
+\section{Resource Paths}
 Format: \\
 VERB - Path - Request body \hfill \lstinline|<Status> - <Response body>|
 
@@ -22,7 +21,7 @@ Delete\\
 \lstinline|DEL - /<entity.name>/<id>| \hfill \lstinline|200 OK or 404 NOT FOUND|
 
 
-\subsection*{Remote validations}
+\subsection*{Remote Validations}
 \lstinline|GET - /md2_validator/<remoteValidator.name>/ - Entity| 
 
 ~ \hfill \lstinline|200 OK - ValidationResult object|
@@ -36,12 +35,12 @@ attrNameX is a fully qualified name, having \\
 \lstinline|contentProviderName.path.to.attribute|
 
 
-\subsection*{Filter parameter}
+\subsection*{Filter Parameter}
 \lstinline!not <Attribute> (equals|greater|smaller|<=|>=) (<Int>|<Float>|<String>|<InputField>) !\\
 \lstinline!((and|or)(not)? <Attribute> (equals|greater|smaller|<=|>=) (<Int>|<Float>|<String>|!\\
 \lstinline!<InputField>))*!
 
-\subsection*{Resource for model version checks}
+\subsection*{Resource for Model Version Checks}
 The model version should be checked by the apps for all remote connections. Requests are only valid if the server accepts the current model version. \\
 \lstinline|GET /md2_model_version/current| \hfill \lstinline|200 OK - <version>| \\
 \\
@@ -50,7 +49,7 @@ The model version should be checked by the apps for all remote connections. Requ
 ~ \hfill \lstinline!200 OK - { "isValid": (true|false) }!
 
 
-\section{JSON format conventions}
+\section{JSON Format Conventions}
 List<Entity>:
 \begin{lstlisting}[language=Javascript]
 {
