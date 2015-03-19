@@ -83,7 +83,13 @@ The workflow state web service allows to retrieve open workflow instances or add
 
 Furthermore, for every new workflow instance, a new workflow state needs to be created. To do so, the workflow state web service is called as soon as the app which started the workflow hands the control over to the backend. This app generates a globally unique if as described in \ref{subsec:beans} and provides it in the web service call.
 
-\subsubsection{File Upload} \todo{@JAN Please give me a description...}
+\subsubsection{File Upload}
+
+As another web service, a REST endpoint for uploading files is provided.
+In contrast to the other web services, it expects an input format of \lstinline|MULTIPART_FORM_DATA|, thus allowing image uploads from HTML forms.
+
+Given an uploaded file, it creates a file with a unique file name using the \lstinline[language=Java]|File.createTempFile()| interface. The file is stored in the location specified in \lstinline[language=Java]|Config.UPLOAD_FILE_STORAGE_PATH| (or \lstinline|storagePath|) and the generated file name is returned to the invoking client. No further information about the file is stored or checked, i.e. original file name and content type are lost.
+
 
 \subsubsection{Version Negotiation} 
 This web service can be used by generated apps to check whether they were generated from the same model version as the backend. Consequently, this is only useful if the modeller always changes the model version after making changes to the data model.
