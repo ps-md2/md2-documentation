@@ -4,7 +4,7 @@
 
 \subsection{Calling RESTful Web Services from an App}
 \label{subsec: CallingWebServices}
-With the current \MD version it is possible to call RESTful web services that are provided by external applications. To do so, it is necessary to specify the web service's url and REST method (e.g. GET), as well as the parameters to be transferred to it. The parameters are represented as <key, value> pairs and can be sent as query parameters and/or via the body of the request. Accordingly, depending on the option expected by the service to be called, the DSL allows the modeler to specify queryparams or bodyparams. 
+With the current \MD version it is possible to call RESTful web services that are provided by external applications. To do so, it is necessary to specify the web service's URL and REST method (e.g. GET), as well as the parameters to be transferred to it. The parameters are represented as <key, value> pairs and can be sent as query parameters and/or via the body of the request. Accordingly, depending on the option expected by the service to be called, the DSL allows the modeler to specify queryparams or bodyparams. 
 
 Aside from static values to be set at design time, it is possible to set a parameter to the value of a particular ContentProviderPath, i.e. the value of a content provider's field, which is derived at run time. If the value is set statically at design time the data types String, Integer, Float and Boolean are allowed. 
 
@@ -41,7 +41,7 @@ action CustomAction <CustomActionOne> {
 \subsection{Control of Workflow by calling a RESTful Web Service}
 \label{subsec: WorkflowControlThroughWS}
 The \MD language offers a possibility to define a RESTful web service according to \cref{lst:offerWStoSWF}, which will start a certain workflow element. For this purpose for each workflow element marked as \lstinline|invokable| a web service is created with one endpoint for each invoke definition. 
-When a invoke definition is created within a workflow element of the controller model, the respective workflow element in the workflow model has to be marked as invokable as well. Here a event description can be added, which will be shown in the list of open issues as last event fired.
+When an invoke definition is created within a workflow element of the controller model, the respective workflow element in the workflow model has to be marked as invokable as well. Here an event description can be added, which will be shown in the list of open issues as last event fired.
 
 \begin{lstlisting}[language=MD2, label=lst:offerWStoSWF, caption=Offer a Web Service to Start a Workflow]
 invokable at STRING using (POST | PUT) {
@@ -50,13 +50,14 @@ invokable at STRING using (POST | PUT) {
 	set <ContentProviderPath> to <ContentProvider>
 }
 \end{lstlisting}
-The minimum structure of a invoke definition is simply the keyword \lstinline|invokable|. The standard path where an endpoint is injected is \enquote{/}. If another path should be used this can be defined after the \lstinline|at|. This is mandatory if multiple endpoint should be created.
-The standard http method used for the RESTful web service endpoint is \lstinline|POST|. However, after \lstinline|using| \lstinline|PUT| can be defined instead.
-In the body of a invoke definition it can be defined if entities and their attributes should be set somehow during the web service call. For this purpose three different possibilities exist. In the following they are described in the order of their appearance within \cref{lst:offerWStoSWF}.
+The minimum structure of an invoke definition is simply the keyword \lstinline|invokable|. The standard path where an endpoint is injected is \enquote{/}. If another path should be used this can be defined after the \lstinline|at| keyword. This is mandatory if multiple endpoints should be created.
+
+The standard REST method used for the RESTful web service endpoint is \lstinline|POST|. However, after the keyword \lstinline|using|, the modeller can chose \lstinline|PUT| instead.
+In the body of an invoke definition it can be defined if entities and their attributes should be set somehow during the web service call. For this purpose three different possibilities exist. In the following they are described in the order of their appearance within \cref{lst:offerWStoSWF}.
 \begin{itemize}
 	\item The first type allows attribute values to be set by the web service call. This means the attribute is transformed to a parameter of the endpoint and the attribute is then set to the received value. For the name of the parameter either the name of the attribute is used or an alternative alias can be defined.
 	\item If some attributes should always receive the same value regardless of the parameter values they can be set to a default value using the second type. An example for application would be a status field which is set to \enquote{issue received}, when the workflow is started.
 	\item The last type is similar to setting a content provider to an attribute described within actions of \cref{subsubsec:Controller}. Since the language only knows how entities are related to each other, but not their corresponding content providers this statement is needed for every nested entity.
 \end{itemize}
-For each entity somehow referenced within the definition an instance of this entity will be created and persisted. The type of persistence depends on whether the remote connection of the content provider equals the one of the \lstinline|workflowManager|. If they are equal the web service call and the persistence is done on the same server, thus the internal enterprise java beans can be used. Otherwise the other external backend server needs to be called, which is not yet implemented in the current version of the \MD. It is not enough, that the urls of the remote connections are equal. The objects need to be identical.
+For each entity somehow referenced within the definition an instance of this entity will be created and persisted. The type of persistence depends on whether the remote connection of the content provider equals the one of the \lstinline|workflowManager|. If they are equal the web service call and the persistence is handled on the same server, thus the internal enterprise java beans can be used. Otherwise the other external backend server needs to be called, which is not yet implemented in the current version of the \MD. It is not enough, that the URLs of the remote connections are equal. The objects need to be identical.
 If the body is missing no entities or attributes are set.
