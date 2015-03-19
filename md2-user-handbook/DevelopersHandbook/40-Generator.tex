@@ -2,4 +2,15 @@
 % !TeX program = xelatex
 % !TeX root = ../md2-user-handbook.tex
 
-\todo{empty @ALL [why is this chapter after the map.apps Implementation?]}
+The functions which generate \mapapps source code are grouped into classes by the kind of file they create. All \mapapps generator code is located in the package \lstinline[language=Simple]|de.wwu.md2.framework.generator.mapapps| and written in Xtend. Furthermore, the class \lstinline|util.MD2MapappsUtil| contains a few extension methods that are used in multiple generating classes.
+
+As an entry point, the \lstinline[language=Simple]|MapAppsGenerator#doGenerate(fsa)| method is called from the development environment. It cleans the target directory and prepares for creating  each app defined in the model.
+
+For each app, its relevant paths and names are defined. Afterwards, it invokes the \lstinline|generateWorkflowElementBundle| for each workflow element, thus generating individual bundles. Afterwards, three further methods of this class are called, generating model bundle, content provider bundle, and workflow bundle as bundles for the app.
+
+
+Last but not least, every generated app is packaged into a .zip archive, to enable uploading the app into a production \mapapps system.
+
+\subsection{AppClass.xtend}
+
+This class is responsible for creating the \lstinline[language=Simple]|app.json| as described in ???. Furthermore, it creates the \lstinline[language=Simple]|bundles.json| file which maintains references to all local bundles of an app.
