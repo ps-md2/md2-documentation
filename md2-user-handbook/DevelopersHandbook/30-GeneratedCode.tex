@@ -214,5 +214,12 @@ Besides the content providers defined within the model, two local content provid
 The entities are group within the bundle \lstinline|md2_models|. Each defined entity and enum in the model gets its own file. Additionally the two entities \lstinline|__ProcessChainControllerState| and \lstinline|__returnStepStack| are created to map the state of the two content providers listed above. Each entity inherits from the static class \lstinline|_Entity| described in \Cref{par:Entities}. They describe the own data type as well as the types of all their attributes or in case of an enum its possible values. Additionally the entities have a \lstinline|_initialize| function to create empty attribute types for all attributes, except the referenced entities. For those the values have to be set manually using return value of another content provider later in the code.
 
 \subsubsection{Workflow Elements}
+
+For each workflow element of the app an own bundle is created. This bundle specifies a \lstinline|Controller|, which is the instance factory for a \lstinline|MD2MainWidget|. The \lstinline|MD2MainWidget| itself is further specified within the mainifest.json. Here all view elements are defined additionally to the app ID, the workflow element ID, the webserviceBackendUri, the window titel, and the action called on initialization of the workflow element. This \lstinline|onInitialized| action is executed by the \lstinline|MD2MainWidget| on opening the widget. Additionally to the \lstinline|Controller| all actions are specified, which inherit from the static class \lstinline|_Action|. The \lstinline|CustomActions| represents an instance factory for all actions defined within the workflow element.
+
 \subsubsection{Workflow}
+This bundle contains the \lstinline|WorkflowEventHandler|, which keeps a list of all  \lstinline|MD2MainWidget|. Additionally it contains the specifications, which workflow follows which and in which case a event has to be fired to the backend or a workflow element change within the app will happen. After exiting the context of an workflow instance it has the capabilities to reset all \lstinline|MD2MainWidget| instances registered, to be prepared for a new instance.
+
 \subsubsection{App.json} \label{subsubsec:mapapps-generated-appjson}
+The app.json is used to inject further information into the static bundles. These settings are mainly backend urls and app ids, which are needed in this components.
+Of cause the app.json also contains a list of all used bundles within the app context.
