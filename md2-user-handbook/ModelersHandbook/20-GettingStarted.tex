@@ -4,21 +4,21 @@
 \subsection{Creating a Project}
 \begin{enumerate}
 \item  Initialize a new project by navigating to \lstinline[language=Simple]|File > New > Project...|. There, choose \lstinline[language=Simple]|Other > MD2 Project| and click \lstinline|Next|.
-\item Choose a project name (note that it may not contain whitespace or other non-alphanumerical characters). If necessary, choose a location different from the proposed default.
+\item Choose a project name that does not contain whitespace or other non-alphanumerical characters. If necessary, choose a location different from the proposed default.
 \item After clicking on \lstinline|Finish|, a default project structure is generated which you can extend as you need.
 \end{enumerate}
 
-The created project contains the following folders:
+The new project contains the following folders:
 
 \begin{itemize}
-\item \lstinline[language=Simple]|src| contains the \MD models of your application and is initialized with a simple default. model.
-\item \lstinline[language=Simple]|resources| contains resources that the generator will copy into the generated applications.
-\item \lstinline[language=Simple]|src-gen| contains all artifacts that the generator derives from your model. This folder is organized by platform. For example, there is a folder for the backend and for \mapapps.
+\item \lstinline[language=Simple]|src/| contains the \MD models of your application and is initialized with a simple default model.
+\item \lstinline[language=Simple]|resources/| contains resources that the generator will copy into the generated applications.
+\item \lstinline[language=Simple]|src-gen/| contains all artifacts that the generator derives from your model. This folder will contain multiple subfolder for different platforms. For example, there might be a folder for the backend and for \mapapps. Note, that everything in this directory will be overwritten when the generator is run.
 \end{itemize}
 
 \subsection{Developing a Single App} 
 \label{subsec:SingleAppDev}
-This section describes how an application can be developed based on the current (March 2015) state of the \MD DSL. To this end, it is structured according to the different layers that constitute a \MD model, which are shown in Figure \ref{fig:MD2Arch}. Aside from the conventional MVC layers -- model, view and controller -- the architecture includes an additional layer which enables the modelling as well as the generation of workflows within and across apps.
+This section describes how an application can be developed based on the current (March 2015) state of the \MD DSL. At its core, \MD is structured according to the MVC-pattern. MVC stands for Model-View-Controller and ensures the principle of single responsibility for these classes. In order to enable the modelling and generation of worklows within across apps in \MD, this architecture was extended to include an additional layer, the workflow layer (cf. \Cref{fig:MD2Arch}).
 
 %\begin{figure}[htb!]
 %\centering
@@ -43,7 +43,7 @@ This section describes how an application can be developed based on the current 
 \label{fig:MD2Arch}
 \end{figure}
 
-All components in \MD are organized in a package structure that represents the aforementioned structure. All documents have to be placed in corresponding packages (views, models, controllers or workflow). For example, all view files are expected to be in the package any.project.package.views. The package has to be defined in each \MD file as follows:
+All components in \MD are organized in a package structure that corresponds to the aforementioned structure. Documents have to be placed in these packages (views, models, controllers or workflow). For example, all view files are expected to be in the package \lstinline[language=Simple]|any.project.package.views|. In every \MD file the package has to be defined as follows:
 \begin{lstlisting}
 package PACKAGE_NAME
 \end{lstlisting}

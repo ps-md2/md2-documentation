@@ -1,18 +1,16 @@
 % !TeX spellcheck = en_GB
 % !TeX program = xelatex
-% !TeX root = md2-user-handbook.tex
+% !TEX root = ../md2-user-handbook.tex
 
 \subsection{Setting up your \MD Model Development Environment}
 
-The following software is required to enable modelling of \MD models:
+The following steps will provide you with the software required to enable modelling of \MD models:
 
 \begin{itemize}
-\item A current Eclipse IDE with support for Java EE development (e.g. Luna)
-\item Using the \href{https://eclipse.org/Xtext/download.html}{Xtext Update Site}, install a current version of the Xtext redistributable
-\item From the archive that you obtained, install the \MD features
+\item Download a current Eclipse IDE with support for Java EE development (\eg Luna).
+\item Install a current version of the Xtext redistributable using the \href{https://eclipse.org/Xtext/download.html}{Xtext Update Site}
+\item Install the \MD features from the archive that you obtained\todo{obtained from where?}
 \end{itemize}
-
-You are ready to go.
 
 
 \subsection{Setting up your \mapapps Development Environment in NetBeans}
@@ -22,22 +20,22 @@ As a prerequisite, ensure that the following software is installed:
 
 \begin{itemize}
 \item \mapapps 3.1.0
-\item NetBeans EE (e.g. Version 8.0)
-\item Apache Tomcat 7.0 with running \mapapps runtime\footnote{For details on their installation, please refer to the \mapapps documentation.}
+\item NetBeans EE (\eg Version 8.0)
+\item Apache Tomcat 7.0 with a running \mapapps runtime\footnote{For details on their installation, please refer to the \mapapps documentation.}
 \end{itemize}
 
 \begin{enumerate}
-\item {Set up your \mapapps  development environment in NetBeans}
+\item {Set up your \mapapps  development environment in NetBeans.}
 
 \begin{enumerate}
-\item Extract the \lstinline|sampleProjRemote| project from the \mapapps distribution and load it in NetBeans. \label{item:extraction}
+\item Extract the \lstinline|sampleProjRemote| project from the \mapapps distribution and open it in NetBeans. \label{item:extraction}
 \item In its \lstinline|pom.xml|,
  set the \lstinline|mapapps.remote.base| directive to the URL where the \mapapps runtime is installed.
-\item Start the Jetty web server from the context menu of the project.
+\item Start the Jetty web server from the project's context menu.
 
 \end{enumerate}
 
-\item Deploy the generic \MD runtime bundles by copying the \MD runtime bundles into the directory \lstinline[language=Simple]|src/main/js/bundles/| in the project:
+\item Deploy the generic \MD runtime bundles by copying the \MD runtime bundles into the directory \lstinline[language=Simple]|src/main/js/bundles/| within the project:
 	\begin{quotation}
 		 \lstinline|md2_formcontrols|
 		 
@@ -61,7 +59,7 @@ As a prerequisite, ensure that the following software is installed:
 \end{enumerate}
 
 \subsection{Setting up GlassFish to Run Generated Backends}
-To enable deployment of generated backends, follow the subsequent steps:
+To deploy the generated backends, follow the subsequent steps:
 
 %Hint for developers of MD2:
 %As you typically work in at least two instances of Eclipse, you are now free to choose which one you want to use for managing the backend.
@@ -69,7 +67,7 @@ To enable deployment of generated backends, follow the subsequent steps:
 %All MD2 framework-related contents reside in the other instance.
 
 \begin{enumerate}
-\item In Eclipse, open the Servers tab.
+\item In Eclipse, open the \enquote{Servers} tab.
 \item Right-click it and choose \enquote{New} $\rightarrow$ \enquote{Server}.
 \item If the GlassFish adapter is not installed yet (look for \enquote{GlassFish} in the list of types), click \enquote{Download additional server adapters} and install the entry \enquote{GlassFish Tools}.
 \item From the list of types, choose \enquote{GlassFish} $\rightarrow$ \enquote{GlassFish 4.0} and click \enquote{Next}.

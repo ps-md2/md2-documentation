@@ -1,6 +1,6 @@
 % !TeX spellcheck = en_US
 % !TeX program = xelatex
-% !TeX root = ../md2-user-handbook.tex
+% !TEX root = ../md2-user-handbook.tex
 
 In the model layer the structure of data objects is being described. As model elements Entities and Enums are supported.
 \paragraph{Entity}
@@ -28,7 +28,7 @@ Supported simple data types are:
 \begin{itemize}
 \item{\lstinline!integer! -- integer}
 \item{\lstinline!float! -- float of the form \#.\#}
-\item{\lstinline!boolean! -- boolean}
+\item{\lstinline!boolean! -- boolean (\ie true or false)}
 \item{\lstinline!string! -- a string that is embraced by single quotes (') or double quotes (")}
 \item{\lstinline!date! -- a date is a string that conforms the following format: \lstinline!YYYY-MM-DD!}
 \item{\lstinline!time! -- a time is a string that conforms the following format: \lstinline!hh:mm:ss[(+|-)hh[:mm]]!}
@@ -36,7 +36,7 @@ Supported simple data types are:
 \item{\lstinline!file! -- a file to be uploaded and stored in an entity field}
 \end{itemize}
 
-Parameters are optional and will be transformed into implicit validators during the generation process. They have to be specified as a comma-separated list. On default each specified attribute is mandatory. To allow null values the parameter \lstinline!optional! can be set. Further supported parameters depend on the used data type and are explained as follows:
+Parameters are optional and will be transformed into implicit validators during the generation process. They have to be specified as a comma-separated list. On default, each specified attribute is mandatory. To allow empty values the parameter \lstinline!optional! must be set. Further supported parameters depend on the used data type and are available as follows:
 
 \begin{itemize}
 \item \lstinline!integer! supports
@@ -50,7 +50,7 @@ Parameters are optional and will be transformed into implicit validators during 
 \subitem \lstinline!minLength INTEGER! – minimal length of the string value
 \end{itemize}
 
-Optionally, attributes can be annotated with a name and a description which are used for the labels and the tooltips in the auto-generation of views. If a tooltip is annotated an info icon, such as a question mark, will be shown next to the generated input field. If no name is annotated, a standard text for the label will be derived from the attribute's name by transforming the camel case name to natural language, e.g. the implicit label text of the attribute firstName is \enquote{First name}. An exemplary entity is depicted in \ref{lst:personexample}
+Optionally, attributes can be annotated with a name and a description which are used for the labels and the tooltips in the auto-generation of views. If a tooltip is annotated an info icon, such as a question mark, will be shown next to the generated input field. If no name is annotated, a standard text for the label will be derived from the attribute's name by transforming the camel case name to natural language, \eg the implicit label text of the attribute \lstinline|firstName| is \enquote{First name}. An exemplary entity is depicted in \Cref{lst:personexample}.
 
 \begin{lstlisting}[language=MD2, label=lst:personexample, caption=Exemplary entity that represents a person]
 entity Person {
@@ -65,7 +65,7 @@ entity Person {
 \end{lstlisting}
 
 \paragraph{Enum}
-An enumeration is indicated by the keyword \lstinline!enum! followed by an arbitrary name that identifies it. Each enum may contain an arbitrary number of comma-separated strings, as it is depicted in \ref{lst:enumexample}. Other data types are not supported.
+An enumeration is indicated by the keyword \lstinline!enum! followed by an arbitrary name that identifies it. Each enum may contain an arbitrary number of comma-separated strings, as it is depicted in \Cref{lst:enumexample}. Other data types are not supported.
 
 \begin{lstlisting}[language=MD2, label=lst:enumexample, caption=Exemplary enum element to specify weekdays]
 enum Weekday {
