@@ -1,9 +1,10 @@
 % !TeX spellcheck = en_GB
 % !TeX program = xelatex
-% !TeX root = md2-user-handbook.tex
+% !TEX root = ../md2-user-handbook.tex
 
-The \MD framework also allows to model and generate workflows that involve multiple apps. For this purpose, several apps rather than just one can be specified in the workflow layer. These apps can share the same workflow elements or use different ones as shown in Listing \ref{lst:multipleApps}. Apart from that, the workflow will look as usual, with the sequence of workflow elements being determined via events. After generation, each app is provided with a list of open issues in the start screen. In this list, all events are presented that were fired from another app and are supposed to start a workflow element which belongs to the current app in action. A user can simply click on a listed issue to continue the appropriate workflow element.
+The \MD framework allows to model and generate workflows that involve multiple apps. For this purpose, several apps rather than just one can be specified in the workflow layer. These apps can share the same workflow elements or use different ones as shown in Listing \ref{lst:multipleApps}. Apart from that, the workflow will look as usual, with the sequence of workflow elements being determined via events. Each app is provided with a list of open issues in the start screen. In this list, all events are presented that were fired from another app and are supposed to start a workflow element which belongs to the current app. A user can simply click on a listed issue to continue the workflow in the appropriate workflow element.
 
+\todo{Why do we specify a label here, instead of just using the code block as in the previous sections?}
 \begin{lstlisting}[language=MD2, label=lst:multipleApps, caption=Workflow definition for multiple apps]
 package <ProjectName>.workflows
 
@@ -25,4 +26,4 @@ App <AppID2> {
 }
 \end{lstlisting}
 
-The deployment of multiple apps is similar to that of a single app. In this case, however, not just one but all created apps have to be deployed, e.g. by setting the corresponding symbolic links as described in Section \ref{subsec:SingleAppDep} for each app.
+The deployment of multiple apps is similar to that of a single app. In this case, however, not just one but all created apps have to be deployed, \eg by setting the corresponding symbolic links as described in  \Cref{subsec:SingleAppDep} for each app.
