@@ -4,7 +4,8 @@
 
 \lstset{language=Simple}
 
-The current implementation of the \MD framework generates web-based apps for a framework called map.apps, which is mainly based on JavaScript. Code generation of Android and iOS apps are also targeted, but not fully implemented yet.
+The current implementation of the \MD framework generates web-based apps for a framework called 
+\mapapps, which is mainly written in JavaScript. Code generation of Android and iOS apps are also targeted, but not fully implemented yet.
 
 The generated code for \mapapps can be subdivided into three parts: static \mapapps code, dynamically generated \mapapps code and a backend. The static \mapapps code contains the part of the code which does not depend on the models created in the \MD DSL. Since it is static, it does not need to be generated, but is required for the overall functionality of the generated apps. The dynamically generated part is completely dependent on the model. The backend is implemented in Java and contains static as well as dynamic code. However, it is completely generated. The backend provides a server which offers functionality such as data storage and communication accross apps.
 
@@ -16,9 +17,9 @@ Each of these three parts of the code is described in detail in the following.
 
 The static \mapapps code is split into several bundles, which are then used by the generated \mapapps code. These bundles are located at \lstinline!src/main/js/bundles! and are explained in the following subsections.
 
-\subsubsection{Form controls}
+\subsubsection{Form Controls}
 
-The form controls are defined within the bundle \lstinline!md2_formcontrols!. It uses and extends the existing \mapapps bundle \lstinline|dataform| with additional form elements, which can be used in \MD. Each factory defined within the bundle of \MD, specifies how a JavaScript-object can be transformed to a data form widget. To define an own dataform or to understand the concepts of a dataform component the \href{http://developernetwork.conterra.de/documentation/31/developers/dataform}{\mapapps documentation} will be helpful.
+The form controls are defined within the bundle \lstinline!md2_formcontrols!. It uses and extends the existing \mapapps bundle \lstinline|dataform| with additional form elements, which can be used in \MD. Each factory defined within the bundle of \MD specifies how a JavaScript-object can be transformed to a data form widget. To define an own dataform or to understand the concepts of a dataform component the \href{http://developernetwork.conterra.de/documentation/31/developers/dataform}{\mapapps documentation} will be helpful.
 
 \begin{description}
 	\item[DateTimeBoxFactory] Defines a form control for the component \lstinline|DateTimeInput|, which is identified by the keyword \lstinline|datetimebox|. The widget shows a view element showing the time and the date of a \lstinline|datetime| value.
@@ -31,7 +32,7 @@ The form controls are defined within the bundle \lstinline!md2_formcontrols!. It
 	\item[UploadImageOutputFactory] Defines a form control for the component \lstinline|UploadedImageOutput|, which is identified by the keyword \lstinline|uploadimageoutput|. The widget is able to display an image within your app, which is uploaded/specified by the user. 
 \end{description}
 
-Special dataform elements enable the use of uploaded files. The \lstinline|UploadedImageOutput| displays image which have been uploaded by an app's user using a \lstinline|FileUpload| input element. Given that both elements are mapped to an entity's attribute of type \lstinline|file|, these elements retrieve an image from, or store an image on the server, respectively. For this procedure, a specialised \lstinline|remoteConnection| needs to be defined by the modeller, thus defining the remote location of this service and a local path where this service is able to store files (\lstinline|fileUploadConnection|). Consequently, this remote connection can be different from every other remote connection used e.g.\ by content providers.
+Special dataform elements enable the use of uploaded files. The \lstinline|UploadedImageOutput| displays images which have been uploaded by an app's user using a \lstinline|FileUpload| input element. Given that both elements are mapped to an entity's attribute of type \lstinline|file|, these elements retrieve an image from, or store an image on the server, respectively. For this procedure, a specialised \lstinline|remoteConnection| needs to be defined by the modeller, thus defining the remote location of this service and a local path where this service is able to store files (\lstinline|fileUploadConnection|). Consequently, this remote connection can be different from every other remote connection used, \eg by content providers.
 
 \begin{figure}[b!]
 \centering % trim=l b r t
@@ -40,10 +41,10 @@ Special dataform elements enable the use of uploaded files. The \lstinline|Uploa
 \label{fig:remoteFileUpload}
 \end{figure}
 
-As a further consequence, the uploaded file is not directly stored in the database. Instead, when called by a \lstinline|FileUpload| element, the upload service stores the file on disk at the specified path (\lstinline|storagePath|) and returns an identifier string of this file to the calling client (\Cref{fig:remoteFileUpload}, step 1).
-This identifier is then used throughout the model, particularly as the value of a corresponding attribute of type \lstinline|file|  (\Cref{fig:remoteFileUpload}, step 2).
+As a further consequence, the uploaded file is not directly stored in the database. Instead, when called by a \lstinline|FileUpload| element, the upload service stores the file on disk at the specified path (\lstinline|storagePath|) and returns an identifier string of this file to the calling client (cf. \Cref{fig:remoteFileUpload}, step 1).
+This identifier is then used throughout the model, particularly as the value of a corresponding attribute of type \lstinline|file|  (cf. \Cref{fig:remoteFileUpload}, step 2).
 
-When such an identifier is encountered as the value of an \lstinline|UploadedImageOutput|, this element calls a servlet at the \lstinline|fileUploadConnection|, passing the identifier as a parameter (\Cref{fig:remoteFileUpload}, step 4). That way, the image is downloaded for the client just as soon as it is needed, instead of loading it at every initialisation of entities by a content provider. Note that currently only JPEG images should be uploaded, since the servlet always tries to output any given file using the content type \lstinline|image/jpeg|.
+When such an identifier is encountered as the value of an \lstinline|UploadedImageOutput|, this element calls a servlet at the \lstinline|fileUploadConnection|, passing the identifier as a parameter (cf. \Cref{fig:remoteFileUpload}, step 4). That way, the image is downloaded for the client just as soon as it is needed, instead of loading it at every initialisation of entities by a content provider. Note that currently only JPEG images should be uploaded, since the servlet always tries to output any given file using the content type \lstinline|image/jpeg|.
 
 
 

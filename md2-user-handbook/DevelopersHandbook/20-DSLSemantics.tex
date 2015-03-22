@@ -1,32 +1,31 @@
-% !TeX spellcheck = en_GB
-% !TeX program = xelatex
-% !TeX root = ../md2-user-handbook.tex
+% !TEX root = ../md2-user-handbook.tex
 
-The \MD framework is intended to provide a cross-platform solution, i.e. to generate apps not only for map.apps but also other platforms. For this purpose, this section delivers an overview about the semantics of the DSL, e.g. the different patterns targeted or forms of communication that are implicated by certain model constructs. This will enable future developers to generate apps for other platforms which provide the same functionality as the apps currently generated for map.apps.
+The \MD framework is intended to provide a cross-platform solution, \ie to generate apps not only for \mapapps but also other platforms such as Android or iOS. For this purpose, this section delivers an overview about the semantics of the DSL, \eg the different patterns targeted or forms of communication that are implied by certain model constructs. This will enable future developers to generate apps for other platforms which provide the same functionality as the apps currently generated for \mapapps.
 
 First of all, the MVC pattern with additional workflow layer used in the DSL should also be represented in the generated code.
 
 \paragraph*{Workflow Layer}
-The workflow layer defines different apps and their workflow elements. Since workflows bundle specific functionality, each app can be seen as a user role, and the assigned workflow elements represent the role's permissions. However, a sophisticated user or role management is not implemented for the \MD framework.
+The workflow layer defines different apps and their workflow elements. Since workflows bundle specific functionality, each app can be seen as a user role, and the assigned workflow elements represent the role's permissions. However, a sophisticated user or role management is not implemented in the \MD framework.
 
-Every app is supposed to be given a start screen which contains buttons for workflow elements that can be started from the app as well as a list of open issues that can be continued by the app. The belongingness of workflow elements to apps should be represented in a map in the backend, which connects workflow elements to their apps. This is for example important for the determination of open issues which are allowed to be continued from a specific app.
+Every app is supposed to have a start screen which contains buttons for workflow elements that can be started in the app as well as a list of open issues (workflows in a specific state) that can be continued by the app. The belongingness of workflow elements to apps is represented in a map in the backend, which connects workflow elements to their apps. This is for example important for the determination of open issues which are allowed to be continued from a specific app.
 
-Similar to that, the backend needs to know the sequence of workflow elements, i.e. which workflow elements are to be started after which event and when to end the workflow. Note that two workflow elements can fire the same event and start different workflow elements. Thus, the backend also needs to know which event/workflow element combination initializes the start of a specific new workflow element.
+Similar to that, the backend needs to know the sequence of workflow elements, \ie which workflow elements are to be started after which event and when to end the workflow. Note, that two workflow elements can fire the same event and start different workflow elements. Thus, the backend also needs to know which event/workflow element combination initializes the start of a specific new workflow element.
 
-However, if a workflow element fires an event which starts a new workflow element within the same app, this should be handled by the app-specific EventHandler, i.e. no backend communication is required. This is important if future developments are supposed to allow for temporary off-line usage of apps. Thus, the backend handles the start of new workflows \textit{across} apps (currently implemented as EventHandlerWS) and the app-secific event handler handles the start of new workflow elements \textit{within} apps.
+However, if a workflow element fires an event which starts a new workflow element within the same app, this should be handled by the app-specific event handler, so that no backend communication is required. This is important to allow temporary off-line usage of apps in the future. Thus, the backend handles the start of new workflows \textit{across} apps (currently implemented as EventHandlerWS) and the app-specific event handler is responsible to start new workflow elements \textit{within} apps.
 
 When a workflow element is started across apps, it will appear in the list of open issues of all apps that have the respective workflow element assigned.
 
 \paragraph*{Model Layer}
-The model is a quite thin layer in the overall architecture, the only components contained are entities and enumerations. In order to access core data functionality, a data model has to be setup that defines the database to be accessed later on by the content providers. This database is currently located in the backend and should therefore be accessible by apps from all platforms. 
+The model is a rather thin layer in the overall architecture, the only components contained are entities and enumerations. In order to access core data functionality, a data model has to be setup that defines the database to be accessed later on by the content providers. This database is currently located in the backend and should therefore be accessible by apps from all platforms. 
 
 \paragraph*{Controller Layer}
-The major and biggest layer in this architecture is the controller layer and has the most important role in connecting the view with the model and vice versa. It consists of several workflow elements, each being an independent controller. The default process chain of a workflow element should be used as starting process chain. Likewise the first view from this process chain should be used as start view for the workflow element. Each workflow element (i.e. each controller) requires its own initialization, e.g. mappings of content to views. The required actions for initializations can be found in the onInit block in a workflow element. When a workflow element fires a workflow event, it should be terminated and the control handed to the app-specific EventHandler or the backend as described for the workflow layer. 
+The biggest and most important layer in this architecture is the controller layer, which has the role to connect the view with the model and vice versa. It consists of several workflow elements, each being an independent controller. The default process chain of a workflow element should be used as starting process chain. Likewise, the first view from this process chain should be used as start view for the workflow element. Each workflow element (\ie each controller) requires its own initialization, \eg mappings of content to views. The required actions for initializations can be found in the onInit block in a workflow element. When a workflow element fires a workflow event, it should be terminated and the control handed to the app-specific event handler or the backend as described for the workflow layer. 
 
-Within the body of workflow elements, the controller behavior can be defined using actions and ProcessChains. ProcessChains will be converted to actions in the preprocessor, and therefore do not require a generator for different platforms.
+Within the body of workflow elements, the controller behavior can be defined using actions and process chains. Process chains will be converted to actions in the preprocessor, and therefore do not require a generator for different platforms.
 
-ContentProvider in the controller layer are used for data provision. A webservice-based communication to the backend is required for every platform in order to store and request the data.
+Content provider in the controller layer are used for data provision. Webservice-based communication to the backend is required for every platform in order to store and request the data.
 
 \paragraph*{View Layer}
 
-The view layer has not been changed during the course of this project seminar. View elements should be implemented with the functionality described in Chapter \ref{cha:modelersHandbook}. 
+The view layer has not been changed during the course of this project seminar. View elements should be implemented with the functionality described in \Cref{subsubsec:View}.
+ 
