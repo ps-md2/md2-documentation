@@ -1,6 +1,6 @@
 % !TeX spellcheck = en_US
 % !TeX program = xelatex
-% !TeX root = ../md2-user-handbook.tex
+% !TEX root = ../md2-user-handbook.tex
 
 \paragraph{Main}
 The \lstinline!main! object contains all basic information about a project. Each project must contain exactly one \lstinline!main! object that can be in an arbitrary controller.
@@ -17,14 +17,14 @@ main {
 
 The attributes are explained as follows:
 \begin{itemize}
-\item \lstinline!appVersion! -- a string representation of the current app version, e.g. \enquote{RC1}
+\item \lstinline!appVersion! -- a string representation of the current app version, \eg \enquote{RC1}
 \item  \lstinline!modelVersion! -- a string representation of the current model version that has to be in accordance with the model version of the backend
-\item  \lstinline!defaultConnection! (optional) -- a default remote connection can be specified here, so that it is not necessary to specify the same connection in each content provider
-\item \lstinline!workflowManager! -- the remote connection to the workflow manager has to be specified here \todo{review points for correctness @MALTE}
-\item \lstinline!fileUploadConnection! (optional) -- a remote connection to be specified if a file is expected to be uploaded or an uploaded file to be displayed. It is obligatory if at least one \lstinline!UploadedImageOutput! or \lstinline!FileUpload! is specified in the view.
+\item  \lstinline!defaultConnection! (optional) -- a default remote connection can be specified, so that it is not necessary to specify the same connection in each content provider
+\item \lstinline!workflowManager! -- the remote connection to the workflow manager, which may be different from the default backend connection
+\item \lstinline!fileUploadConnection! (optional) -- a remote connection to the file upload server must be specified if a file is expected to be uploaded or an uploaded file to be displayed. This connection can be similar to the default connection, but storing large amounts of files on a separate server is encouraged. Specifying the connection is obligatory if at least one \lstinline!UploadedImageOutput! or \lstinline!FileUpload! is present in the views.
 \end{itemize}
 
-Furthermore, the controller layer is subdivided into one or more workflow elements. While the workflow describes the interaction of workflow elements, their internal functionality needs to be specified in the controller layer. Each workflow element can be seen as an independent controller which is responsible for the successful execution of its functionality. In general, workflow elements are structured as follows
+Furthermore, the controller layer is subdivided into one or more workflow elements. While a workflow describes the interaction of workflow elements, their internal functionality needs to be specified in the controller layer. Each workflow element can be seen as an independent controller which is responsible for the successful execution of its functionality. In general, workflow elements are structured as follows
 
 \begin{lstlisting}
 WorkflowElement <workflowElementName>{
@@ -36,11 +36,11 @@ WorkflowElement <workflowElementName>{
 }.
 \end{lstlisting}
 
-Workflow elements work with \lstinline!ProcessChains! that define a sequence of possible steps inside the workflow element and are further described in Section \ref{sec:processChain}. Since several process chains can be defined in a single workflow element, the \lstinline!defaultProcessChain! keyword is used to set a default process chain. This process chain will then be used as starting point for the workflow element and the first view to be shown will also be derived from the default process chain.
+Workflow elements work with \lstinline!ProcessChains! that allow to define a sequence of steps inside the workflow element and are further described in \Cref{sec:processChain}. Since several process chains can be defined in a single workflow element, the \lstinline!defaultProcessChain! keyword is used to set a default process chain. This process chain will then be used as starting point for the workflow element and the first view to be shown will be derived from it.
 
-The \lstinline!onInit! block is used to define everything that is supposed to happen on initialization of the workflow element, e.g. binding actions to buttons or mapping content to view fields. In the \lstinline!onInit! block, no workflow events may be fired, as this means handing off control from the workflow element directly at the initialization. This is enforced by raising a validator error in case the modeler tries to do this.
+The \lstinline!onInit! block is used to define everything that is supposed to happen upon the initialization of the workflow element, \eg binding actions to buttons or mapping content to view fields. In the \lstinline!onInit! block, no workflow events may be fired, as this means handing off control from the workflow element directly during the initialization. This is enforced by through a validator that raises an error in case the modeler tries to throw an event here.
 
-Typically, workflow elements should be modeled in a way that they fire a workflow event after termination of their functionality to start a new workflow element or end the whole workflow. This can be done using the SimpleAction \lstinline!FireEventAction! as will be described in the following.
+Typically, workflow elements should be modeled in a way that they fire a workflow event after termination of their functionality to start a new workflow element or end the whole workflow. This can be done using the SimpleAction \lstinline!FireEventAction!.
 
 \paragraph{Actions}
 An action provides the user the possibility to declare a set of tasks. An action can be either a \lstinline!CustomAction! or a \lstinline!CombinedAction!.
@@ -71,7 +71,7 @@ For each type of task there exists a specific CustomCodeFragment that is disting
 \item \lstinline!else {<CustomCodeFragment>}!
 \end{itemize}
 
-The main tasks are binding actions to events, binding validators to view elements and mapping view elements to model elements. For every task there is a counterpart for unbinding and unmapping. \lstinline!call! tasks can call other actions, \lstinline!set! operations set the value of a content provider field or a view element. The \lstinline!if!, \lstinline!elseif! and \lstinline!else! blocks allow to model case distictions, e.g. based on user input.
+The main tasks are binding actions to events, binding validators to view elements and mapping view elements to model elements. For every task there is a counterpart for unbinding and unmapping. \lstinline!call! tasks can call other actions, \lstinline!set! operations set the value of a content provider field or a view element. The \lstinline!if!, \lstinline!elseif! and \lstinline!else! blocks allow to model case distictions, \eg based on user input.
 
 Actions are bound to events. There are several types of actions and events available. CustomActions and CombinedActions are referenced externally whereas SimpleActions are declared directly. For events, there are local event types that listen to the state of a certain view element as well as global event types. The most powerful event type is the OnConditionEvent.
 
@@ -105,7 +105,7 @@ Actions are bound to events. There are several types of actions and events avail
 \item WebServiceCallAction: \lstinline!WebServiceCall (<WebServiceCall>)!
 \subitem sends a request to call an external web service to the backend (for details cf. section \ref{subsec: CallingWebServices}).
 
-\item In addition, the LocationAction allows to extract an address from content provider fields and to generate a punctual location (i.e. longitude and latitude) for this address. For this purpose, all input and output fields have to be defined. The calculation result for longitude and latitude will be written in their respective output fields. The LocationAction is structured as follows:
+\item The LocationAction allows to extract an address from content provider fields and generate a punctual location (\ie longitude and latitude) for this address. For this purpose, all input and output fields have to be defined. The calculation result for longitude and latitude will be written in their respective output fields. The LocationAction is structured as follows:
 
 \begin{lstlisting}
 Location (
@@ -139,7 +139,7 @@ event NAME {
 }
 \end{lstlisting}
 
-A \textit{condition} allows to combine conditional expressions using the operators \lstinline!and!, \lstinline!or!, and \lstinline!not!. Conditional expressions evaluate to true or false. They can be BooleanExpressions, EqualsExpressions or GUIElementStateExpressions that check the state of a ViewGUIElement. In addition, \MD supports mathematical expressions such as \lstinline!equals!, \lstinline!>!, \lstinline!<!, \lstinline!>=!, and \lstinline!<=!.
+A \textit{condition} allows to combine conditional expressions using the operators \lstinline!and!, \lstinline!or! and \lstinline!not!. Conditional expressions evaluate to true or false. They can be BooleanExpressions, EqualsExpressions or GUIElementStateExpressions that check the state of a ViewGUIElement. In addition, \MD supports mathematical expressions such as \lstinline!equals!, \lstinline!>!, \lstinline!<!, \lstinline!>=!, and \lstinline!<=!.
 
 \textit{Validators} are bound to view elements. The validator can be a referenced element or a shorthand definition can be used in place.
 \begin{lstlisting}
@@ -227,16 +227,16 @@ validator RemoteValidator NAME (message STRING connection <RemoteConnection> att
 
 \paragraph{ProcessChain}
 \label{sec:processChain}
-A ProcessChain is used to define several steps in which the workflow element can currently be. It is possible to define several process chains. Process chains can be nested and there is at most one active process chain.
+A ProcessChain is used to define several steps in which the workflow element can currently be. It is possible to define several process chains. Process chains can be nested and there can be only one active process chain.
 \begin{lstlisting}
 ProcessChain NAME {
 	<ProcessChainStep> <...>
 }
 \end{lstlisting}
 
-Each ProcessChainStep defines one view that is related to it and will be displayed once the process chain step becomes the current process chain step of the active process chain. Additionally conditions can be defined, that restrict switching to the next or previous process chain step. Also events can be specified that trigger the change to the next or previous process chain step.
+Each ProcessChainStep specifies a view that will be displayed once the process chain step becomes the current process chain step of the active process chain. Additionally, conditions can be defined that restrict switching to the next or previous process chain step. Events can trigger changing to the next or previous process chain step.
  
-Instead of the aforementioned settings, a process chain that will become active while this process chain step is the current one, can be referenced.
+Instead of the aforementioned settings, a process chain that will become active while this process chain step is the current one, can be referenced\todo{Rephrase}.
 \begin{lstlisting}
 step NAME:
 	view <[ContainerElement] | [ContentElement]>
@@ -252,7 +252,7 @@ step NAME:
 	message STRING
 \end{lstlisting}
 
-Processchains can be refined using sub process chains.
+Process chains can be refined using sub process chains.
 \begin{lstlisting}
 step NAME:
 	subProcessChain <ProcessChain>
@@ -265,6 +265,7 @@ The event definition for \lstinline!EventDef! is the same as for event bindings:
 <OnConditionEvent> <...>
 \end{lstlisting}
 
+\todo{How is this related to the ProcessChain?}
 Each \textit{content provider} manages one instance of an entity. View fields are not mapped directly to a model element, but only content providers can be mapped to view elements. Data instances of the content providers can be updated or persisted using DataActions.
 
 It allows to create or update (save), read (load) or DELETE (remove) the stored instance. Which of those operations is possible is specified in \lstinline!allowedOperations!. By default all operations are allowed. A filter enables to query a subset of all saved instances. The \lstinline!providerType! defines whether the instances shall be stored locally or remotely.
@@ -277,4 +278,4 @@ remoteConnection NAME {
 }
 \end{lstlisting}
 
-Furthermore, the \MD framework also provides a \textit{location provider}, i.e. a virtual content provider for locations. The entity which is automatically handled by this content provider contains attributes such as latitude, longitude, street, etc. In map.apps the location provider can be used to get coordinates from a map and resolve the corresponding address.
+Furthermore, the \MD framework also provides a \textit{location provider}, \ie a virtual content provider for locations. The entity which is automatically handled by this content provider contains attributes such as latitude, longitude, street, etc. In map.apps the location provider can be used to get coordinates from a map and resolve the corresponding address.

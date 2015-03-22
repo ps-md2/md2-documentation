@@ -72,13 +72,13 @@ The package name has to be a fully qualified name that reflects the actual folde
 \subsubsection{Backend} 
 \label{subsubsec:Backend}
 
-	The following steps will start the GlassFish server that is used for deploying the backend.
-	Therefore, please grant all privileges that your firewall asks for, if any, so that the server can be accessed.
+The following steps will start the GlassFish server that is used to deploy the backend.
+Note, that in order to access the server you might need to grant additional privileges in the configuration of your firewall.d.
 
 \begin{enumerate}
 \item Within the GlassFish installation directory, navigate to \lstinline[language=Simple]|glassfish/bin/|.
 \item Run the \lstinline[language=Simple]|asadmin| utility (Windows: Double-click on \lstinline[language=Simple]|asadmin.bat|, Linux/OS X: Open a terminal in that directory and run \lstinline[language=Simple]|./asadmin|).
-\item In the GlassFish administration utility, type \lstinline[language=Simple]|start-database| to start the Derby database for the backend.
+\item In the GlassFish administration utility, type \lstinline[language=Simple]|start-database| to start the Derby database for the backend. In a Unix environment, you can combine both steps by running\\ \lstinline[language=Simple]|./asadmin start-database|.
 \item Start Eclipse and import the generated project \lstinline[language=Simple]|<PROJECT_NAME>.backend| by choosing \enquote{General} $\rightarrow$ \enquote{Existing Projects into Workspace} in the import wizard.
 \item In the Project Explorer tab, right-click the project in Eclipse, choose \enquote{Properties}, and navigate to \enquote{Targeted Runtime}.
 \item Deselect all runtimes and click \enquote{Apply}.
@@ -94,10 +94,10 @@ The package name has to be a fully qualified name that reflects the actual folde
 \subsubsection{\mapapps} 
 \label{subsubsec:mapapps}
 
-You have two alternatives for deploying a \mapapps app into your NetBeans development environment:
+You have two options to deploy a \mapapps app in your NetBeans development environment:
 \begin{itemize}
 \item Copy it into the \lstinline[language=Simple]|src/main/js/app/| directory of the project, or
 \item use a symbolic link to reference apps from another location (see \Cref{subsec:link-apps}).
 \end{itemize} 
 
-An additional benefit of the last alternative is that newly generated code, that results from changes to your model, will automatically be pushed to the \mapapps development environment. If the server is running there, the code will also be deployed to the server automatically.
+An benefit of the second variant is that newly generated code, that results from changes to your model, will automatically be available in your \mapapps development environment. If the server is running, the code will also be deployed to the server automatically.
