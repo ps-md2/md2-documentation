@@ -95,7 +95,7 @@ The reference will then be \lstinline!myPane.customerAutoGenerator[Customer.firs
 When a view element, which is referenced or reused at a different place, will be copied, each event binding, mapping or validator binding pointing to this view element will be copied as well. The copied version of the controller elements will be redirect to the copied version of the view elements. This does not work the other way around: any behavior element pointing to a referencing view element does not apply to the original element.
 
 \subsection{Validators}
-To ensure proper data integrity and to validate user input each ContentElement can be attributed with validators in a ValidatorBindingTask. When a view element is mapped to a model attribute some validators can be inferred automatically based on the attribute type (eg. Integer) and its parameters (eg. optional). In these cases a validator is automatically created and bound to the view element in question. However, the modeler can still overwrite or unbind these validators in any actions that are performed on startup.
+To ensure proper data integrity and to validate user input, each ContentElement can be attributed with validators in a ValidatorBindingTask. When a view element is mapped to a model attribute some validators can be inferred automatically based on the attribute type (\eg for integers) and its parameters (\eg optional attributes). In these cases a validator is automatically created and bound to the view element in question. However, the modeler can still overwrite or unbind these validators in any actions that are performed upon startup.
 
 \subsubsection{Type specific}
 \begin{itemize}
@@ -107,7 +107,7 @@ To ensure proper data integrity and to validate user input each ContentElement c
 \subsubsection{Type Parameter specific}
 
 \begin{itemize}
-\item Omitting the \lstinline!optional! keyword will result in a StandardNotNullValidator beeing bound
+\item Omitting the \lstinline!optional! keyword will result in a StandardNotNullValidator being bound
 \item Setting \lstinline!min! or \lstinline!max! values for any kind of attribute will result in an appropriate validator being bound that ensures the range for this data type
 \end{itemize}
 
@@ -166,17 +166,17 @@ processChain pc1 {
 \end{lstlisting}
 
 \subsubsection{CombinedAction}
-The sole use of CombinedActions is to trigger execution of other actions. This behavior can also be achieved by using CallTasks in CustomActions. Thus all CombinedActions will be converted to CustomActions internally.
+The sole use of CombinedActions is to trigger execution of other actions. This behavior can also be achieved by using CallTasks in CustomActions. Hence, all CombinedActions will be converted to CustomActions internally.
 
 \subsubsection{Miscellaneous}
 Some minor adjustments are made to the model:
 
 \begin{itemize}
-\item Check for existence of \lstinline!flowDirection! parameter for all FlowLayoutPanes
-\item Duplicate spacer according to the specified number of spacers
-\item Replace all named colors by their hex color equivalents
-\item Replace custom validators with standard validator definitions
+\item Check for existence of the \lstinline!flowDirection! parameter for all FlowLayoutPanes.
+\item Duplicate spacer according to the specified number of spacers.
+\item Replace all named colours by their hex colour equivalents.
+\item Replace custom validators with standard validator definitions.
 \end{itemize}
 
 \subsubsection{TestGenerator}
-Usually model transformations are transparent to the modeller and even for the developer hard to trace. With the TestGenerator, though, there is a way to get a glimpse of the model’s state as XMI definition before it gets passed to the platform generators.
+Usually model transformations are transparent to the modeller and even for the developer hard to trace. With the TestGenerator, though, there is a way to get a glimpse of the model's state as XMI definition before it gets passed to the platform generators.
