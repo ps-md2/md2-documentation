@@ -1,12 +1,12 @@
 % !TeX spellcheck = en_GB
 % !TeX program = xelatex
-% !TeX root = ../md2-user-handbook.tex
+% !TEX root = ../md2-user-handbook.tex
 
-The functions which generate \mapapps source code are grouped into classes by the kind of file they create. All \mapapps generator code is located in the package \lstinline[language=Simple]|de.wwu.md2.framework.generator.mapapps| and written in Xtend. Furthermore, the class \lstinline|util.MD2MapappsUtil| contains a few extension methods that are used in multiple generating classes.
+The functions which generate \mapapps source code are grouped into classes based on the kind of file they create. All \mapapps generator code is located in the package \lstinline[language=Simple]|de.wwu.md2.framework.generator.mapapps| and written in Xtend. Furthermore, the class \lstinline|util.MD2MapappsUtil| contains a few extension methods that are used in multiple generator classes.
 
 As an entry point, the \lstinline[language=Simple]|MapAppsGenerator#doGenerate(fsa)| method is called from the development environment. It cleans the target directory and prepares for creating  each app defined in the model.
 
-For each app, its relevant paths and names are defined. Afterwards, it invokes the \lstinline|generateWorkflowElementBundle| for each workflow element, thus generating individual bundles. Afterwards, three further methods of this class are called, generating model bundle, content provider bundle, and workflow bundle as bundles for the app.
+For each app, its relevant paths and names are defined. Afterwards, the generator invokes the \lstinline|generateWorkflowElementBundle| for each workflow element to generate individual bundles. Afterwards, three further methods of this class are called, generating a model bundle, a content provider bundle, and a workflow bundle as bundles for the app.
 
 
 Last but not least, every generated app is packaged into a .zip archive, to enable uploading the app into a production \mapapps system.
@@ -31,8 +31,8 @@ This class generates the logic of the workflow event handler, which decides whet
 
 \subsection{Expressions.xtend, CustomActionClass.xtend, and CustomActionInterfaceClass.xtend}
 
-The last three classes are responsible together for creating logic code for the workflow elements. This includes the generation of JavaScript code for actions that are run during initialisation of an app or when mapped actions are clicked. 
+The last three classes are responsible for creating logic code for the workflow elements. This includes the generation of JavaScript code for actions that are run during the initialisation of an app or when mapped actions are activated. 
 
-Note that process chains are not considered here, since the preprocessor has turned them into actions, which are handled by the \lstinline|CustomActionClass| accordingly.
+Note, that process chains are not considered here, since the preprocessor has turned them into actions, which are handled by the \lstinline|CustomActionClass| accordingly.
 
 The \lstinline|Expressions| class is used to store intermediate values used inside the actions, such as entity attribute values or comparisons of values. It is also used for storing literal values, which were hard-coded into the model, in a variable for use in later comparisons.
