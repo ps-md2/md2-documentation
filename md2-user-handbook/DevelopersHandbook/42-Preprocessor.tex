@@ -4,27 +4,28 @@
 
 
 \todo{@ALL review pls}
-For each target platform an own generator class is written that needs to adhere to the interface \\ \lstinline|IPlatformGenerator|. Each generator class is registered in  \lstinline|MD2RuntimeModule| and gets injected into the the framework automatically. During modelling the Xtext Builder participant then starts the building process every time a model file is saved and generates the platform files.
-Prior to generating the source code in an intermediary step the model gets transformed and then passed to the implementing generator classes. Basically this step can be considered an model-to-model transformation with the aim to simplify the generation process.
+Each target platform has its own generator class that needs to adhere to the interface \\ \lstinline|IPlatformGenerator|. Each generator class is registered in the \lstinline|MD2RuntimeModule| and gets injected into the the framework automatically. During modelling the Xtext Builder participant then starts the building process every time a model file is saved and generates the platform files.
+Prior to generating the source code, the model gets transformed and is then passed on to the implementing generator classes. Basically, this step can be considered a model-to-model transformation with the aim to simplify the generation process.
+
 \subsection{Autogenerator}
-The Autogenerator is a handy feature to easily create view elements from model definitions. During preprocessing the references to ContentProviders are resolved and ContentElements are created based on the model attribute types that the ContentProvider declare . The schema for generation is as follows:
+The autogenerator is a feature that allows to easily create view elements from model definitions. During the preprocessing, the references to content providers are resolved and content elements are created based on the model attribute types that the content provider declare. The schema for generation is as follows:
 
 \begin{itemize}
 	\item \lstinline!IntegerType, FloatType, StringType! become TextInput fields
-	\item \lstinline!DateType, TimeType, DateTimeType! become TextInput fields with corresponding time type attribution (later depicted as Date/Time pickers)
-	\item \lstinline!BooleanType! becomes an CheckBox field
+	\item \lstinline!DateType, TimeType, DateTimeType! become TextInput fields with corresponding time type attribution (later depicted as date/time pickers)
+	\item \lstinline!BooleanType! becomes a CheckBox field
 	\item \lstinline!ReferencedType!
 		\subitem \lstinline!Enum! becomes an OptionInput field
-		\subitem \lstinline!Entites! are processed recursively and all elements are wrapped into a FlowLayoutPane
+		\subitem \lstinline!Entites! are processed recursively and all elements are wrapped in a FlowLayoutPane
 \end{itemize}
 
 \subsubsection{Remarks}
-With each ContentElement a new \lstinline!MappingTask! is created accordingly that maps the ContentElement to the attribute provided by the ContentProvider. For this purpose a CustomAction by the name of autoGenerationAction is created that the platform generators need to parse manually. If the view element is unmapped on startup or an user-specified mapping is found, the auto-generated mapping is removed.
+With each ContentElement, a new \lstinline!MappingTask! is created that maps the ContentElement to the attribute provided by the ContentProvider. For this purpose a CustomAction by the name of autoGenerationAction is created that the platform generators need to parse manually. If the view element is unmapped on startup or a user-specified mapping is found, the auto-generated mapping is removed.
 
-In case the model attribute, from which a ContentElement is created, has the optional parameters \lstinline!name! or \lstinline!description! set, these values are converted to label and tooltip representations for TextInputs, OptionInputs and CheckBoxes. If no name is given by the modeller the ID of the ContentElement will be assigned as a label name with each uppercase letter preceded by a whitespace (eg. objectAddress -> Object Address).
+In case the model attribute, from which a ContentElement is created, has the optional parameters \lstinline!name! or \lstinline!description! set, these values are converted to label and tooltip representations for TextInputs, OptionInputs and CheckBoxes. If no name is given by the modeller, the ID of the ContentElement will be assigned as a label name with each uppercase letter preceeded by a whitespace (\eg \enquote{myAddress} will be transformed into \enquote{My Address}).
 
 \subsubsection{Cloning and references}
-The \MD language allows to define certain view elements once and then lets the modeller reuse these elements multiple times. Internally these elements are copied and references pointing to them are resolved during preprocessing. The same behavior applies to view elements that are referenced in a view container (eg. FlowLayoutPane), but are defined outside of this container. A small example might illustrate these two use cases:
+The \MD language allows  the modeller to define certain view elements once and then reuse them multiple times. Internally, these elements are copied and references pointing to them are resolved during the preprocessing. The same behavior applies to view elements that are referenced in a view container (\eg the FlowLayoutPane) but are defined outside of this container. The following example shall serve to illustrate these two use cases.
 
 \begin{lstlisting}[language=MD2]
 TabbedPane mainView {
@@ -43,9 +44,9 @@ FlowLayoutPane headerPane {
 	Image logoImage("./capitol.png")
 }
 \end{lstlisting}
-~
-\\
-The code excerpt shows a TabbedPane that references two ContainerElements. These containers again reference the same sub container twice. After preprocessing the model appears to the code generators as follows: 
+
+The code excerpt shows a TabbedPane that references two ContainerElements. These containers again reference the same sub container twice. After preprocessing the model appears to the code generators as follows:
+
 \begin{lstlisting}[language=MD2]
 TabbedPane mainView {
 	FlowLayoutPane customerView(tabTitle "Customer", vertical) {
@@ -63,11 +64,11 @@ TabbedPane mainView {
 \end{lstlisting}
 
 \subsubsection{Resolving references}
-Because view elements can be reused and referenced across the whole model, \MD needed to provide means how to use these virtual elements in behavioral elements like actions. The problem is that Xtext only allows to reference the originating element, but not the reference itself. In the example provided that means, only \lstinline!headerPane! can be referenced, but any \lstinline!headerPane! in a \lstinline!customerPane! or \lstinline!generalPane! not, because simply there is no such element during runtime. To solve this issue \MD introduces the language type \lstinline!AbstractViewGUIElementRef! that deals with these kind of references. This element allows to chain references to any element of the model in an arbitrary order. However, the scope has to be restricted to offer just the possible elements during autocompletion. During preprocessing the pseudo-referenced elements become real elements and any reference to this element will be resolved.
+Because view elements can be reused and referenced across the whole model, \MD needs to provide means on how to use these virtual elements in behavioral elements like actions. The problem is that Xtext only allows to reference the originating element, but not the reference itself. In the example provided this means that only \lstinline!headerPane! can be referenced, but any \lstinline!headerPane! in a \lstinline!customerPane! or \lstinline!generalPane! can not, because there is no such element during runtime. To solve this issue \MD has the language type \lstinline!AbstractViewGUIElementRef! that deals with these kind of references. This element allows to chain references to any element of the model in an arbitrary order. However, the scope has to be restricted to offer just the possible elements during autocompletion. During preprocessing the pseudo-referenced elements are converted into real elements and any reference to them will be resolved.
 
-The reference to \lstinline!myTextInput! that resides in \lstinline!customerPane! and is part of the TabbedPane \lstinline!mainView! can be referenced: \lstinline!mainView.customerView->customerPane.myTextInput!. Basically two elements are chained here with -> as a delimiter.
+The reference to \lstinline!myTextInput! that resides in \lstinline!customerPane! and is part of the TabbedPane \lstinline!mainView! can be referenced as \lstinline!mainView.customerView->customerPane.myTextInput!. Basically, two elements are chained with \lstinline!->! as the delimiter.
 
-The modeller also might want to reference an auto-generated ContentElement. This is done by referencing the AutoGenerater followed by the model element in square brackets. In the following scenario the TextInput field that is generated for the Customer’s firstname shall be referenced:
+The modeller also might want to reference an auto-generated ContentElement. This is done by referencing the AutoGenerator followed by the model element in square brackets. In the following scenario the TextInput field that is generated for the Customer’s first name shall be referenced.
 
 \todo{check for bracket @ALL}
 \begin{lstlisting}[language=MD2]
@@ -88,10 +89,10 @@ entity Customer {
 \end{lstlisting}
 ~
 \\
-The reference will be: \lstinline!myPane.customerAutoGenerator[Customer.firstName]!
+The reference will then be \lstinline!myPane.customerAutoGenerator[Customer.firstName]!.
 
 \subsubsection{Remarks}
-When a view element, which is referenced or reused at a different place, will be copied, each event binding, mapping or validator binding pointing to this view element will be copied as well. The copied version of the controller elements will be redirect to the copied version of the view elements. This does not work the other way around; any behavior element pointing to a referencing view element does not apply to the original element.
+When a view element, which is referenced or reused at a different place, will be copied, each event binding, mapping or validator binding pointing to this view element will be copied as well. The copied version of the controller elements will be redirect to the copied version of the view elements. This does not work the other way around: any behavior element pointing to a referencing view element does not apply to the original element.
 
 \subsection{Validators}
 To ensure proper data integrity and to validate user input each ContentElement can be attributed with validators in a ValidatorBindingTask. When a view element is mapped to a model attribute some validators can be inferred automatically based on the attribute type (eg. Integer) and its parameters (eg. optional). In these cases a validator is automatically created and bound to the view element in question. However, the modeler can still overwrite or unbind these validators in any actions that are performed on startup.
