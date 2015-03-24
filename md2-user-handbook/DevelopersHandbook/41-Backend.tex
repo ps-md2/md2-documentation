@@ -50,7 +50,6 @@ Additionally, some static web service are generated that are used for specific f
 \subsubsection{Calls to External Webservices}
 As a simple way to interact with external services, a web service \lstinline|CallExternalWebServiceWS| in the backend allows to call another web service, that might be on a different system or server. The web service in the backend provides a method that takes a JSON-encoded object as an input. This object must contain the URL, the REST method type and the set of parameters of that method. For example, the following listing depicts how such a JSON object is constructed in map.apps.
 
-\todo{Add workaround for HashMap @CARO, @JAN, @MALTE}
 
 \begin{lstlisting}[language=Javascript, label=lst:callExtWSJSON, caption=JSON-encoded object containing information to call an external web service]
 data: json.stringify({
@@ -60,6 +59,8 @@ data: json.stringify({
   "body": this._bodyParams
 })
 \end{lstlisting}
+
+\lstinline|queryParams|, as well as \lstinline|bodyParams|, are basically key-value pairs. However, the Java library used for the REST endpoint was not able to map these key-value pairs to a Java \lstinline|HashMap|. For that reason a workaround was introduced: Instead of a single JSON object containing all key-value pairs, an array of JSON objects needs to be transmitted, where each object contains exactly one key-value pair. On the backend, these are mapped to an \lstinline[language=Java]|ArrayList<CustomHashMapEntry>|. The class \lstinline|CustomHashMapEntry| (and, therefore, each JSON object) consists of the attributes \lstinline[language=Simple]|key| and  \lstinline[language=Simple]|value|.
 
 \subsubsection{Offer Webservices to Start Workflow}
 Besides the possibility to start a workflow through an app it is possible to invoke it using a webservice. The description of the corresponding model language is described in \Cref{subsec: WorkflowControlThroughWS}. For each invokable workflow element a webservice is created and for each invoke definition a webservice endpoint is specified, including the defined parameters and the creation of the required entities. After the entities are saved using the internal beans, a \lstinline|workflowState| is persisted using the workflow element the webservice belongs to. Additionally, the \lstinline|lastEventFired| is set to the defined text specified in the workflow model after the \lstinline[language=MD2]|invokable| keyword, or to a default if not specified. The entity IDs returned by the internal beans are then injected as the content provider IDs. Directly afterwards, the workflow instance is accessible within the list of open issues of all app that are allowed to view the invoked workflow element. Since a new workflow instance is created, the backend is creating a new random UUID for each webservice call.
