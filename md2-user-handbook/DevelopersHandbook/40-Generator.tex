@@ -2,6 +2,8 @@
 % !TeX program = xelatex
 % !TEX root = ../md2-user-handbook.tex
 
+\label{sec:dev-generator-mapapps}
+
 The functions which generate \mapapps source code are grouped into classes based on the kind of file they create. All \mapapps generator code is located in the package \lstinline[language=Simple]|de.wwu.md2.framework.generator.mapapps| and written in Xtend. Furthermore, the class \lstinline|util.MD2MapappsUtil| contains a few extension methods that are used in multiple generator classes.
 
 As an entry point, the \lstinline[language=Simple]|MapAppsGenerator#doGenerate(fsa)| method is called from the development environment. It cleans the target directory and prepares for creating  each app defined in the model.

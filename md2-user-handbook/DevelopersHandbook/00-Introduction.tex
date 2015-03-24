@@ -2,16 +2,18 @@
 % !TeX program = xelatex
 % !TEX root = ../md2-user-handbook.tex
 
-\todo{@ALL review pls}
-
 This chapter is intended to provide \MD developers with detailed information necessary to further develop the framework.
 In its current version, this handbook contains information about the
 
 \begin{itemize}
-	\item installation procedure,
-	\item DSL Semantics,
-	\item structure of the \mapapps and backend implementation,
-	\item and  gives insights about the structure and interaction of the generated and static code.
+	\item installation procedure (\Cref{sec:dev-install}),
+	\item DSL semantics (\Cref{sec:dev-semantics}),
+	\item structure of the \mapapps and backend implementations (\Cref{sec:dev-mapapps} and \Cref{sec:backend}, respectively),
+	\item the preprocessor (\Cref{sec:dev-preprocessor}),
+	\item and the \mapapps generator (\Cref{sec:dev-generator-mapapps}).
 \end{itemize}
 
-Note, that changes to the DSL can have a direct effects on validators and the formatter. This should be kept in mind during the planning and implementation of future changes. The whole development project together with additional tools and example apps is available on the projects GitHub page in different repositories.
+Regarding the implementation of \mapapps in particular, \Cref{sec:dev-mapapps} also addresses the structure and interaction of the generated and static code.
+
+Note that changes to the DSL can have a direct effects on validators and the formatter.
+This should be kept in mind during the planning and implementation of future changes. The whole development project together with additional tools and example apps can be obtained from different repositories belonging to the project's GitHub organisation.

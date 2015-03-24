@@ -48,7 +48,7 @@ TabbedPane NAME {
 \end{lstlisting}
 
 \paragraph{Content Elements}
-\textit{Input elements} can be used to manipulate model data via mappings (see Section \ref{subsubsec:Controller}). At the moment BooleanInputs, TextInputs, IntegerInputs, NumberInputs, TimeInputs, DateInputs, DateTimeInputs, OptionInputs and FileUploads are supported. All input elements support the optional attributes \lstinline!label!, \lstinline!tooltip!, \lstinline!type!, \lstinline!disabled!, \lstinline!default! and \lstinline!width!. \lstinline!type! allows to specify the type of the field. \lstinline!disabled! was intended to provide a boolean for whether an input field is enabled or disabled, but is not regarded by the generator in the current implementation\todo{This has been fixed, hasn't it?}. Default values can be set using \lstinline!default! and the width using \lstinline!width!.
+\textit{Input elements} can be used to manipulate model data via mappings (see Section \ref{subsubsec:Controller}). At the moment BooleanInputs, TextInputs, IntegerInputs, NumberInputs, TimeInputs, DateInputs, DateTimeInputs, OptionInputs and FileUploads are supported. All input elements support the optional attributes \lstinline!label!, \lstinline!tooltip!, \lstinline!type!, \lstinline!disabled!, \lstinline!default! and \lstinline!width!. \lstinline!type! allows to specify the type of the field. \lstinline!disabled! provides a boolean for whether an input field is enabled or disabled. Default values can be set using \lstinline!default! and the width using \lstinline!width!.
 
 \textit{TextInput} fields can be used for freetext as well as date and time inputs.
 \begin{lstlisting}
@@ -161,7 +161,8 @@ FileUpload NAME {
 
 To be able to display an uploaded image using the \lstinline!UploadedImageOutput! construct, it is necessary to map the respective view elements to the corresponding entity fields in the controller as it is applicable for all other view content elements. 
 
-A \textit{Spacer} is used in a \lstinline!GridLayoutPane! to mark an empty cell or in a \lstinline!FlowLayoutPane! to occupy some space. Using an optional additional parameter the actual number of spacers can be specified\todo{Rephrase, do you mean the number of spacers or the size of a single spacer. Furthermore, is space occupied horizontally, vertically or both?}.
+A \textit{Spacer} is used in a \lstinline!GridLayoutPane! to mark an empty cell or in a \lstinline!FlowLayoutPane! to occupy some space.
+Using an optional additional parameter the actual number of generated spacers, \ie the number of occupied cells in  a \lstinline!GridLayoutPane!, can be specified.
 \begin{lstlisting}
 Spacer (INT)
 \end{lstlisting}

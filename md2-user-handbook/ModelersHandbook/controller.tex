@@ -225,7 +225,7 @@ validator RemoteValidator NAME (message STRING connection <RemoteConnection> mod
 validator RemoteValidator NAME (message STRING connection <RemoteConnection> attributes <ContentProvider.Attribute> <...>)
 \end{lstlisting}
 
-\paragraph{ProcessChain}
+\paragraph{Process Chains}
 \label{sec:processChain}
 A ProcessChain is used to define several steps in which the workflow element can currently be. It is possible to define several process chains. Process chains can be nested and there can be only one active process chain.
 \begin{lstlisting}
@@ -265,12 +265,13 @@ The event definition for \lstinline!EventDef! is the same as for event bindings:
 <OnConditionEvent> <...>
 \end{lstlisting}
 
-\todo{How is this related to the ProcessChain?}
-Each \textit{content provider} manages one instance of an entity. View fields are not mapped directly to a model element, but only content providers can be mapped to view elements. Data instances of the content providers can be updated or persisted using DataActions.
+\paragraph{Content Providers}
+Each content provider manages one instance of an entity. View fields are not mapped directly to a model element, but only content providers can be mapped to view elements. Data instances of the content providers can be updated or persisted using DataActions.
 
 It allows to create or update (save), read (load) or DELETE (remove) the stored instance. Which of those operations is possible is specified in \lstinline!allowedOperations!. By default all operations are allowed. A filter enables to query a subset of all saved instances. The \lstinline!providerType! defines whether the instances shall be stored locally or remotely.
 
-The \textit{remote connection} allows to specify a URI for the backend communication as well as a path to specify the storage location of files to be uploaded. The backend must comply with the \MD web service interface as specified in \Cref{chp:appendix:backend-ws-spec}.
+\paragraph{Remote Connections} 
+A remote connection allows specifying a URI for the backend communication as well as a path to specify the storage location of files to be uploaded. The backend must comply with the \MD web service interface as specified in \Cref{chp:appendix:backend-ws-spec}.
 \begin{lstlisting}
 remoteConnection NAME {
 	uri URI
@@ -278,4 +279,4 @@ remoteConnection NAME {
 }
 \end{lstlisting}
 
-Furthermore, the \MD framework also provides a \textit{location provider}, \ie a virtual content provider for locations. The entity which is automatically handled by this content provider contains attributes such as latitude, longitude, street, etc. In map.apps the location provider can be used to get coordinates from a map and resolve the corresponding address.
+Furthermore, the \MD framework also provides a \textit{location provider}, \ie a virtual content provider for locations. The entity which is automatically handled by this content provider contains attributes such as latitude, longitude, street, etc. In \mapapps the location provider can be used to get coordinates from a map and resolve the corresponding address.

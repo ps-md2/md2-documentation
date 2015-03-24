@@ -4,6 +4,8 @@
 
 \lstset{language=Simple}
 
+\label{sec:dev-mapapps}
+
 The current implementation of the \MD framework generates web-based apps for a framework called 
 \mapapps, which is mainly written in JavaScript. Code generation for Android and iOS applications are also targeted, but not fully implemented yet.
 
@@ -48,21 +50,21 @@ When such an identifier is encountered as the value of an \lstinline|UploadedIma
 
 
 
-\subsubsection{List of open issues}
+\subsubsection{List of Open Issues}
 \label{sec:listOfOpenIssues}
 
 The \lstinline!md2_list_of_open_issues! comprises all code necessary to display the list of open issues within the app. This list shows all workflow instances, whose state is at a workflow element that belongs to the current app. Currently, the data listed in this widget are the the workflow element name, the last fired event and a timestamp for the last modification of the workflow state. 
 The list is included as \lstinline!dijit_Widget! and is listed as a \lstinline!Tool! in the app.json under the bundle specifications of the \lstinline!toolset!. In the \lstinline!ListOfOpenIssuesController! a \lstinline!DataView! is created, which uses the workflow store as a \lstinline!DataViewModel!. The workflow store is described in \Cref{workflow_store}.
 Workflow instances are not only listed, but it is possible to start the workflow element by clicking on the respective entry. Then, the \lstinline!ListOfOpenIssuesController! handles the event \lstinline!onClicked! and calls the function \lstinline!startWorkflow! of the respective \lstinline!MD2MainWidget!. The workflow instance ID is retrieved in combination with the content provider IDs of its current state. With these, the content provider referenced in the \lstinline!workflowStateHandler! are set to their respective values.
 
-\subsubsection{Local store} \label{local_store}
+\subsubsection{Local Store} \label{local_store}
 
 
 
 The local store within the bundle \lstinline|md2_local_store| is one of three stores used in the context of \mapapps within \MD. This store implements some of the guidelines from the \lstinline|dojo/Store| interface, which means, that it offers the methods \lstinline|query|, \lstinline|get|, \lstinline|put|, \lstinline|add|, and \lstinline|remove|.
 The local store can be used by a content provider (set to local within the controller model). This store saves all data as cookies in the browser. Thus, the store is not meant for consistent data storage.
 
-\subsubsection{Location service}\todo{@ANDI}
+\subsubsection{Location Service}\todo{@ANDI}
 The \lstinline|LocationStoreFactory| provides methods to convert a longitude and latitude pair into an address (i.e. a country, city, street, postal) and vice versa. In the first case, the method \lstinline|_getAddressForLocation| is used, which takes two parameters for the longitude and latitude value. In the second case, the method \lstinline|_getLocationForAddress| is used. This method takes a single string as input, which contains all the address information (\eg \textit{Schlossplatz M\"unster 48149}). For both methods, the result is a JavaScript object.
 
 ArcGIS is the underlying API that is used for this (reverse-) geocoding. The URL to use this service is specified in the \lstinline|manifest.json| of that bundle. Currently, the URL is:
@@ -78,10 +80,10 @@ The \lstinline!MD2MainWidget! is for example responsible for the opening and clo
 Each workflow element (see \Cref{sec:developAndDeployMultiApps}) has its own instance of a \MD main widget. This is specified in the respective controller of the workflow element bundle inside the app. That is, the \lstinline!manifest.json! of the workflow element bundle references an \lstinline!_md2AppWidget! for its controller. Once the controller is activated (\ie the \lstinline!activate! function is called), the respective \MD main widget instance is built. This \MD main widget is implemented in the file \lstinline!MD2MainWidget!, which serves as the basic starting point to start a workflow. Thus, it provides methods to start a workflow element. There are different ways a workflow can be started:
 \begin{itemize}
 	\item A workflow can be started directly from the \mapapps tool bar. Each workflow element marked as \lstinline|startable| in the model gets its own tool. After clicking on it, the method \lstinline|startWorkflowFromTool| is started, which first resets all current workflow elements and the workflow handlers and then calls the \lstinline|startWorkflow| function.
-	\item A workflow can also be started from the list of open issues (see section \ref{sec:listOfOpenIssues}). Therefore the \lstinline|startWorkflow| is directly started from the \lstinline|OpenIssuesListController|.
+	\item A workflow can also be started from the list of open issues (see section \ref{sec:listOfOpenIssues}). Therefore, the \lstinline|startWorkflow| is directly started from the \lstinline|OpenIssuesListController|.
 \end{itemize}
-When the workflow element window is closed and the same operation to start a workflow element is called again (reopening the same entry of the list of open issues or restart the same tool) the same window will all data entered before will be opened. \todo{Fix me!}
-However, when opening another workflow instance in between all changes are dropped!
+When the workflow element window is closed and the same operation to start a workflow element is called again (reopening the same entry of the list of open issues or restart the same tool) the same window with all data entered before will be opened.
+However, all changes are dropped if another workflow instance is opened in between!
 Each \lstinline|MD2MainWidget| contains a runtime variable \$, which contains important objects needed within the context of the widget. While many objects are created anew for each widget, some objects such as the \lstinline|WorkflowStateHandler| (cf. \Cref{par:workflowStateHandler}) are globally used and thus should only be created once. Therefore, many of these objects are injected as singletons within the \lstinline|mainfest.json| of the bundle \lstinline|md2_runtime|.
 \Cref{fig:InitMD2MainWidget} depicts this initialization process.
 
@@ -173,7 +175,7 @@ To change the current workflow element, the \lstinline|WorkflowStateHandler| pro
 The first one opens another \lstinline|MD2MainWidget|, as the workflow is continued in the same app.
 The latter one will exit the workflow instance for the current app and close all windows, as the workflow is supposed to continue in another app. Additionally, the backend is informed about this step by calling the \lstinline|fireEventToBackend| method of the \lstinline|WorkflowStore| (cf. \Cref{workflow_store}). Since the \lstinline|WorkflowStore| is supposed to send the content provider IDs, this leads to a problem. 
 The saving operation of the content providers is usually done shortly before the workflow event is fired. Since the content provider IDs are not set until the backend has answered to the web service calls, they may not be accessible yet. For this purpose, the \lstinline|WorkflowStateTransaction| is used. 
-With each new workflow instance ID a new transaction is created. It keeps a list of all started content provider saving operations and only allows to fire a workflow event when no save operations are in progress. Additionally, the transaction is informed via a subscription about the termination of each content provider operation and will then retry to fire a workflow element, if one was queued before.\todo{Fire a workflow element?}
+With each new workflow instance ID a new transaction is created. It keeps a list of all started content provider saving operations and only allows to fire a workflow event when no save operations are in progress. Additionally, the transaction is informed via a subscription about the termination of each content provider operation and will then retry to fire a workflow event, if one was queued before.
 
 \subsubsection{Store}\label{store}
 
