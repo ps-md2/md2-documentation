@@ -64,7 +64,7 @@ Workflow instances are not only listed, but it is possible to start the workflow
 The local store within the bundle \lstinline|md2_local_store| is one of three stores used in the context of \mapapps within \MD. This store implements some of the guidelines from the \lstinline|dojo/Store| interface, which means, that it offers the methods \lstinline|query|, \lstinline|get|, \lstinline|put|, \lstinline|add|, and \lstinline|remove|.
 The local store can be used by a content provider (set to local within the controller model). This store saves all data as cookies in the browser. Thus, the store is not meant for consistent data storage.
 
-\subsubsection{Location Service}\todo{@ANDI}
+\subsubsection{Location Service}
 The \lstinline|LocationStoreFactory| provides methods to convert a longitude and latitude pair into an address (i.e. a country, city, street, postal) and vice versa. In the first case, the method \lstinline|_getAddressForLocation| is used, which takes two parameters for the longitude and latitude value. In the second case, the method \lstinline|_getLocationForAddress| is used. This method takes a single string as input, which contains all the address information (\eg \textit{Schlossplatz M\"unster 48149}). For both methods, the result is a JavaScript object.
 
 ArcGIS is the underlying API that is used for this (reverse-) geocoding. The URL to use this service is specified in the \lstinline|manifest.json| of that bundle. Currently, the URL is:
