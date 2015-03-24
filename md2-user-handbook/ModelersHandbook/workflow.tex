@@ -34,7 +34,7 @@ App <AppID> {
 }
 \end{lstlisting}
 
-A workflow has one or more entry points, \ie startable workflow elements. These are marked as {\lstinline!startable!} in the app specification.
+A workflow has one or more entry points, \ie startable workflow elements. These are marked with {\lstinline!startable!} in the app specification.
 In the final application this will result in a button on the app's start screen that starts the corresponding workflow element. In addition, an alias needs to be provided which is used as a label or description for the button.
 
 A complete workflow specification for one app will be structured as shown in \Cref{lst:workflow}. Note, that \MD does not explicitly define different workflows. However, it is possible to implicitly create multiple workflows by using two or more startable workflow elements that start independent, disjunct sequences of workflow elements.

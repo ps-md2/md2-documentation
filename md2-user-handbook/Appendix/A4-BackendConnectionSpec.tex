@@ -4,7 +4,7 @@
 
 \section{Resource Paths}
 Format: \\
-VERB - Path - Request body \hfill \lstinline|<Status> - <Response body>|
+VERB -- Path -- Request body \hfill \lstinline|<Status> - <Response body>|
 
 \subsection*{Entities}
 
@@ -36,9 +36,10 @@ attrNameX is a fully qualified name, having \\
 
 
 \subsection*{Filter Parameter}
-\lstinline!not <Attribute> (equals|greater|smaller|<=|>=) (<Int>|<Float>|<String>|<InputField>) !\\
-\lstinline!((and|or)(not)? <Attribute> (equals|greater|smaller|<=|>=) (<Int>|<Float>|<String>|!\\
-\lstinline!<InputField>))*!
+\begin{lstlisting}[language=Simple]
+not <Attribute> (equals|greater|smaller|<=|>=) (<Int>|<Float>|<String>|<InputField>)
+((and|or)(not)? <Attribute> (equals|greater|smaller|<=|>=) (<Int>|<Float>|<String>|<InputField>))*
+\end{lstlisting}
 
 \subsection*{Resource for Model Version Checks}
 The model version should be checked by the apps for all remote connections. Requests are only valid if the server accepts the current model version. \\
