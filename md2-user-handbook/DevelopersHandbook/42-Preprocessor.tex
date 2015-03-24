@@ -4,8 +4,7 @@
 
 \label{sec:dev-preprocessor}
 
-\todo{@ALL review pls}
-Each target platform has its own generator class that needs to adhere to the interface  \lstinline|IPlatformGenerator|. Each generator class is registered in the \lstinline|MD2RuntimeModule| and gets injected into the framework automatically. During modelling the Xtext Builder participant starts the building process every time a model file is changed and regenerates the platform files.
+For each target platform a generator class  is created that implements the interface  \lstinline|IPlatformGenerator|. Each generator class is registered in the \lstinline|MD2RuntimeModule| and gets injected into the framework automatically. During modelling the Xtext Builder participant starts the building process every time a model file is changed and regenerates the platform files.
 Prior to generating the source code, the model gets transformed and is passed on to the implementing generator classes. Basically, this step can be considered a model-to-model transformation with the aim to simplify the generation process.
 
 \subsection{Autogenerator}

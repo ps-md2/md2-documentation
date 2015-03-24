@@ -236,7 +236,8 @@ ProcessChain NAME {
 
 Each ProcessChainStep specifies a view that will be displayed once the process chain step becomes the current process chain step of the active process chain. Additionally, conditions can be defined that restrict switching to the next or previous process chain step. Events can trigger changing to the next or previous process chain step.
  
-Instead of the aforementioned settings, a process chain that will become active while this process chain step is the current one, can be referenced\todo{Rephrase}.
+Instead of the default of proceeding and reversing along the process chain, another step in the process chain will become active as successor or predecessor, if referenced using \lstinline|goto| or \lstinline|returnTo|.
+
 \begin{lstlisting}
 step NAME:
 	view <[ContainerElement] | [ContentElement]>
@@ -246,7 +247,7 @@ step NAME:
 		do <Action>
 	}
 	reverse on <Event>
-	goto <ProcessChainStep> (returnTo <ProcessChainStep>) on <Event>
+	(goto <ProcessChainStep> | returnTo <ProcessChainStep>) on <Event>
 	return on <Event>
 	return and proceed on <Event>
 	message STRING
@@ -268,7 +269,7 @@ The event definition for \lstinline!EventDef! is the same as for event bindings:
 \paragraph{Content Providers}
 Each content provider manages one instance of an entity. View fields are not mapped directly to a model element, but only content providers can be mapped to view elements. Data instances of the content providers can be updated or persisted using DataActions.
 
-It allows to create or update (save), read (load) or DELETE (remove) the stored instance. Which of those operations is possible is specified in \lstinline!allowedOperations!. By default all operations are allowed. A filter enables to query a subset of all saved instances. The \lstinline!providerType! defines whether the instances shall be stored locally or remotely.
+It allows to create or update (save), read (load) or delete (remove) the stored instance. Which of those operations is possible is specified in \lstinline!allowedOperations!. By default all operations are allowed. A filter enables to query a subset of all saved instances. The \lstinline!providerType! defines whether the instances shall be stored locally or remotely.
 
 \paragraph{Remote Connections} 
 A remote connection allows specifying a URI for the backend communication as well as a path to specify the storage location of files to be uploaded. The backend must comply with the \MD web service interface as specified in \Cref{chp:appendix:backend-ws-spec}.

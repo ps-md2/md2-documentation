@@ -4,8 +4,6 @@
 
 The \MD framework allows to model and generate workflows that involve multiple apps. For this purpose, several apps rather than just one can be specified in the workflow layer. These apps can share the same workflow elements or use different ones as shown in Listing \ref{lst:multipleApps}. Apart from that, the workflow will look as usual, with the sequence of workflow elements being determined via events. Each app is provided with a list of open issues in the start screen. In this list, all events are presented that were fired from another app and are supposed to start a workflow element which belongs to the current app. A user can simply click on a listed issue to continue the workflow in the appropriate workflow element.
 
-\todo{Why do we specify a label here, instead of just using the code block as in the previous sections?}
-\todo{Re: I would actually suggest to always use labels. Anyway, it is particularly useful here, because it is referenced in the text above ;)}
 \begin{lstlisting}[language=MD2, label=lst:multipleApps, caption=Workflow definition for multiple apps]
 package <ProjectName>.workflows
 

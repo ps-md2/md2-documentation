@@ -8,7 +8,7 @@ The functions which generate \mapapps source code are grouped into classes based
 
 As an entry point, the \lstinline[language=Simple]|MapAppsGenerator#doGenerate(fsa)| method is called from the development environment. It cleans the target directory and prepares for creating  each app defined in the model.
 
-For each app, its relevant paths and names are defined. Afterwards, the generator invokes the \lstinline|generateWorkflowElementBundle| for each workflow element to generate individual bundles. Afterwards, three further methods of this class are called, generating a model bundle, a content provider bundle, and a workflow bundle as bundles for the app.
+For each app, its relevant paths and names are defined. Afterwards, the generator invokes the \lstinline|generate|\lstinline|WorkflowElementBundle| for each workflow element to generate individual bundles. Afterwards, three further methods of this class are called, generating a model bundle, a content provider bundle, and a workflow bundle as bundles for the app.
 
 
 Last but not least, every generated app is packaged into a .zip archive, to enable uploading the app into a production \mapapps system.
@@ -19,7 +19,7 @@ This class is responsible for creating the \lstinline[language=Simple]|app.json|
 
 \subsection{ModuleClass}
 
-This class specialises in creating the \lstinline|module.js| file for all modules. It is therefore invoked by the \lstinline|MapAppsGenerator| for each module, but with slightly different produced templates.
+This class specialises in creating the \lstinline|module.js| file for all modules. It is therefore invoked by the \lstinline|MapApps|\lstinline|Generator| for each module, but with slightly different produced templates.
 
 \subsection{EntityClass, EnumClass, and ModelsInterfaceClass}
 These three classes are called while creating the models bundle for an app. 
