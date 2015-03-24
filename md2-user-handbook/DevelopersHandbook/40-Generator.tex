@@ -11,25 +11,25 @@ For each app, its relevant paths and names are defined. Afterwards, the generato
 
 Last but not least, every generated app is packaged into a .zip archive, to enable uploading the app into a production \mapapps system.
 
-\subsection{AppClass.xtend}
+\subsection{AppClass}
 
 This class is responsible for creating the \lstinline[language=Simple]|app.json| as described in \Cref{subsubsec:mapapps-generated-appjson}. Furthermore, it creates the \lstinline[language=Simple]|bundles.json| file which maintains references to all local bundles of an app.
 
-\subsection{ModuleClass.xtend}
+\subsection{ModuleClass}
 
 This class specialises in creating the \lstinline|module.js| file for all modules. It is therefore invoked by the \lstinline|MapAppsGenerator| for each module, but with slightly different produced templates.
 
-\subsection{EntityClass.xtend, EnumClass.xtend, and ModelsInterfaceClass.xtend}
+\subsection{EntityClass, EnumClass, and ModelsInterfaceClass}
 These three classes are called while creating the models bundle for an app. 
 The classes specialise in the kind of model that is created.
 
-\subsection{ContentProviderClass.xtend}
+\subsection{ContentProviderClass}
 Local and remote content providers are created by this class and put into the corresponding bundle of the app.
 
-\subsection{EventHandlerClass.xtend}
+\subsection{EventHandlerClass}
 This class generates the logic of the workflow event handler, which decides whether a combination of event and sending workflow element should cause another, local workflow element to be started. If that is not the case, the workflow will be terminated locally and all relevant data is transmitted to the backend, thus creating an entry in the list of open issues of another app.
 
-\subsection{Expressions.xtend, CustomActionClass.xtend, and CustomActionInterfaceClass.xtend}
+\subsection{Expressions, CustomActionClass, and CustomActionInterfaceClass}
 
 The last three classes are responsible for creating logic code for the workflow elements. This includes the generation of JavaScript code for actions that are run during the initialisation of an app or when mapped actions are activated. 
 
