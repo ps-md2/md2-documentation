@@ -7,6 +7,11 @@
 For each target platform a generator class  is created that implements the interface  \lstinline|IPlatformGenerator|. Each generator class is registered in the \lstinline|MD2RuntimeModule| and gets injected into the framework automatically. During modelling the Xtext Builder participant starts the building process every time a model file is changed and regenerates the platform files.
 Prior to generating the source code, the model gets transformed and is passed on to the implementing generator classes. Basically, this step can be considered a model-to-model transformation with the aim to simplify the generation process.
 
+\subsection{Model Simplification}
+
+When \MD models are defined across multiple files, the resulting model will also be split across multiple \lstinline!MD2Model!s.
+To avoid that these models have to be recollected over and over again throughout the preprocessing process, all controllers, models, workflows and views are combined into single model prior to the actual preprocessing.
+
 \subsection{Autogenerator}
 The autogenerator is a feature that allows to easily create view elements from model definitions. During the preprocessing, the references to content providers are resolved and content elements are created based on the model attribute types that the content provider declare. The schema for generation is as follows:
 
