@@ -1,4 +1,4 @@
 md2-documentation
 =================
 
-Developer Documentation of MD2 with map.apps
+Modeler and Developer Documentation of MD² with map.apps
